@@ -1,3 +1,11 @@
 import React from 'react';
 
-export const Footer = () => <h3>Footer</h3>;
+export const Footer = () =>
+      <footer className="main-footer">
+        {/* To the right */}
+        <div className="pull-right hidden-xs">
+          Made with <span style={{ color: 'red' }}>♥</span>
+        </div>
+        {/* Default to the left */}
+        Copyright © 2016 <a href="#">ScrumNinja</a>. All rights reserved.
+      </footer>;

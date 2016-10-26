@@ -1,43 +1,56 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
+import  { NavItem }  from '../layouts/NavItem.jsx';
+
+
 export class Menu extends Component {
   render() {
     return (
-        <div>
-          <span>
-          <h3>Menu</h3>
-          <li><Link to='/u/projects' 
-            activeStyle={{ color: 'red' }}>My Projects</Link></li>
-          <li><Link to='/u/newproject'
-            activeStyle={{ color: 'red' }}>New Project</Link></li>
-          <li><Link to='/u/profile'
-            activeStyle={{ color: 'red' }}>Profile</Link></li>
-          </span>
-          { this.props.projectName ?
-            <span>
-            <h3>Menu for {this.props.projectName}</h3>
-            <li><Link to={'/p/'+this.props.projectName+'/dashboard'}
-              activeStyle={{ color: 'red' }}>Dashboard</Link></li>
-            <li><Link to={'/p/'+this.props.projectName+'/specifications'}
-              activeStyle={{ color: 'red' }}>Specifications</Link></li>
-            <li><Link to={'/p/'+this.props.projectName+'/requierements'}
-              activeStyle={{ color: 'red' }}>Requierements</Link></li>
-            <li><Link to={'/p/'+this.props.projectName+'/userstories'}
-              activeStyle={{ color: 'red' }}>User Stories</Link></li>
-            <li><Link to={'/p/'+this.props.projectName+'/tasks'}
-              activeStyle={{ color: 'red' }}>Tasks</Link></li>
-            <li><Link to={'/p/'+this.props.projectName+'/sprint'}
-              activeStyle={{ color: 'red' }}>Sprint</Link></li>
-            <li><Link to={'/p/'+this.props.projectName+'/scrumboard'}
-              activeStyle={{ color: 'red' }}>Scrum Board</Link></li>
-            <li><Link to={'/p/'+this.props.projectName+'/traceability'}
-              activeStyle={{ color: 'red' }}>Traceability</Link></li>
-            </span>
+        <aside className="main-sidebar">
+          {/* sidebar: style can be found in sidebar.less */}
+          <section className="sidebar">
+            {/* Sidebar Menu */}
+            { this.props.projectName ?
+            <ul className="sidebar-menu">
+              <li className="header">HOME</li>
+              {/* Optionally, you can add icons to the links */}
+              <NavItem to='/u/projects' ><i className="fa ion-home" /><span>My Projects</span></NavItem>
+              <NavItem to='/u/newproject' ><i className="fa ion-android-add-circle" /><span>Create a Project</span></NavItem>
+              <NavItem to='/u/profile' ><i className="fa ion-android-person" /><span>My Profile</span></NavItem>
+              <li className="header text-uppercase">{this.props.projectName}</li>
+              <NavItem to={'/p/'+this.props.projectName+'/dashboard'} ><i className="fa ion-android-options" /><span>Dashboard</span></NavItem>
+              <NavItem to={'/p/'+this.props.projectName+'/specifications'} ><i className="fa ion-clipboard" /><span>Specifications</span></NavItem>
+              <NavItem to={'/p/'+this.props.projectName+'/requierements'} ><i className="fa fa-link" /><span>Requierements</span></NavItem>
+              <NavItem to={'/p/'+this.props.projectName+'/userstories'} ><i className="fa ion-film-marker" /><span>User Stories</span></NavItem>
+              <li className="treeview">
+                <a href="#"><i className="fa ion-wrench" /> <span>Tasks</span>
+                  <span className="pull-right-container">
+                    <i className="fa fa-angle-left pull-right" />
+                  </span>
+                </a>
+                <ul className="treeview-menu">
+                  <NavItem to={'/p/'+this.props.projectName+'/tasks'} >Tasks Management</NavItem>
+                  <NavItem to={'/p/'+this.props.projectName+'/tasks'} >Tasks Dependencies</NavItem>
+                </ul>
+              </li>
+              <NavItem to={'/p/'+this.props.projectName+'/sprint'} ><i className="fa ion-clock" /><span>Sprint</span></NavItem>
+              <NavItem to={'/p/'+this.props.projectName+'/scrumboard'} ><i className="fa ion-easel" /><span>ScrumBoard</span></NavItem>
+              <NavItem to={'/p/'+this.props.projectName+'/traceability'} ><i className="fa ion-pull-request" /><span>Traceability</span></NavItem>
+            </ul>
             :
-            <span></span>
-          }
-        </div>
+            <ul className="sidebar-menu">
+              <li className="header">HOME</li>
+              {/* Optionally, you can add icons to the links */}
+              <NavItem to='/u/projects' ><i className="fa ion-home" /><span>My Projects</span></NavItem>
+              <NavItem to='/u/newproject' ><i className="fa ion-android-add-circle" /><span>Create a Project</span></NavItem>
+              <NavItem to='/u/profile' ><i className="fa ion-android-person" /><span>My Profile</span></NavItem>
+            </ul>
+            }
+            {/* /.sidebar-menu */}
+          </section>
+          {/* /.sidebar */}
+        </aside>
       );
     }
 }
