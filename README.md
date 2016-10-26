@@ -27,11 +27,11 @@ Go to **http://localhost:3000** to see the app running.
 ### Unit tests
 
 
-### Load tests
-
-
 ### Acceptance tests
 
+```
+npm run tests-acceptance
+```
 
 ## Licence
 
