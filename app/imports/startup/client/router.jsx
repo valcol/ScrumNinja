@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import { Router, Route, IndexRedirect, Redirect, browserHistory } from 'react-router';
 
 import { App } from '../../ui/client/pages/App.jsx';
-import { Login } from '../../ui/client/pages/Login.jsx';
+import { LoginRegister } from '../../ui/client/pages/LoginRegister.jsx';
 
 import { Projects } from '../../ui/client/layouts/Projects.jsx';
 import { NewProject } from '../../ui/client/layouts/NewProject.jsx';
@@ -17,15 +17,18 @@ import { Sprint } from '../../ui/client/layouts/Sprint.jsx';
 import { ScrumBoard } from '../../ui/client/layouts/ScrumBoard.jsx';
 import { Traceability } from '../../ui/client/layouts/Traceability.jsx';
 import { NotFound } from '../../ui/client/layouts/404.jsx';
+import { Login } from '../../ui/client/layouts/Login.jsx';
+import { Register } from '../../ui/client/layouts/Register.jsx';
 
 Meteor.startup( () => {
 
   let authGlobal = function(nextState, replace) {
     //Check here if user is allowed to access to the page
     let projectName = nextState.params.projectName;
-    if (false) {
+    let logReg = nextState.params.logReg;
+    if (true) {
       replace({
-        pathname: '/login',
+        pathname: '/r/login',
         state: { nextPathname: nextState.location.pathname }
       })
     }
@@ -65,8 +68,12 @@ Meteor.startup( () => {
         <Route path=":projectName/traceability" component={Traceability}/>
         <Redirect to=":projectName/dashboard" from=":projectName"/>
       </Route>
-      <Route path="/login" component={Login}/>
-      <Route path="/404" component={ NotFound } />
+        <Route path="/r" component={LoginRegister} >
+        <IndexRedirect to="login" />
+        <Route path="login" component={Login}/>
+        <Route path="register" component={Register}/>
+     </Route>
+        <Route path="/404" component={ NotFound } />
       <Redirect to="/404" from="*"/>
     </Router>,
     document.getElementById('react-root')
