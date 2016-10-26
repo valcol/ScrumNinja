@@ -16,7 +16,7 @@ import { Tasks } from '../../ui/client/layouts/Tasks.jsx';
 import { Sprint } from '../../ui/client/layouts/Sprint.jsx';
 import { ScrumBoard } from '../../ui/client/layouts/ScrumBoard.jsx';
 import { Traceability } from '../../ui/client/layouts/Traceability.jsx';
-import { NotFound } from '../../ui/client/layouts/404.jsx';
+import { NotFound } from '../../ui/client/pages/404.jsx';
 import { Login } from '../../ui/client/layouts/Login.jsx';
 import { Register } from '../../ui/client/layouts/Register.jsx';
 
