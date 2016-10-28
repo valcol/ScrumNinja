@@ -54,7 +54,7 @@ Meteor.startup( () => {
         <IndexRedirect to="projects" />
         <Route path="projects" component={Projects}/>
         <Route path="newproject" component={NewProject}/>
-        <Route path="profile" component={Profile}/>
+        <Route path="profile" component={Profile} />
       </Route>
       <Route path="/p" component={App} onEnter={authProject}>
         <IndexRedirect to="/u" />

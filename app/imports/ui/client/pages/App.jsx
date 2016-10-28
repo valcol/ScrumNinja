@@ -7,7 +7,6 @@ import { ContentWrapper } from '../layouts/ContentWrapper.jsx';
 import { Sidebar } from '../layouts/Sidebar.jsx';
 
 
-
 export class App extends Component {
 
   render() {
@@ -15,7 +14,12 @@ export class App extends Component {
       <div>
         <Header/>
         <Menu projectName={this.props.params.projectName} />
-        <ContentWrapper>{this.props.children}</ContentWrapper>
+        <ContentWrapper
+          routes={this.props.routes}
+          params={this.props.params}
+          >
+          {this.props.children}
+        </ContentWrapper>
         <Sidebar/>
         <div className="control-sidebar-bg"></div>
         <Footer/>
