@@ -50,13 +50,13 @@ Meteor.startup( () => {
       <Route path="/" component={App} onEnter={authGlobal}>
         <IndexRedirect to="/u" />
       </Route>
-      <Route path="/u" component={App}>
+      <Route path="/u" name={"Home"} component={App}>
         <IndexRedirect to="projects" />
-        <Route path="projects" component={Projects}/>
+        <Route path="projects"  component={Projects}/>
         <Route path="newproject" component={NewProject}/>
         <Route path="profile" component={Profile} />
       </Route>
-      <Route path="/p" component={App} onEnter={authProject}>
+      <Route path="/p" name={"Project Home"} component={App} onEnter={authProject}>
         <IndexRedirect to="/u" />
         <Route path=":projectName/dashboard" component={Dashboard}/>
         <Route path=":projectName/specifications" component={Specifications}/>
