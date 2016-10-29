@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Breadcrumbs from 'react-router-breadcrumbs';
+import {RouteName} from './RouteName.jsx';
 
 export class ContentWrapper extends Component {
 
@@ -8,9 +9,7 @@ export class ContentWrapper extends Component {
       <div className="content-wrapper">
               {/* Content Header (Page header) */}
               <section className="content-header">
-                <h1>
-                  Title
-                </h1>
+                <RouteName routes={this.props.routes}/>
                 <ol className="breadcrumb">
                   <Breadcrumbs
                     routes={this.props.routes}
@@ -25,7 +24,6 @@ export class ContentWrapper extends Component {
           </section>
           {/* /.content */}
         </div>
-
     );
   }
 
