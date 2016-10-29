@@ -25,7 +25,6 @@ Meteor.startup( () => {
   let authGlobal = function(nextState, replace) {
     //Check here if user is allowed to access to the page
     let projectName = nextState.params.projectName;
-    let logReg = nextState.params.logReg;
     if (true) {
       replace({
         pathname: '/r/login',
