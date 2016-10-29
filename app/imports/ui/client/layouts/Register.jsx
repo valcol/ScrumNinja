@@ -20,7 +20,7 @@ export class Register extends Component {
         return (   
     <div className="register-box">
         <div className="register-logo">
-    
+            <img src="/img/logo-wide.png" width='75%' height='75%' alt="logo"></img>
         </div>
         <div className="register-box-body">
           <p className="login-box-msg">Register a new membership</p>

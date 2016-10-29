@@ -32,6 +32,7 @@ export class Login extends Component {
 
             <div className="login-box">
                 <div className="login-logo">
+                    <img src="/img/logo-wide.png" width='75%' height='75%' alt="logo"></img>
                 </div>
                 {/* /.login-logo */}
                 <div className="login-box-body">
