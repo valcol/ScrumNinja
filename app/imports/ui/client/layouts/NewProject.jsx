@@ -1,6 +1,37 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor';
 
-export const NewProject = () =>
+
+export class NewProject extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: '',
+      start: '',
+      end: '',
+      visibility: 'public',
+      description: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
+  }
+
+  handleChange(key) {
+    return function (e) {
+      let state = {};
+      state[key] = e.target.value;
+      this.setState(state);
+    }.bind(this);
+  }
+
+  handleSubmit(){
+    alert('Text field value is: '+this.state.name+'+'+this.state.start+'+'+this.state.end+'+'+this.state.visibility+'+'+this.state.description);
+  }
+
+  render() {
+    return (
 <div className="row">
   {/* left column */}
   <div className="col-md-12">
@@ -13,7 +44,7 @@ export const NewProject = () =>
         {/* Name */}
         <div className="form-group">
           <label>Name:</label>
-          <input type="text" className="form-control" placeholder="Enter ..." />
+          <input type="text" onChange={this.handleChange('name')} value={this.state.name} className="form-control" placeholder="Enter ..." />
         </div>
         {/* Date range */}
         <div className="form-group">
@@ -22,7 +53,7 @@ export const NewProject = () =>
           <div className="input-group-addon">
             <i className="fa fa-calendar" />
           </div>
-          <input type="date" className="form-control pull-right datepicker"/>
+          <input type="date" onChange={this.handleChange('start')} value={this.state.start} className="form-control pull-right datepicker"/>
         </div>
         {/* /.input group */}
       </div>
@@ -32,7 +63,7 @@ export const NewProject = () =>
           <div className="input-group-addon">
             <i className="fa fa-calendar" />
           </div>
-          <input type="date" className="form-control pull-right datepicker"/>
+          <input type="date" onChange={this.handleChange('end')} value={this.state.end} className="form-control pull-right datepicker"/>
         </div>
         {/* /.input group */}
       </div>
@@ -41,24 +72,24 @@ export const NewProject = () =>
           <label>Visibility level:</label>
           <div className="radio">
             <label>
-              <input type="radio" name="optionsRadios" id="optionsRadios1" defaultValue="option1" defaultChecked />
+              <input type="radio" defaultChecked={true} onChange={this.handleChange('visibility')} value="public" defaultChecked/>
               Public
             </label>
           </div>
           <div className="radio">
             <label>
-              <input type="radio" name="optionsRadios" id="optionsRadios2" defaultValue="option2" />
+              <input type="radio" onChange={this.handleChange('visibility')} value="private" />
               Private
             </label>
           </div>
         </div>
         <div className="form-group">
           <label>Description:</label>
-          <textarea className="form-control" rows="5"></textarea>
+          <textarea className="form-control" rows="5" onChange={this.handleChange('description')} value={this.state.description}/>
         </div>
         <div className="form-group">
           <label>Administrator:</label>
-          <input type="text" className="form-control" placeholder="Pseudo" disabled/>
+          <input type="text" className="form-control" value={/*Meteor.user().emails[0].address*/'Pseudo'} disabled/>
           <p className="help-block">This project will be created with you as the Administrator.
           Once the project exists, you may choose an Administrator from among the project members.</p>
         </div>
@@ -71,4 +102,6 @@ export const NewProject = () =>
       </div>
       {/* /.row */}
     </div>
-;
+  );
+}
+}
