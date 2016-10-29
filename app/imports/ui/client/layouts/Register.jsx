@@ -2,18 +2,49 @@ import React, { Component } from 'react';
 import { Accounts } from 'meteor/accounts-base';
 
 export class Register extends Component {
+ constructor(props) {
+    super(props);
+    this.state = {email: '', password: '', repassword: '', fullname: ''};
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChangeEmail = this.handleChangeEmail.bind(this);
+    this.handleChangePassword = this.handleChangePassword.bind(this);
+    this.handleChangeRePassword = this.handleChangeRePassword.bind(this);
+    this.handleChangeFullname = this.handleChangeFullname.bind(this);
+  }
+    
+    handleChangeEmail(event) {
+    this.setState({email: event.target.value});
+    }
+
+    handleChangePassword(event) {
+        this.setState({password: event.target.value});
+    }
+    
+    handleChangeRePassword(event) {
+    this.setState({repassword: event.target.value});
+    }
+    
+    handleChangeFullname(event) {
+        this.setState({fullname: event.target.value});
+    }
+   
     handleSubmit(event) {
         event.preventDefault();
-        var email = $('[name=email]').val();
-        var password = $('[name=password]').val();
-        var repassword = $('[name=repassword]').val();
-        var fulname = $('[name=fullname]').val();
+        let email = this.state.email;
+        let password = this.state.password;
+        let repassword = this.state.repassword;
+        let fullname = this.state.fullname;
+
         if(password==repassword){
+            alert('Text field value is:'+email+'+'+password+'+' + repassword+'+'+fullname);
             Accounts.createUser({
                 email: email,
                 password: password,
                 username: fullname
             });
+        }
+        else{
+            alert('The passwords are different. Please, try again !')
         }
     }
      render() {
@@ -25,26 +56,30 @@ export class Register extends Component {
         <div className="register-box-body">
           <p className="login-box-msg">Register a new membership</p>
             <div className="form-group has-feedback">
-              <input type="text" className="form-control" placeholder="Full name" name ="fullname"/>
+              <input type="text" className="form-control" placeholder="Full name" name ="fullname" value ={this.state.fullname}
+                        onChange={this.handleChangeFullname}/>
               <span className="glyphicon glyphicon-user form-control-feedback" />
             </div>
             <div className="form-group has-feedback">
-              <input type="email" className="form-control" placeholder="Email"  name ="email"/>
+              <input type="email" className="form-control" placeholder="Email"  name ="email" value={this.state.email}
+                onChange={this.handleChangeEmail}/>
               <span className="glyphicon glyphicon-envelope form-control-feedback" />
             </div>
             <div className="form-group has-feedback">
-              <input type="password" className="form-control" placeholder="Password" name ="password"/>
+              <input type="password" className="form-control" placeholder="Password" name ="password" value ={this.state.password}
+                onChange={this.handleChangePassword}/>
               <span className="glyphicon glyphicon-lock form-control-feedback" />
             </div>
             <div className="form-group has-feedback">
-              <input type="password" className="form-control" placeholder="Retype password" name ="repassword"/>
+              <input type="password" className="form-control" placeholder="Retype password" name ="repassword" value = {this.state.repassword}
+                onChange={this.handleChangeRePassword}/>
               <span className="glyphicon glyphicon-log-in form-control-feedback" />
             </div>
             <div className="row">
               
               {/* /.col */}
               <div className="col-xs-4">
-                <button className="btn btn-primary btn-block btn-flat" onSubmit={this.handleSubmit.bind(this)}>Register</button>
+                <button onClick={this.handleSubmit} className="btn btn-primary btn-block btn-flat">Register</button>
               </div>
               {/* /.col */}
             </div>
