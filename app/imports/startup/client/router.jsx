@@ -49,22 +49,22 @@ Meteor.startup( () => {
       <Route path="/" component={App} onEnter={authGlobal}>
         <IndexRedirect to="/u" />
       </Route>
-      <Route path="/u" name={"Home"} component={App}>
+      <Route path="/u" name={'Home'} component={App}>
         <IndexRedirect to="projects" />
-        <Route path="projects"  component={Projects}/>
-        <Route path="newproject" component={NewProject}/>
-        <Route path="profile" component={Profile} />
+        <Route path="projects" name={'My Projects'}  component={Projects}/>
+        <Route path="newproject" name={'New Project'} component={NewProject}/>
+        <Route path="profile" name={'Profile'} component={Profile} />
       </Route>
-      <Route path="/p" name={"Project Home"} component={App} onEnter={authProject}>
-        <IndexRedirect to="/u" />
-        <Route path=":projectName/dashboard" component={Dashboard}/>
-        <Route path=":projectName/specifications" component={Specifications}/>
-        <Route path=":projectName/requierements" component={Requierements}/>
-        <Route path=":projectName/userstories" component={UserStories}/>
-        <Route path=":projectName/tasks" component={Tasks}/>
-        <Route path=":projectName/sprint" component={Sprint}/>
-        <Route path=":projectName/scrumboard" component={ScrumBoard}/>
-        <Route path=":projectName/traceability" component={Traceability}/>
+      <Route path="/p" name={'Project Home'} component={App} onEnter={authProject}>
+        <IndexRedirect name={'Project Home'} to="/u" />
+        <Route path=":projectName/dashboard" name={'Dashboard'} component={Dashboard}/>
+        <Route path=":projectName/specifications" name={'Specifications'} component={Specifications}/>
+        <Route path=":projectName/requierements" name={'Requierements'} component={Requierements}/>
+        <Route path=":projectName/userstories" name={'User Stories'} component={UserStories}/>
+        <Route path=":projectName/tasks" name={'Tasks'} component={Tasks}/>
+        <Route path=":projectName/sprint" name={'Sprints'} component={Sprint}/>
+        <Route path=":projectName/scrumboard" name={'ScrumBoard'} component={ScrumBoard}/>
+        <Route path=":projectName/traceability" name={'Traceability'} component={Traceability}/>
         <Redirect to=":projectName/dashboard" from=":projectName"/>
       </Route>
         <Route path="/r" component={LoginRegister} >
