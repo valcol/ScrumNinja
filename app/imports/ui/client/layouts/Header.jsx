@@ -1,7 +1,26 @@
 import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor';
+import { browserHistory } from 'react-router';
+import { Tracker } from 'meteor/tracker';
 
 export class Header extends Component {
-
+    constructor(props) {
+        super(props);
+        this.handleSubmitLogout = this.handleSubmitLogout.bind(this);
+    }
+    
+    handleSubmitLogout(event) {
+        event.preventDefault();
+        Meteor.logout();
+    }
+    
+    componentWillMount(){
+        Tracker.autorun(() => {
+            if (!Meteor.userId()) {
+                browserHistory.push('/r/login');
+            }
+        })
+    }
   render() {
     return (
           <header className="main-header">
@@ -87,7 +106,7 @@ export class Header extends Component {
                           <a href="#" className="btn btn-default btn-flat">Profile</a>
                         </div>
                         <div className="pull-right">
-                          <a href="#" className="btn btn-default btn-flat">Sign out</a>
+                          <button onClick={this.handleSubmitLogout} className="btn btn-default btn-flat">Sign out</button>
                         </div>
                       </li>
                     </ul>

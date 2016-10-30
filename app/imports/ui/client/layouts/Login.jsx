@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
+import { browserHistory } from 'react-router';
+import { Tracker } from 'meteor/tracker';
 
 export class Login extends Component {
 
@@ -23,10 +25,17 @@ export class Login extends Component {
         event.preventDefault();
         let email = this.state.email;
         let password = this.state.password;
-        alert('Text field value is: '+email+'+'+password);
         Meteor.loginWithPassword(email, password);
     }
-
+    
+    componentWillMount(){
+        Tracker.autorun(() => {
+            if (Meteor.userId()) {
+                browserHistory.push('/u/projects')
+            }
+        })
+    }
+                  
     render() {
         return (
 

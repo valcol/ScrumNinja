@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Accounts } from 'meteor/accounts-base';
+import { browserHistory } from 'react-router';
+import { Tracker } from 'meteor/tracker';
 
 export class Register extends Component {
  constructor(props) {
@@ -36,7 +38,6 @@ export class Register extends Component {
         let fullname = this.state.fullname;
 
         if(password==repassword){
-            alert('Text field value is:'+email+'+'+password+'+' + repassword+'+'+fullname);
             Accounts.createUser({
                 email: email,
                 password: password,
@@ -44,8 +45,16 @@ export class Register extends Component {
             });
         }
         else{
-            alert('The passwords are different. Please, try again !')
+            alert('The passwords are different. Please, try again !');
         }
+    }
+    
+    componentWillMount(){
+        Tracker.autorun(() => {
+            if (Meteor.userId()) {
+                browserHistory.push('/u/projects');
+            }
+        })
     }
      render() {
         return (   
