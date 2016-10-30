@@ -15,10 +15,12 @@ function CreateProject(project) {
   if(!moment(project.start).isValid() || !moment(project.end).isValid())
     throw new Meteor.Error('date format unsupported');
 
+  if(moment(project.start).isAfter(project.end))
+      throw new Meteor.Error('start date must be before end date');
+
   let regex = /^[a-zA-Z ]{2,30}$/;
   if(!regex.test(project.name))
     throw new Meteor.Error('project name must only contains between 2 and 30 letters, without space');
-
 
   if(Collections.Projects.findOne({name: project.name}))
     throw new Meteor.Error('name already taken');
