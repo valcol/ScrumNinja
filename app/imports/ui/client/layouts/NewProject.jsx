@@ -32,11 +32,9 @@ class NewProject extends Component {
      if (err) {
        Session.set('error', err.message);
        Session.set('success', null);
-       console.log(err);
      } else {
        Session.set('success', res);
        Session.set('error', null);
-       console.log(res);
      }
    });
   }
@@ -55,7 +53,8 @@ class NewProject extends Component {
         {/* Name */}
         <div className="form-group">
           <label>Name:</label>
-          <input type="text" onChange={this.handleChange('name')} value={this.state.name} className="form-control" placeholder="Enter ..." />
+          <input type="text" onChange={this.handleChange('name')} value={this.state.name} className="form-control" pattern="^[a-zA-Z ]{2,30}$" required />
+          <p className="help-block">The project name must contains between 2 and 30 letters, lowercase or uppercase.</p>
         </div>
         {/* Date range */}
         <div className="form-group">
@@ -64,8 +63,8 @@ class NewProject extends Component {
           <div className="input-group-addon">
             <i className="fa fa-calendar" />
           </div>
-          <input type="date" onChange={this.handleChange('start')} value={this.state.start} className="form-control pull-right datepicker"/>
-        </div>
+          <input type="date" onChange={this.handleChange('start')} value={this.state.start} className="form-control pull-right datepicker" required />
+      </div>
         {/* /.input group */}
       </div>
       <div className="form-group">
@@ -74,7 +73,7 @@ class NewProject extends Component {
           <div className="input-group-addon">
             <i className="fa fa-calendar" />
           </div>
-          <input type="date" onChange={this.handleChange('end')} value={this.state.end} className="form-control pull-right datepicker"/>
+          <input type="date" onChange={this.handleChange('end')} value={this.state.end} className="form-control pull-right datepicker" required />
         </div>
         {/* /.input group */}
       </div>
@@ -96,7 +95,7 @@ class NewProject extends Component {
         </div>
         <div className="form-group">
           <label>Description:</label>
-          <textarea className="form-control" rows="5" onChange={this.handleChange('description')} value={this.state.description}/>
+          <textarea className="form-control" rows="5" onChange={this.handleChange('description')} value={this.state.description} required />
         </div>
         <div className="form-group">
           <label>Administrator:</label>
