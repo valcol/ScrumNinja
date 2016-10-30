@@ -1,9 +1,54 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
+import { createContainer } from 'meteor/react-meteor-data';
+import { Collections } from '../../../api/collections.js';
 import { Link } from 'react-router';
 
-export const Projects = () =>
-    <div className="projects-list">
-    <h3>Projects</h3>
-    <li><Link to="/p/project1/" className="project" activeStyle={{ color: 'red' }}>project#1</Link></li>
-    <li><Link to="/p/project2/" className="project" activeStyle={{ color: 'red' }}>project#2</Link></li>
-    </div>;
+class Project extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(key) {
+  }
+
+  handleSubmit(){
+  }
+
+  render() {
+    return (
+      <div className="row">
+        {/* left column */}
+        <div className="col-md-12">
+          {
+          this.props.projects.map((project) => (
+            <div className="box">
+              <div className="box-header">
+                <h3 className="box-title">{project.name}</h3>
+              </div>
+              {/* /.box-header */}
+              <div className="box-body pad">
+                <li><Link to={"/p/"+project.name+"/"} className="project" activeStyle={{ color: 'red' }}>Click here to go to this project page</Link></li>
+              </div>
+            </div>
+          ))
+          }
+          {/* /.box */}
+        </div>
+        {/* /.row */}
+      </div>
+      );
+    }
+}
+
+export default createContainer(() => {
+  return {
+    projects: Collections.Projects.find({}).fetch()
+  };
+}, Project);

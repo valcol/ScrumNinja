@@ -5,7 +5,7 @@ import { Router, Route, IndexRedirect, Redirect, browserHistory } from 'react-ro
 import { App } from '../../ui/client/pages/App.jsx';
 import { LoginRegister } from '../../ui/client/pages/LoginRegister.jsx';
 
-import { Projects } from '../../ui/client/layouts/Projects.jsx';
+import Projects from '../../ui/client/layouts/Projects.jsx';
 import NewProject from '../../ui/client/layouts/NewProject.jsx';
 import { Profile } from '../../ui/client/layouts/Profile.jsx';
 import { Dashboard } from '../../ui/client/layouts/Dashboard.jsx';
