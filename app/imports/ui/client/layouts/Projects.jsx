@@ -11,11 +11,11 @@ class Project extends Component {
     super(props);
     this.state = {
     };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
-  handleChange(key) {
+  handleDelete(name) {
+    Meteor.call('project.delete', name);
   }
 
   handleSubmit(){
@@ -34,8 +34,11 @@ class Project extends Component {
               </div>
               {/* /.box-header */}
               <div className="box-body pad">
-                <li><Link to={"/p/"+project.name+"/"} className="project" activeStyle={{ color: 'red' }}>Click here to go to this project page</Link></li>
-              </div>
+                <li><Link to={'/p/'+project.name+'/'} className="project" activeStyle={{ color: 'red' }}>Click here to go to this project page</Link></li>
+                <button className="btn btn-flat center-block" onClick={ () => { this.handleDelete(project.name); } }>
+                  Delete
+                </button>
+            </div>
             </div>
           ))
           }

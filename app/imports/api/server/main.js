@@ -3,7 +3,7 @@ import { Collections } from '../collections.js';
 import { check, Match } from 'meteor/check';
 import moment from 'moment';
 
-function CreateProject(project) {
+function createProject(project) {
   check(project, {
     name: String,
     start: String,
@@ -41,10 +41,21 @@ function CreateProject(project) {
    return 'Project created!';
 }
 
+function deleteProject(name){
+  check(name, String);
+
+  Collections.Projects.remove({
+    name
+  });
+
+   return 'Project deleted';
+}
+
 Meteor.startup(() => {
   // code to run on server at startup
 });
 
 Meteor.methods({
-  'project.create': CreateProject
+  'project.create': createProject,
+  'project.delete': deleteProject
 });
