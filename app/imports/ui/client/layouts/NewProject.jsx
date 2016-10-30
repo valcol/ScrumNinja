@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
+import { createContainer } from 'meteor/react-meteor-data';
 
-
-export class NewProject extends Component {
+class NewProject extends Component {
 
   constructor(props) {
     super(props);
@@ -27,7 +28,17 @@ export class NewProject extends Component {
   }
 
   handleSubmit(){
-    alert('Text field value is: '+this.state.name+'+'+this.state.start+'+'+this.state.end+'+'+this.state.visibility+'+'+this.state.description);
+    Meteor.call('project.create', this.state, function(err, res) {
+     if (err) {
+       Session.set('error', err.message);
+       Session.set('success', null);
+       console.log(err);
+     } else {
+       Session.set('success', res);
+       Session.set('error', null);
+       console.log(res);
+     }
+   });
   }
 
   render() {
@@ -93,6 +104,17 @@ export class NewProject extends Component {
           <p className="help-block">This project will be created with you as the Administrator.
           Once the project exists, you may choose an Administrator from among the project members.</p>
         </div>
+        { this.props.error ?
+        <div className="callout callout-danger">
+            {this.props.error}
+        </div>
+        : this.props.success ?
+        <div className="callout callout-success">
+            {this.props.success}
+        </div>
+        :
+        <div></div>
+        }
         <button className="btn btn-flat center-block" onClick={this.handleSubmit}>
           Submit
         </button>
@@ -105,3 +127,10 @@ export class NewProject extends Component {
   );
 }
 }
+
+export default createContainer(() => {
+  return {
+    error: Session.get('error'),
+    success: Session.get('success')
+  };
+}, NewProject);
