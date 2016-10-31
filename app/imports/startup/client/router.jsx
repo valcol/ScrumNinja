@@ -17,19 +17,19 @@ import { Sprint } from '../../ui/client/layouts/Sprint.jsx';
 import { ScrumBoard } from '../../ui/client/layouts/ScrumBoard.jsx';
 import { Traceability } from '../../ui/client/layouts/Traceability.jsx';
 import { NotFound } from '../../ui/client/pages/404.jsx';
-import { Login } from '../../ui/client/layouts/Login.jsx';
-import { Register } from '../../ui/client/layouts/Register.jsx';
+import Login from '../../ui/client/layouts/Login.jsx';
+import Register from '../../ui/client/layouts/Register.jsx';
 
 Meteor.startup( () => {
 
   let authGlobal = function(nextState, replace) {
     //Check here if user is allowed to access to the page
     let projectName = nextState.params.projectName;
-    if (true) {
+    if (!Meteor.userId()) {
       replace({
         pathname: '/r/login',
         state: { nextPathname: nextState.location.pathname }
-      })
+      });
     }
   };
 
@@ -46,10 +46,10 @@ Meteor.startup( () => {
 
   render(
   <Router history={ browserHistory }>
-      <Route path="/" component={App} onEnter={authGlobal}>
+      <Route path="/" component={App}>
         <IndexRedirect to="/u" />
       </Route>
-      <Route path="/u" name={'Home'} component={App}>
+      <Route path="/u" name={'Home'} component={App} onEnter={authGlobal}>
         <IndexRedirect to="projects" />
         <Route path="projects" name={'My Projects'}  component={Projects}/>
         <Route path="newproject" name={'New Project'} component={NewProject}/>

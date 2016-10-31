@@ -1,26 +1,18 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { browserHistory } from 'react-router';
-import { Tracker } from 'meteor/tracker';
 
 export class Header extends Component {
     constructor(props) {
         super(props);
         this.handleSubmitLogout = this.handleSubmitLogout.bind(this);
     }
-    
+
     handleSubmitLogout(event) {
         event.preventDefault();
         Meteor.logout();
+        window.location.href = '/r/login';
     }
-    
-    componentWillMount(){
-        Tracker.autorun(() => {
-            if (!Meteor.userId()) {
-                browserHistory.push('/r/login');
-            }
-        })
-    }
+
   render() {
     return (
           <header className="main-header">

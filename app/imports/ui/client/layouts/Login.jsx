@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { browserHistory } from 'react-router';
-import { Tracker } from 'meteor/tracker';
+import { Link } from 'react-router';
+import { createContainer } from 'meteor/react-meteor-data';
+import { Session } from 'meteor/session';
 
-export class Login extends Component {
+
+class Login extends Component {
 
   constructor(props) {
     super(props);
@@ -25,17 +27,15 @@ export class Login extends Component {
         event.preventDefault();
         let email = this.state.email;
         let password = this.state.password;
-        Meteor.loginWithPassword(email, password);
+        Meteor.loginWithPassword(email, password, function(err, res) {
+         if (err) {
+           Session.set('error', err.message);
+         } else {
+           window.location.href = '/u/';
+         }
+      });
     }
-    
-    componentWillMount(){
-        Tracker.autorun(() => {
-            if (Meteor.userId()) {
-                browserHistory.push('/u/projects')
-            }
-        })
-    }
-                  
+
     render() {
         return (
 
@@ -46,6 +46,13 @@ export class Login extends Component {
                 {/* /.login-logo */}
                 <div className="login-box-body">
                   <p className="login-box-msg">Sign in to start your session</p>
+                    { this.props.error ?
+                    <div className="callout callout-danger">
+                        {this.props.error}
+                    </div>
+                    :
+                    <div></div>
+                    }
                     <div className="form-group has-feedback">
                       <input type="email" className="form-control" placeholder="Email" name="email" value={this.state.email}
                         onChange={this.handleChangeEmail}/>
@@ -63,13 +70,16 @@ export class Login extends Component {
                       </div>
                       {/* /.col */}
                     </div>
-                  <a href="/r/register" className="text-center">Register a new membership</a>
+                  <Link to={'/r/register'}>Register a new membership</Link>
                 </div>
                 {/* /.login-box-body */}
             </div>
-
-
-
    );
     }
 }
+
+export default createContainer(() => {
+  return {
+    error: Session.get('error')
+  };
+}, Login);

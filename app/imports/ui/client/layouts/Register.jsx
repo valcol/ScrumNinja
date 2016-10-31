@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Accounts } from 'meteor/accounts-base';
-import { browserHistory } from 'react-router';
-import { Tracker } from 'meteor/tracker';
+import { createContainer } from 'meteor/react-meteor-data';
+import { Session } from 'meteor/session';
 
-export class Register extends Component {
+class Register extends Component {
  constructor(props) {
     super(props);
     this.state = {email: '', password: '', repassword: '', fullname: ''};
@@ -13,7 +13,7 @@ export class Register extends Component {
     this.handleChangeRePassword = this.handleChangeRePassword.bind(this);
     this.handleChangeFullname = this.handleChangeFullname.bind(this);
   }
-    
+
     handleChangeEmail(event) {
     this.setState({email: event.target.value});
     }
@@ -21,15 +21,15 @@ export class Register extends Component {
     handleChangePassword(event) {
         this.setState({password: event.target.value});
     }
-    
+
     handleChangeRePassword(event) {
     this.setState({repassword: event.target.value});
     }
-    
+
     handleChangeFullname(event) {
         this.setState({fullname: event.target.value});
     }
-   
+
     handleSubmit(event) {
         event.preventDefault();
         let email = this.state.email;
@@ -37,33 +37,39 @@ export class Register extends Component {
         let repassword = this.state.repassword;
         let fullname = this.state.fullname;
 
-        if(password==repassword){
+        if(password===repassword){
             Accounts.createUser({
                 email: email,
                 password: password,
                 username: fullname
-            });
+            }, function(err, res) {
+             if (err) {
+               Session.set('error', err.message);
+             } else {
+               window.location.href = '/u/';
+             }
+          });
         }
-        else{
-            alert('The passwords are different. Please, try again !');
+        else {
+            Session.set('error','The passwords are different. Please, try again !');
         }
     }
-    
-    componentWillMount(){
-        Tracker.autorun(() => {
-            if (Meteor.userId()) {
-                browserHistory.push('/u/projects');
-            }
-        })
-    }
+
      render() {
-        return (   
+        return (
     <div className="register-box">
         <div className="register-logo">
             <img src="/img/logo-wide.png" width='75%' height='75%' alt="logo"></img>
         </div>
         <div className="register-box-body">
           <p className="login-box-msg">Register a new membership</p>
+            { this.props.error ?
+            <div className="callout callout-danger">
+                {this.props.error}
+            </div>
+            :
+            <div></div>
+            }
             <div className="form-group has-feedback">
               <input type="text" className="form-control" placeholder="Full name" name ="fullname" value ={this.state.fullname}
                         onChange={this.handleChangeFullname}/>
@@ -85,7 +91,7 @@ export class Register extends Component {
               <span className="glyphicon glyphicon-log-in form-control-feedback" />
             </div>
             <div className="row">
-              
+
               {/* /.col */}
               <div className="col-xs-4">
                 <button onClick={this.handleSubmit} className="btn btn-primary btn-block btn-flat">Register</button>
@@ -100,3 +106,9 @@ export class Register extends Component {
       );
     }
 }
+
+export default createContainer(() => {
+  return {
+    error: Session.get('error')
+  };
+}, Register);
