@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Accounts } from 'meteor/accounts-base';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session';
+import { LinkItem } from './LinkItem.jsx';
+
 
 class Register extends Component {
  constructor(props) {
@@ -98,7 +100,7 @@ class Register extends Component {
               </div>
               {/* /.col */}
             </div>
-          <a href="/r/login" className="text-center">I already have a membership</a>
+            <LinkItem to={'/r/login'}>I already have a membership</LinkItem>
         </div>
         {/* /.form-box */}
       </div>

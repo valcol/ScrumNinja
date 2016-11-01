@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Link } from 'react-router';
+import { LinkItem } from './LinkItem.jsx';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session';
 
@@ -70,7 +70,7 @@ class Login extends Component {
                       </div>
                       {/* /.col */}
                     </div>
-                  <Link to={'/r/register'}>Register a new membership</Link>
+                  <LinkItem to={'/r/register'}>Register a new membership</LinkItem>
                 </div>
                 {/* /.login-box-body */}
             </div>
