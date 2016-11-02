@@ -4,6 +4,8 @@ import { Session } from 'meteor/session';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Collections } from '../../../api/collections.js';
 import { Link } from 'react-router';
+import  { LinkItem }  from '../layouts/LinkItem.jsx';
+
 
 class Project extends Component {
 
@@ -18,33 +20,62 @@ class Project extends Component {
     Meteor.call('project.delete', name);
   }
 
-  handleSubmit(){
-  }
-
   render() {
     return (
-      <div className="row">
-        {/* left column */}
-        <div className="col-md-12">
+      <div className="projects">
           {
           this.props.projects.map((project) => (
-            <div className="box">
-              <div className="box-header">
+            <div className="box project">
+              <div className="box-header with-border">
                 <h3 className="box-title">{project.name}</h3>
               </div>
               {/* /.box-header */}
               <div className="box-body pad">
-                <li><Link to={'/p/'+project.name+'/'} className="project" activeStyle={{ color: 'red' }}>Click here to go to this project page</Link></li>
-                <button className="btn btn-flat center-block" onClick={ () => { this.handleDelete(project.name); } }>
-                  Delete
-                </button>
+                <div className="table-responsive">
+                  <table className="table">
+                    <tr>
+                    <td>
+                      <LinkItem to={'/p/'+project.name+'/'} >
+                        <button className="btn btn-flat pull-left">
+                          Go to Dashboard
+                        </button>
+                      </LinkItem>
+                    </td>
+                    <td>
+                      <span className="badge bg-green">Admin</span>
+                    </td>
+                    <td>
+                      <span className="glyphicon glyphicon-user"></span>
+                       16
+                    </td>
+                    <td>
+                      <span className="glyphicon glyphicon-time"></span>
+                         {project.start.toISOString().substring(0, 10)} to {project.end.toISOString().substring(0, 10)}
+                    </td>
+                    <td>
+                      <span className="glyphicon glyphicon-eye-open"></span>
+                         {project.visibility}
+                    </td>
+                    <td>
+                      <span className="badge bg-red">20%</span>
+                    </td>
+                    <td>
+                      <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(project.name); } }>
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                  </table>
+                </div>
+                <div className="description">
+                    <b>Project description:</b>
+                    <p>{project.description}</p>
+                </div>
             </div>
             </div>
           ))
           }
           {/* /.box */}
-        </div>
-        {/* /.row */}
       </div>
       );
     }
