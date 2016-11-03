@@ -18,7 +18,7 @@ export class App extends Component {
           routes={this.props.routes}
           params={this.props.params}
           >
-          {this.props.children}
+          {React.cloneElement(this.props.children, { projectName: this.props.params.projectName })}
         </ContentWrapper>
         <Sidebar/>
         <div className="control-sidebar-bg"></div>

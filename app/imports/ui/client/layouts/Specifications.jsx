@@ -155,5 +155,4 @@ export class Specifications extends Component {
     }
     else return (<div></div>);
   }
-
 }

@@ -16,8 +16,8 @@ class Project extends Component {
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  handleDelete(name) {
-    Meteor.call('project.delete', name);
+  handleDelete(projectId) {
+    Meteor.call('project.delete', projectId);
   }
 
   render() {
