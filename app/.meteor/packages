@@ -22,3 +22,4 @@ accounts-ui@1.1.9
 accounts-password@1.3.1
 check
 react-meteor-data
+ostrio:files
