@@ -3,12 +3,22 @@ import { Link } from 'react-router';
 import { Session } from 'meteor/session';
 
 export class LinkItem extends Component {
-  render () {
+
+  constructor(props) {
+    super(props);
+    this.clearSession = this.clearSession.bind(this);
+  }
+
+  clearSession(){
     Object.keys(Session.keys).forEach(function(key){ Session.set(key, undefined); });
     Session.keys = {};
+  }
 
+  render () {
     return (
-        <Link to={this.props.to}>{this.props.children}</Link>
+        <div onClick={this.clearSession}>
+          <Link to={this.props.to}>{this.props.children}</Link>
+        </div>
     );
   }
 }
