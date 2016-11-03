@@ -31,18 +31,14 @@ Projects.prototype.create = function(project) {
   if(Collections.Projects.findOne({name: project.name}))
     throw new Meteor.Error('name already taken');
 
-  let projectId = Collections.Projects.insert({
+  Collections.Projects.insert({
     name: project.name,
     start: moment(project.start).toDate(),
     end: moment(project.end).toDate(),
     visibility: project.visibility,
     description: project.description,
-    pa: [],
-    pm: [],
-    po: []
+    roles: {[Meteor.userId()]:'pa'}
   });
-
-  Permissions.upsertPriviliege(Meteor.userId(), projectId, 'pa');
 
    return 'Project created';
 };
@@ -53,10 +49,8 @@ Projects.prototype.delete = function(projectId){
 
   Permissions.verify(Meteor.userId(), projectId, 'pa');
 
-  check(name, String);
-
   Collections.Projects.remove({
-    _id
+    _id: projectId
   });
 
    return 'Project deleted';

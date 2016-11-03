@@ -9,5 +9,6 @@ Meteor.startup(() => {
 
 Meteor.methods({
   'project.create': Projects.create,
-  'project.delete': Projects.delete
+  'project.delete': Projects.delete,
+  'permission.upsert': Permissions.upsert
 });
