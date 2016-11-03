@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Header } from '../layouts/Header.jsx';
+import Header from '../layouts/Header.jsx';
 import { Footer } from '../layouts/Footer.jsx';
 import { Menu } from '../layouts/Menu.jsx';
 import { ContentWrapper } from '../layouts/ContentWrapper.jsx';

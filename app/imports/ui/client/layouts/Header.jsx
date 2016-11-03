@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
+import { createContainer } from 'meteor/react-meteor-data';
 
-export class Header extends Component {
+class Header extends Component {
+
     constructor(props) {
         super(props);
         this.handleSubmitLogout = this.handleSubmitLogout.bind(this);
@@ -74,7 +76,7 @@ export class Header extends Component {
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                       {/* The user image in the navbar*/}
                       {/* hidden-xs hides the username on small devices so only the image appears. */}
-                      <span>Alexander Pierce</span>
+                      <span>{this.props.user.username}</span>
                     </a>
                     <ul className="dropdown-menu">
                       {/* Menu Body */}
@@ -113,5 +115,10 @@ export class Header extends Component {
           </header>
     );
   }
-
 }
+
+export default createContainer(() => {
+  return {
+    user: Meteor.user() || {}
+  };
+}, Header);
