@@ -82,13 +82,13 @@ class NewProject extends Component {
           <label>Visibility level:</label>
           <div className="radio">
             <label>
-              <input type="radio" defaultChecked={true} onChange={this.handleChange('visibility')} value="public" defaultChecked/>
+              <input type="radio" checked={this.state.visibility === 'public'} onChange={this.handleChange('visibility')} value="public"/>
               Public
             </label>
           </div>
           <div className="radio">
             <label>
-              <input type="radio" onChange={this.handleChange('visibility')} value="private" />
+              <input type="radio" checked={this.state.visibility === 'private'} onChange={this.handleChange('visibility')} value="private" />
               Private
             </label>
           </div>
@@ -99,7 +99,7 @@ class NewProject extends Component {
         </div>
         <div className="form-group">
           <label>Administrator:</label>
-          <input type="text" className="form-control" value={/*Meteor.user().emails[0].address*/'Pseudo'} disabled/>
+          <input type="text" className="form-control" value={this.props.user.username} disabled/>
           <p className="help-block">This project will be created with you as the Administrator.
           Once the project exists, you may choose an Administrator from among the project members.</p>
         </div>
@@ -130,6 +130,7 @@ class NewProject extends Component {
 export default createContainer(() => {
   return {
     error: Session.get('error'),
-    success: Session.get('success')
+    success: Session.get('success'),
+    user: Meteor.user() || {}
   };
 }, NewProject);
