@@ -60,7 +60,7 @@ class Project extends Component {
                       <span className="badge bg-red">20%</span>
                     </td>
                     <td>
-                      <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(project.name); } }>
+                      <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(project._id); } }>
                         Delete
                       </button>
                     </td>

@@ -2,10 +2,14 @@ import { Meteor } from 'meteor/meteor';
 import { Collections } from '../../collections.js';
 import { check, Match } from 'meteor/check';
 import moment from 'moment';
+import Permissions from '../permissions';
 
 let Projects = function() {};
 
 Projects.prototype.create = function(project) {
+
+  Permissions.checkIfLogged();
+
   check(project, {
     name: String,
     start: String,
@@ -27,22 +31,32 @@ Projects.prototype.create = function(project) {
   if(Collections.Projects.findOne({name: project.name}))
     throw new Meteor.Error('name already taken');
 
-  Collections.Projects.insert({
+  let projectId = Collections.Projects.insert({
     name: project.name,
     start: moment(project.start).toDate(),
     end: moment(project.end).toDate(),
     visibility: project.visibility,
-    description: project.description
+    description: project.description,
+    pa: [],
+    pm: [],
+    po: []
   });
+
+  Permissions.upsertPriviliege(Meteor.userId(), projectId, 'pa');
 
    return 'Project created';
 };
 
-Projects.prototype.delete = function(name){
+Projects.prototype.delete = function(projectId){
+
+  Permissions.checkIfLogged();
+
+  Permissions.verify(Meteor.userId(), projectId, 'pa');
+
   check(name, String);
 
   Collections.Projects.remove({
-    name
+    _id
   });
 
    return 'Project deleted';

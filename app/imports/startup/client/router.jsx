@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, IndexRedirect, Redirect, browserHistory } from 'react-router';
+import { Collections } from '../../api/collections.js';
 
 import { App } from '../../ui/client/pages/App.jsx';
 import { LoginRegister } from '../../ui/client/pages/LoginRegister.jsx';
@@ -34,13 +35,18 @@ Meteor.startup( () => {
   };
 
   let authProject = function(nextState, replace) {
-    //Check here if user is allowed to access to the page
     let projectName = nextState.params.projectName;
-    if (false) {
+    if (!Meteor.userId()) {
+      replace({
+        pathname: '/r/login',
+        state: { nextPathname: nextState.location.pathname }
+      });
+    }
+    else if (!Collections.Projects.findOne({name: projectName})) {
       replace({
         pathname: '/404',
         state: { nextPathname: nextState.location.pathname }
-      })
+      });
     }
   };
 
