@@ -8,7 +8,7 @@ Meteor.isClient && Template.registerHelper('Collections', CollectionsObj);
 // Add collections here
 CollectionsObj.Projects = new Mongo.Collection('projects');
 
-this.CDC = new Meteor.Files({
+CollectionsObj.CDC = new Meteor.Files({
   debug: true,
   collectionName: 'CDC',
   allowClientCode: true, // Disallow remove files from Client
@@ -21,15 +21,5 @@ this.CDC = new Meteor.Files({
     }
   }
 });
-
-if (Meteor.isServer) {
-  CDC.denyClient();
-  Meteor.publish('files.CDC.all', function () {
-    return CDC.find().cursor;
-  });
-
-} else {
-  Meteor.subscribe('files.CDC.all');
-}
 
 export const Collections = CollectionsObj;

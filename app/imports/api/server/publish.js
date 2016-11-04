@@ -13,3 +13,8 @@ Meteor.publish('public-projects', function() {
 Meteor.publish('users', function() {
   return  Meteor.users.find({});
 });
+
+CollectionsObj.CDC.denyClient();
+Meteor.publish('files.CDC.all', function () {
+  return Collections.CDC.find().cursor;
+});
