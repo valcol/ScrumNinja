@@ -19,7 +19,7 @@ class Header extends Component {
     return (
           <header className="main-header">
             {/* Logo */}
-            <a href="index2.html" className="logo">
+            <a href="/" className="logo">
               {/* mini logo for sidebar mini 50x50 pixels */}
               <span className="logo-mini"><img src="/img/logo.png"alt="logo"></img></span>
               {/* logo for regular state and mobile devices */}

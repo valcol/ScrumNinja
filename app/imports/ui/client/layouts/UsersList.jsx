@@ -22,7 +22,15 @@ class UsersList extends Component {
 
 
   handleSubmit(role){
-    Meteor.call('permission.addViaEmail', this.state.email, this.props.projectName, role);
+    Meteor.call('permission.addViaEmail', this.state.email, this.props.projectName, role, function(err, res) {
+     if (err) {
+       Session.set('error', err.message);
+       Session.set('success', null);
+     } else {
+       Session.set('success', 'Done !');
+       Session.set('error', null);
+     }
+   });
   }
 
   isAdmin(){
@@ -62,6 +70,17 @@ class UsersList extends Component {
                   {this.renderRows(this.props.currentProject.roles)}
                   </table>
                 </div>
+                { this.props.error ?
+                <div className="callout callout-danger">
+                    {this.props.error}
+                </div>
+                : this.props.success ?
+                <div className="callout callout-success">
+                    {this.props.success}
+                </div>
+                :
+                <div></div>
+                }
             </div>
             <div className="box-footer">
               {this.isAdmin() ?
@@ -70,7 +89,7 @@ class UsersList extends Component {
                       <div className="input-group">
                         <input type="text" className="form-control" placeholder="Email" value={this.state.email} onChange={this.handleEmailChange}/>
                         <div className="input-group-btn">
-                          <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action <span className="caret" /></button>
+                          <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add as..<span className="caret" /></button>
                           <ul className="dropdown-menu dropdown-menu-right">
                             <li><a href="#" onClick={ () => { this.handleSubmit('pa'); }}>Administrator</a></li>
                             <li><a href="#" onClick={ () => { this.handleSubmit('pm'); }}>Project Member</a></li>
@@ -95,6 +114,8 @@ class UsersList extends Component {
 
 export default createContainer((props) => {
   return {
-    currentProject: Collections.Projects.findOne({name:props.projectName})
+    currentProject: Collections.Projects.findOne({name:props.projectName}),
+    error: Session.get('error'),
+    success: Session.get('success')
   };
 }, UsersList);
