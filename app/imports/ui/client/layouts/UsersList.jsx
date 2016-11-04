@@ -10,19 +10,30 @@ class UsersList extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      email:''
     };
-    this.handleDelete = this.handleDelete.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleDelete(name) {
-    Meteor.call('project.delete', name);
+  handleEmailChange(event){
+    this.setState({email: event.target.value});
   }
+
+
+  handleSubmit(role){
+    Meteor.call('permission.addViaEmail', this.state.email, this.props.projectName, role);
+  }
+
+  isAdmin(){
+    return (this.props.currentProject.roles[Meteor.userId()] === 'pa');
+  }
+
 
   renderRows(roles){
-    let isAdmin = (this.props.currentProject.roles[Meteor.userId()] === 'pa');
     return Object.keys(roles).map((key) => (
       <UserRow
-        isAdmin={isAdmin}
+        isAdmin={this.isAdmin()}
         role={roles[key]}
         projectName = {this.props.projectName}
         userId={key}
@@ -51,6 +62,31 @@ class UsersList extends Component {
                   {this.renderRows(this.props.currentProject.roles)}
                   </table>
                 </div>
+            </div>
+            <div className="box-footer">
+              {this.isAdmin() ?
+                <div className="row">
+                    <div className="col-lg-12">
+                      <div className="input-group">
+                        <input type="text" className="form-control" placeholder="Email" value={this.state.email} onChange={this.handleEmailChange}/>
+                        <div className="input-group-btn">
+                          <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action <span className="caret" /></button>
+                          <ul className="dropdown-menu dropdown-menu-right">
+                            <li><a href="#" onClick={ () => { this.handleSubmit('pa'); }}>Administrator</a></li>
+                            <li><a href="#" onClick={ () => { this.handleSubmit('pm'); }}>Project Member</a></li>
+                            <li><a href="#" onClick={ () => { this.handleSubmit('po'); }}>Project Owner</a></li>
+                            <li role="separator" className="divider" />
+                            <li><a href="#">Separated link</a></li>
+                          </ul>
+                        </div>
+                      </div>
+
+
+                    </div>
+                  </div>
+                  :
+                  ''
+              }
             </div>
       </div>
       );

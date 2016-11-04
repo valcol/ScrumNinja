@@ -5,7 +5,11 @@ export class Dashboard extends Component {
 
   render() {
     return (
-      <UsersList projectName = {this.props.projectName}/>
+      <div className="row">
+        <div className="col-lg-6">
+          <UsersList projectName = {this.props.projectName}/>
+        </div>
+      </div>
     );
   }
 
