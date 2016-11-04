@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Session } from 'meteor/session';
 
 export class UserRow extends Component {
 
@@ -15,7 +16,15 @@ export class UserRow extends Component {
 
   handleChange(event) {
     this.setState({role: event.target.value});
-    Meteor.call('permission.upsert', this.props.userId, this.props.projectName, event.target.value);
+    Meteor.call('permission.upsert', this.props.userId, this.props.projectName, event.target.value, function(err, res) {
+     if (err) {
+       Session.set('error', err.message);
+       Session.set('success', null);
+     } else {
+       Session.set('success', 'Done !');
+       Session.set('error', null);
+     }
+   });
   }
 
   render() {
