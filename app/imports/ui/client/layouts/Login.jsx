@@ -70,7 +70,7 @@ class Login extends Component {
                       </div>
                       {/* /.col */}
                     </div>
-                  <LinkItem to={'/r/register'}>Register a new membership</LinkItem>
+                  <LinkItem to={'/r/register'} className={'signup'}>Register a new membership</LinkItem>
                 </div>
                 {/* /.login-box-body */}
             </div>

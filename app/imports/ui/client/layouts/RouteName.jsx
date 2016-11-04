@@ -6,9 +6,9 @@ const lastOf = (input) => on(input).slice(-1)[0];
 export class RouteName extends Component {
   render() {
     return (
-<h1>
-  {lastOf(this.props.routes.slice(0, 2)).name}
-</h1>
+	<h1>
+  	{lastOf(this.props.routes.slice(0, 2)).name}
+	</h1>
     );
   }
 }

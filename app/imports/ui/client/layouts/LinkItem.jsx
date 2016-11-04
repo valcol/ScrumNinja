@@ -17,7 +17,7 @@ export class LinkItem extends Component {
   render () {
     return (
         <div onClick={this.clearSession}>
-          <Link to={this.props.to}>{this.props.children}</Link>
+          <Link to={this.props.to} className={this.props.className || ""}>{this.props.children}</Link>
         </div>
     );
   }
