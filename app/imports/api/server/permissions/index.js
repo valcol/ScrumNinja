@@ -24,12 +24,14 @@ Permissions.prototype.verify = function(userId, projectName, privilege){
 Permissions.prototype.upsert = function(userId, projectName, privilege){
   Permissions.verify(Meteor.userId(), projectName, 'pa');
   check(privilege, Match.OneOf('pa', 'pm', 'po'));
+  if(Permissions.getPrivilege(userId, projectName)==='pa')
+    Permissions.checkIfOneAdmin(projectName);
   let setModifier = { $set: {} };
   setModifier.$set['roles.'+userId] = privilege;
   Collections.Projects.upsert( { name: projectName }, setModifier);
 };
 
-Permission.prototype.checkIfOneAdmin = function(projectName){
+Permissions.prototype.checkIfOneAdmin = function(projectName){
   let projet = Collections.Projects.findOne({name: projectName});
   for (let key in projet) {
       if (projet[key] === 'pa') {
@@ -41,7 +43,7 @@ Permission.prototype.checkIfOneAdmin = function(projectName){
 
 Permissions.prototype.delete = function(userId, projectName){
   Permissions.verify(Meteor.userId(), projectName, 'pa');
-  if(getPrivilege(userId, projectName)===pa)
+  if(Permissions.getPrivilege(userId, projectName)==='pa')
     Permissions.checkIfOneAdmin(projectName);
   let unsetModifier = { $unset: {} };
   unsetModifier.$unset['roles.'+userId] = '';
