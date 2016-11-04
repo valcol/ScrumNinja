@@ -57,7 +57,7 @@ Permissions.prototype.addViaEmail = function(userEmail, projectName, privilege){
   if(!user)
     throw new Meteor.Error('user not found');
   let setModifier = { $set: {} };
-  setModifier.$set['roles.'+user.userId] = privilege;
+  setModifier.$set['roles.'+user._id] = privilege;
   Collections.Projects.upsert( { name: projectName }, setModifier);
 };
 
