@@ -43,14 +43,14 @@ Projects.prototype.create = function(project) {
    return 'Project created';
 };
 
-Projects.prototype.delete = function(projectId){
+Projects.prototype.delete = function(projectName){
 
   Permissions.checkIfLogged();
 
-  Permissions.verify(Meteor.userId(), projectId, 'pa');
+  Permissions.verify(Meteor.userId(), projectName, 'pa');
 
   Collections.Projects.remove({
-    _id: projectId
+    name: projectName
   });
 
    return 'Project deleted';

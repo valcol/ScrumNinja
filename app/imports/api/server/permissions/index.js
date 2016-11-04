@@ -9,23 +9,55 @@ Permissions.prototype.checkIfLogged = function(){
     throw new Meteor.Error('authentication error');
 };
 
-Permissions.prototype.getPrivilege = function(userId, projectId){
-  let project = Collections.Projects.findOne({ _id: projectId });
+Permissions.prototype.getPrivilege = function(userId, projectName){
+  let project = Collections.Projects.findOne({ name: projectName });
   return project.roles[userId];
 };
 
-Permissions.prototype.verify = function(userId, projectId, privilege){
+Permissions.prototype.verify = function(userId, projectName, privilege){
   check(privilege, Match.OneOf('pa', 'pm', 'po'));
-  let project = Collections.Projects.findOne({ _id: projectId });
+  let project = Collections.Projects.findOne({ name: projectName });
   if (!(project.roles[userId]===privilege))
     throw new Meteor.Error('authentication error');
 };
 
 Permissions.prototype.upsert = function(userId, projectName, privilege){
+  Permissions.verify(Meteor.userId(), projectName, 'pa');
   check(privilege, Match.OneOf('pa', 'pm', 'po'));
   let setModifier = { $set: {} };
   setModifier.$set['roles.'+userId] = privilege;
   Collections.Projects.upsert( { name: projectName }, setModifier);
 };
 
-export default new Permissions();
+Permission.prototype.checkIfOneAdmin = function(projectName){
+  let projet = Collections.Projects.findOne({name: projectName});
+  for (let key in projet) {
+      if (projet[key] === 'pa') {
+          return true;
+      }
+      throw new Meteor.Error('project need at least one admin');
+  }
+};
+
+Permissions.prototype.delete = function(userId, projectName){
+  Permissions.verify(Meteor.userId(), projectName, 'pa');
+  if(getPrivilege(userId, projectName)===pa)
+    Permissions.checkIfOneAdmin(projectName);
+  let unsetModifier = { $unset: {} };
+  unsetModifier.$unset['roles.'+userId] = '';
+  Collections.Projects.update( { name: projectName }, unsetModifier);
+};
+
+Permissions.prototype.addViaEmail = function(userEmail, projectName, privilege){
+  Permissions.verify(Meteor.userId(), projectName, 'pa');
+  check(privilege, Match.OneOf('pa', 'pm', 'po'));
+  let user = Meteor.users.findOne({'emails.0.address':userEmail});
+  if(!user)
+    throw new Meteor.Error('user not found');
+  let setModifier = { $set: {} };
+  setModifier.$set['roles.'+user.userId] = privilege;
+  Collections.Projects.upsert( { name: projectName }, setModifier);
+};
+
+Permissions = new Permissions();
+export default Permissions;
