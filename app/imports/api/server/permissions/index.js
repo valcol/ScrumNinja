@@ -24,7 +24,7 @@ Permissions.prototype.verify = function(userId, projectName, privilege){
 Permissions.prototype.upsert = function(userId, projectName, privilege){
   Permissions.verify(Meteor.userId(), projectName, 'pa');
   check(privilege, Match.OneOf('pa', 'pm', 'po'));
-  if(Permissions.getPrivilege(userId, projectName)==='pa')
+  if(privilege !== 'pa' && Permissions.getPrivilege(userId, projectName)==='pa')
     Permissions.checkIfOneAdmin(projectName);
   let setModifier = { $set: {} };
   setModifier.$set['roles.'+userId] = privilege;
@@ -33,12 +33,13 @@ Permissions.prototype.upsert = function(userId, projectName, privilege){
 
 Permissions.prototype.checkIfOneAdmin = function(projectName){
   let projet = Collections.Projects.findOne({name: projectName});
-  for (let key in projet) {
-      if (projet[key] === 'pa') {
-          return true;
-      }
-      throw new Meteor.Error('project need at least one admin');
+  let nAdmin = 0;
+  for (let key in projet.roles) {
+      if (projet.roles[key] === 'pa')
+          nAdmin++;
   }
+  if (nAdmin<2)
+    throw new Meteor.Error('project need at least one admin');
 };
 
 Permissions.prototype.delete = function(userId, projectName){

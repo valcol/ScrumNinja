@@ -20,69 +20,103 @@ class Project extends Component {
     Meteor.call('project.delete', projectName);
   }
 
+
   render() {
     return (
-      <div className="projects">
-          {
-          this.props.projects.map((project) => (
-            <div className="box project">
-              <div className="box-header with-border">
-                <h3 className="box-title">{project.name}</h3>
+          <div className="projects">
+                <div className="box project">
+                  <div className="box-header with-border">
+                    <h3 className="box-title">Projects which I belong</h3>
+                  </div>
+                  <div className="box-body pad">
+                    <table className="table table-striped">
+                      <tbody><tr>
+                          <th style={{width: 150}}>Name</th>
+                          <th style={{width: 100}}><span className="glyphicon glyphicon-eye-open"></span></th>
+                          <th style={{width: 100}}><span className="glyphicon glyphicon-user"></span></th>
+                          <th>Progress</th>
+                          <th style={{width: 20}}>Dashboard</th>
+                          <th style={{width: 20}}>Delete</th>
+                        </tr>
+                        {
+                        this.props.projects.map((project) => (
+                        <tr>
+                          <td>{project.name}</td>
+                          <td>{project.visibility}</td>
+                          <td>{Object.keys(project.roles).length}</td>
+                          <td>
+                            <div className="progress progress-xs">
+                              <div className="progress-bar progress-bar-danger" style={{width: '55%'}}></div>
+                            </div>
+                          </td>
+                          <td>
+                            <LinkItem to={'/p/'+project.name+'/'} >
+                              <button className="btn btn-flat pull-left">
+                                Go to Dashboard
+                              </button>
+                            </LinkItem>
+                          </td>
+                          <td>
+                            <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(project.name); } }
+                              disabled={!(project.roles[Meteor.userId()] === 'pa')}>
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))
+                      }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div className="box project">
+                  <div className="box-header with-border">
+                    <h3 className="box-title">Public Projects</h3>
+                  </div>
+                  <div className="box-body pad">
+                    <table className="table table-striped">
+                      <tbody><tr>
+                          <th style={{width: 150}}>Name</th>
+                          <th style={{width: 100}}><span className="glyphicon glyphicon-user"></span></th>
+                          <th>Progress</th>
+                          <th style={{width: 20}}>Dashboard</th>
+                        </tr>
+                        {
+                        this.props.projectsPublic.map((project) => (
+                        <tr>
+                          <td>{project.name}</td>
+                          <td>{Object.keys(project.roles).length}</td>
+                          <td>
+                            <div className="progress progress-xs">
+                              <div className="progress-bar progress-bar-danger" style={{width: '55%'}}></div>
+                            </div>
+                          </td>
+                          <td>
+                            <LinkItem to={'/p/'+project.name+'/'} >
+                              <button className="btn btn-flat pull-left">
+                                Go to Dashboard
+                              </button>
+                            </LinkItem>
+                          </td>
+                        </tr>
+                      ))
+                      }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
-              {/* /.box-header */}
-              <div className="box-body pad">
-                <div className="table-responsive">
-                  <table className="table">
-                    <tr>
-                    <td>
-                      <LinkItem to={'/p/'+project.name+'/'} >
-                        <button className="btn btn-flat pull-left">
-                          Go to Dashboard
-                        </button>
-                      </LinkItem>
-                    </td>
-                    <td>
-                      <span className="badge bg-green">Admin</span>
-                    </td>
-                    <td>
-                      <span className="glyphicon glyphicon-user"></span>
-                       16
-                    </td>
-                    <td>
-                      <span className="glyphicon glyphicon-time"></span>
-                         {project.start.toISOString().substring(0, 10)} to {project.end.toISOString().substring(0, 10)}
-                    </td>
-                    <td>
-                      <span className="glyphicon glyphicon-eye-open"></span>
-                         {project.visibility}
-                    </td>
-                    <td>
-                      <span className="badge bg-red">20%</span>
-                    </td>
-                    <td>
-                      <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(project.name); } }>
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                  </table>
-                </div>
-                <div className="description">
-                    <b>Project description:</b>
-                    <p>{project.description}</p>
-                </div>
-            </div>
-            </div>
-          ))
-          }
-          {/* /.box */}
-      </div>
       );
     }
 }
 
 export default createContainer(() => {
+  const projects = Collections.Projects.find({['roles.'+Meteor.userId()]:{$exists : true}}).fetch();
+  const projectsPublic = Collections.Projects.find({['roles.'+Meteor.userId()]:{$exists : false}}).fetch();
+  const exists = !!projects && !!projectsPublic;
   return {
-    projects: Collections.Projects.find({}).fetch()
+    exists,
+    projects: exists ? projects : [],
+    projectsPublic: exists ? projectsPublic : []
   };
 }, Project);

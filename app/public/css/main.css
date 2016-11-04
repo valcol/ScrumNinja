@@ -1,18 +1,5 @@
 /* Projects */
 
 .projects td {
-  align-items: center;
-  text-align: center;
-  width: auto;
   padding: 10px;
-  text-overflow:
-}
-
-.projects .description {
-  margin: 10px;
-  margin-top: 20px;
-}
-
-.projects .glyphicon {
-  margin-right: 10px;
 }
