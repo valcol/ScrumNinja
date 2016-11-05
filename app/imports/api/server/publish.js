@@ -14,7 +14,7 @@ Meteor.publish('users', function() {
   return  Meteor.users.find({});
 });
 
-CollectionsObj.CDC.denyClient();
-Meteor.publish('files.CDC.all', function () {
-  return Collections.CDC.find().cursor;
+CollectionsObj.Specifications.denyClient();
+Meteor.publish('specifications', function () {
+  return Collections.Specifications.find().cursor;
 });

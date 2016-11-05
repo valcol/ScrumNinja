@@ -2,15 +2,9 @@ import { Mongo } from 'meteor/mongo';
 
 CollectionsObj = {};
 
-// Add helper Collections for Client
-Meteor.isClient && Template.registerHelper('Collections', CollectionsObj);
-
-// Add collections here
-CollectionsObj.Projects = new Mongo.Collection('projects');
-
-CollectionsObj.CDC = new Meteor.Files({
+CollectionsObj.Specifications = new Meteor.Files({
   debug: true,
-  collectionName: 'CDC',
+  collectionName: 'specifications',
   allowClientCode: true, // Disallow remove files from Client
   onBeforeUpload: function (file) {
     // Allow upload files under 10MB, and only in pdf formats
@@ -21,5 +15,7 @@ CollectionsObj.CDC = new Meteor.Files({
     }
   }
 });
+
+CollectionsObj.Projects = new Mongo.Collection('projects');
 
 export const Collections = CollectionsObj;

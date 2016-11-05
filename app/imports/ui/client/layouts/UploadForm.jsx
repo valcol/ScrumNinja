@@ -22,7 +22,7 @@ class UploadForm extends Component {
     let self = this;
 
     if (event.currentTarget.files && event.currentTarget.files[0]) {
-      let upload = Collections.CDC.insert({
+      let upload = Collections.Specifications.insert({
         file: event.currentTarget.files[0],
         streams: 'dynamic',
         chunkSize: 'dynamic'
@@ -64,31 +64,39 @@ class UploadForm extends Component {
 
   render() {
     return (
-      <div className="row">
-        <div className="col-md-12">
-          <p>Upload New File:</p>
-          <input type="file" id="fileinput" disabled={this.state.inProgress} ref="fileinput"
-               onChange={this.handleChange}/>
-           { this.props.error ?
-           <div className="callout callout-danger">
-               {this.props.error}
-           </div>
-           : this.props.success ?
-           <div className="callout callout-success">
-               {this.props.success}
-           </div>
-           :
-           <div></div>
-           }
-           { this.state.inProgress ?
-             <div className="progress">
-                <div className="progress-bar" role="progressbar" aria-valuenow={this.state.progress} aria-valuemin={0} aria-valuemax={100} style={{width: this.state.progress+'%'}}>
-                  {this.state.progress}%
-                </div>
-              </div>
-           :
-           <div></div>
-           }
+      <div className="box">
+        <div className="box-header with-border">
+          <h3 className="box-title">Specifications</h3>
+        </div>
+        {/* /.box-header */}
+        <div className="box-body pad">
+          <div className="row">
+            <div className="col-md-12">
+                  <label className="btn btn-default btn-file">
+                      Browse <input type="file" style={{display: 'none'}} disabled={this.state.inProgress} onChange={this.handleChange}/>
+                  </label>
+               { this.props.error ?
+               <div className="callout callout-danger">
+                   {this.props.error}
+               </div>
+               : this.props.success ?
+               <div className="callout callout-success">
+                   {this.props.success}
+               </div>
+               :
+               <div></div>
+               }
+               { this.state.inProgress ?
+                 <div className="progress">
+                    <div className="progress-bar" role="progressbar" aria-valuenow={this.state.progress} aria-valuemin={0} aria-valuemax={100} style={{width: this.state.progress+'%'}}>
+                      {this.state.progress}%
+                    </div>
+                  </div>
+               :
+               <div></div>
+               }
+            </div>
+          </div>
         </div>
       </div>
       );
