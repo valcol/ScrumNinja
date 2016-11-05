@@ -1,5 +1,7 @@
 # SCRUMNINJA
-<img src="https://raw.githubusercontent.com/valcol/ScrumNinja/master/app/public/img/logo-wide-dark.png" height="80">
+<img src="https://raw.githubusercontent.com/valcol/ScrumNinja/master/app/public/img/logo-wide-dark.png" height="88">
+
+
 [University Project] A Scrum/Agile projects management app made with React / MeteorJS
 
 ## Features
