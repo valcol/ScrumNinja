@@ -63,6 +63,8 @@ Permissions.prototype.addViaEmail = function(userEmail, projectName, privilege){
   let setModifier = { $set: {} };
   setModifier.$set['roles.'+user._id] = privilege;
   Collections.Projects.upsert( { name: projectName }, setModifier);
+
+ return 'Member added';
 };
 
 Permissions = new Permissions();
