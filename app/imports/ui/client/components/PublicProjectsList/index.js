@@ -25,10 +25,11 @@ class PublicProjectsListBox extends Component {
         <BoxHeader>
           Public Projects
         </BoxHeader>
+        {!this.props.loaded ? <Loading/> :
         <BoxBody>
           <PublicProjectsList projects={this.props.projects}/>
         </BoxBody>
-        {!this.props.loaded ? <Loading/> : ''}
+        }
       </Box>
   );
 }

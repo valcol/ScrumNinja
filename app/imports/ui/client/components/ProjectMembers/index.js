@@ -25,8 +25,9 @@ class ProjectMembers extends Component {
     return (
       <Box>
         <BoxHeader>
-          Project details
+          Project members
         </BoxHeader>
+        {!this.props.loaded ? <Loading/> :
         <BoxBody>
           <MembersList currentProject={this.props.currentProject}
             isAdmin={(this.isAdmin())}/>
@@ -35,12 +36,12 @@ class ProjectMembers extends Component {
             success={this.props.success}
             />
         </BoxBody>
+        }
         {this.isAdmin() ?
           <BoxFooter>
             <AddMemberForm currentProject={this.props.currentProject}/>
           </BoxFooter>
           :<div></div>}
-          {!this.props.loaded ? <Loading/> : ''}
         </Box>
       );
     }
