@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Collections } from '../../../api/collections.js';
+import { browserHistory } from 'react-router';
 
 import Header from '../layouts/Header.jsx';
 import { Footer } from '../layouts/Footer.jsx';
@@ -16,6 +17,9 @@ class App extends Component {
   }
 
   render() {
+
+    if (!this.props.currentProject && this.props.params.projectName)
+      browserHistory.push('/404');
 
     return (
       <div>
