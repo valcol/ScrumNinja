@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { createContainer } from 'meteor/react-meteor-data';
+import { Collections } from '../../../api/collections.js';
 
 import Header from '../layouts/Header.jsx';
 import { Footer } from '../layouts/Footer.jsx';
@@ -7,9 +9,14 @@ import { ContentWrapper } from '../layouts/ContentWrapper.jsx';
 import { Sidebar } from '../layouts/Sidebar.jsx';
 
 
-export class App extends Component {
+class App extends Component {
+
+  getChildContext() {
+    return { currentProject: this.props.currentProject };
+  }
 
   render() {
+
     return (
       <div>
         <Header/>
@@ -18,7 +25,7 @@ export class App extends Component {
           routes={this.props.routes}
           params={this.props.params}
           >
-          {React.cloneElement(this.props.children, { projectName: this.props.params.projectName })}
+          {this.props.children}
         </ContentWrapper>
         <Sidebar/>
         <div className="control-sidebar-bg"></div>
@@ -26,5 +33,15 @@ export class App extends Component {
       </div>
     );
   }
-
 }
+
+App.childContextTypes = {
+  currentProject: React.PropTypes.Object
+};
+
+export default createContainer((props) => {
+  const currentProject = Collections.Projects.findOne({name:props.params.projectName});
+  return {
+    currentProject
+  };
+}, App);
