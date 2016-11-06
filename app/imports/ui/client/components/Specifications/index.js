@@ -29,8 +29,10 @@ class Specifications extends Component {
         <BoxHeader>
           Specifications
         </BoxHeader>
+        {!this.props.loaded ? <BoxBody></BoxBody> :
         <BoxBody>
         </BoxBody>
+        }
           <BoxFooter>
             <FeedbackMessage
               error={this.props.error}
@@ -39,16 +41,18 @@ class Specifications extends Component {
             {(this.isAdmin() || this.isPo()) ?
               <AddForm currentProject={this.props.currentProject}/> : ''}
           </BoxFooter>
-          {!this.props.loaded ? <Loading/> : ''}
+        {!this.props.loaded ? <Loading/> : ''}
         </Box>
     );
   }
 }
 
 export default createContainer((props) => {
+  const subscribe = Meteor.subscribe('specifications');
+  const loaded = !!subscribe.ready();
   return {
     error: Session.get('error'),
     success: Session.get('success'),
-    loaded: true
+    loaded
   };
 }, Specifications);

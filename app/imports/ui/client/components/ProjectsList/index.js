@@ -20,11 +20,12 @@ class ProjectsListBox extends Component {
         <BoxHeader>
           Projects I belong to
         </BoxHeader>
-        {!this.props.loaded ? <Loading/> :
+        {!this.props.loaded ? <BoxBody></BoxBody> :
         <BoxBody>
           <ProjectsList projects={this.props.projects}/>
         </BoxBody>
         }
+        {!this.props.loaded ? <Loading/> : ''}
       </Box>
     );
   }

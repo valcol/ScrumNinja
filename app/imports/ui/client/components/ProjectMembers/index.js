@@ -27,7 +27,7 @@ class ProjectMembers extends Component {
         <BoxHeader>
           Project members
         </BoxHeader>
-        {!this.props.loaded ? <Loading/> :
+        {!this.props.loaded ? <BoxBody></BoxBody> :
         <BoxBody>
           <MembersList currentProject={this.props.currentProject}
             isAdmin={(this.isAdmin())}/>
@@ -42,6 +42,7 @@ class ProjectMembers extends Component {
             <AddMemberForm currentProject={this.props.currentProject}/>
           </BoxFooter>
           :<div></div>}
+        {!this.props.loaded ? <Loading/> : ''}
         </Box>
       );
     }
