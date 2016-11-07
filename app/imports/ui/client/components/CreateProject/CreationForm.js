@@ -54,7 +54,7 @@ class CreationForm extends Component {
             <div className="input-group-addon">
               <i className="fa fa-calendar" />
             </div>
-            <input type="date" onChange={this.handleChange('start')} value={this.state.start} className="form-control pull-right datepicker" required />
+            <input type="date" onChange={this.handleChange('start')} value={this.state.start} id="start" className="form-control pull-right datepicker" required />
           </div>
           {/* /.input group */}
         </div>
@@ -64,7 +64,7 @@ class CreationForm extends Component {
             <div className="input-group-addon">
               <i className="fa fa-calendar" />
             </div>
-            <input type="date" onChange={this.handleChange('end')} value={this.state.end} className="form-control pull-right datepicker" required />
+            <input type="date" onChange={this.handleChange('end')} value={this.state.end} id="end" className="form-control pull-right datepicker" required />
           </div>
           {/* /.input group */}
         </div>
