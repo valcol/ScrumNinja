@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Session } from 'meteor/session';
-import { Collections } from '../../../../api/collections.js';
+import { Collections } from '../../../../api/common/collections.js';
 
 class addForm extends Component {
 

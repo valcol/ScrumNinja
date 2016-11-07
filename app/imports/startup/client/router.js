@@ -1,7 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, IndexRedirect, Redirect, browserHistory } from 'react-router';
-import { Collections } from '../../api/collections.js';
 
 import App from '../../ui/client/pages/App';
 import Authentication from '../../ui/client/pages/Authentication';
