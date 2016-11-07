@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
-import { Collections } from '../collections.js';
+import { Collections } from '../../common/collections.js';
 import { check, Match } from 'meteor/check';
 import moment from 'moment';
-import PermissionsHelper from '../permissionsHelper.js';
+import PermissionsHelper from '../../common/permissionsHelper.js';
 
 let Projects = function() {};
 
@@ -47,8 +47,7 @@ Projects.prototype.delete = function(projectName){
 
   PermissionsHelper.checkIfLogged();
 
-  if(!PermissionsHelper.verify(Meteor.userId(), projectName, 'pa'))
-    throw new Meteor.Error('authentication error');
+  PermissionsHelper.verify(Meteor.userId(), projectName, 'pa');
 
   Collections.Projects.remove({
     name: projectName
