@@ -5,6 +5,7 @@ module.exports = function() {
 	    browser.setValue('input[name="email"]', "test");
     	browser.setValue('input[name="password"]', "test");
     	browser.click('.login-box .btn');
+    	browser.waitForExist('.breadcrumbs');
 	}
   });
 };
