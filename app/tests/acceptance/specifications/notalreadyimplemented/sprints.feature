@@ -1,8 +1,8 @@
 Feature: Manage Sprints into a project.
 
-	Scenario: create sprints
+	Scenario: Create sprints
 	Given I am on my own Projects page
 	
-	Scenario: modify an existing sprints
+	Scenario: Update an existing sprints
 	
-	Scenario: delete a sprint
+	Scenario: Delete a sprint
