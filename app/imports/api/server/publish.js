@@ -14,7 +14,7 @@ Meteor.publish('users', function() {
   return  Meteor.users.find({});
 });
 
-Collections.Specifications.denyClient();
+Collections.Specifications.allowClient();
 Meteor.publish('files.specifications.all', function () {
   return Collections.Specifications.find().cursor;
 });
