@@ -1,14 +1,14 @@
 import { Meteor } from 'meteor/meteor';
-import { Collections } from '../../collections.js';
+import { Collections } from '../../common/collections.js';
 import { check, Match } from 'meteor/check';
 import moment from 'moment';
-import Permissions from '../permissions';
+import PermissionsHelper from '../../common/permissionsHelper.js';
 
 let Projects = function() {};
 
 Projects.prototype.create = function(project) {
 
-  Permissions.checkIfLogged();
+  PermissionsHelper.checkIfLogged();
 
   check(project, {
     name: String,
@@ -45,9 +45,9 @@ Projects.prototype.create = function(project) {
 
 Projects.prototype.delete = function(projectName){
 
-  Permissions.checkIfLogged();
+  PermissionsHelper.checkIfLogged();
 
-  Permissions.verify(Meteor.userId(), projectName, 'pa');
+  PermissionsHelper.verify(Meteor.userId(), projectName, 'pa');
 
   Collections.Projects.remove({
     name: projectName

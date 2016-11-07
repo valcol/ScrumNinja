@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { createContainer } from 'meteor/react-meteor-data';
-import { Collections } from '../../../../api/collections.js';
+import { Collections } from '../../../../api/common/collections.js';
 import Box from '../misc/Box';
 import BoxHeader from '../misc/BoxHeader';
 import BoxBody from '../misc/BoxBody';

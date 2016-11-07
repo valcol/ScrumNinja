@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { Collections } from '../../../../api/collections.js';
+import { Collections } from '../../../../api/common/collections.js';
 import { browserHistory } from 'react-router';
 
 import Header from '../../layouts/Header';

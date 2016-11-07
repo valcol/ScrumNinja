@@ -1,28 +1,19 @@
 import { Meteor } from 'meteor/meteor';
-import { Collections } from '../../collections.js';
+import { Collections } from '../../common/collections.js';
 import { check, Match } from 'meteor/check';
+import PermissionsHelper from '../../common/permissionsHelper.js';
 
 let Permissions = function() {};
-
-Permissions.prototype.checkIfLogged = function(){
-  if(!Meteor.userId())
-    throw new Meteor.Error('authentication error');
-};
 
 Permissions.prototype.getPrivilege = function(userId, projectName){
   let project = Collections.Projects.findOne({ name: projectName });
   return project.roles[userId];
 };
 
-Permissions.prototype.verify = function(userId, projectName, privilege){
-  check(privilege, Match.OneOf('pa', 'pm', 'po'));
-  let project = Collections.Projects.findOne({ name: projectName });
-  if (!(project.roles[userId]===privilege))
-    throw new Meteor.Error('authentication error');
-};
-
 Permissions.prototype.upsert = function(userId, projectName, privilege){
-  Permissions.verify(Meteor.userId(), projectName, 'pa');
+  PermissionsHelper.checkIfLogged();
+  if(!PermissionsHelper.verify(Meteor.userId(), projectName, 'pa'))
+    throw new Meteor.Error('authentication error');
   check(privilege, Match.OneOf('pa', 'pm', 'po'));
   if(privilege !== 'pa' && Permissions.getPrivilege(userId, projectName)==='pa')
     Permissions.checkIfOneAdmin(projectName);
@@ -43,7 +34,9 @@ Permissions.prototype.checkIfOneAdmin = function(projectName){
 };
 
 Permissions.prototype.delete = function(userId, projectName){
-  Permissions.verify(Meteor.userId(), projectName, 'pa');
+  PermissionsHelper.checkIfLogged();
+  if(!PermissionsHelper.verify(Meteor.userId(), projectName, 'pa'))
+    throw new Meteor.Error('authentication error');
   if(Permissions.getPrivilege(userId, projectName)==='pa')
     Permissions.checkIfOneAdmin(projectName);
   let unsetModifier = { $unset: {} };
@@ -52,7 +45,9 @@ Permissions.prototype.delete = function(userId, projectName){
 };
 
 Permissions.prototype.addViaEmail = function(userEmail, projectName, privilege){
-  Permissions.verify(Meteor.userId(), projectName, 'pa');
+  PermissionsHelper.checkIfLogged();
+  if(!PermissionsHelper.verify(Meteor.userId(), projectName, 'pa'))
+    throw new Meteor.Error('authentication error');
   check(privilege, Match.OneOf('pa', 'pm', 'po'));
   let user = Meteor.users.findOne({'emails.0.address':userEmail});
   if(!user)

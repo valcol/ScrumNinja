@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Session } from 'meteor/session';
 import { createContainer } from 'meteor/react-meteor-data';
-import { Collections } from '../../../../api/collections.js';
+import { Collections } from '../../../../api/common/collections.js';
 
 import RequierementsList  from './RequierementsList.js';
 import FeedbackMessage  from '../misc/FeedbackMessage';
