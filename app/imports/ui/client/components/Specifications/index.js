@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Session } from 'meteor/session';
 import { createContainer } from 'meteor/react-meteor-data';
+import { Collections } from '../../../../api/collections.js';
+
 import FeedbackMessage from '../misc/FeedbackMessage';
 import Box from '../misc/Box';
 import BoxHeader from '../misc/BoxHeader';
@@ -8,6 +10,7 @@ import BoxBody from '../misc/BoxBody';
 import BoxFooter from '../misc/BoxFooter';
 import AddForm from './AddForm';
 import Loading from '../misc/Loading';
+import SpecificationsList from './SpecificationsList.js';
 
 class Specifications extends Component {
 
@@ -30,29 +33,31 @@ class Specifications extends Component {
           Specifications
         </BoxHeader>
         {!this.props.loaded ? <BoxBody></BoxBody> :
-        <BoxBody>
-        </BoxBody>
+          <BoxBody>
+            <SpecificationsList specifications={this.props.specifications}/>
+          </BoxBody>
         }
-          <BoxFooter>
-            <FeedbackMessage
-              error={this.props.error}
-              success={this.props.success}
-              />
-            {(this.isAdmin() || this.isPo()) ?
-              <AddForm currentProject={this.props.currentProject}/> : ''}
-          </BoxFooter>
+        <BoxFooter>
+          <FeedbackMessage
+            error={this.props.error}
+            success={this.props.success}
+            />
+          {(this.isAdmin() || this.isPo()) ? <AddForm currentProject={this.props.currentProject}/> : ''}
+        </BoxFooter>
         {!this.props.loaded ? <Loading/> : ''}
-        </Box>
+      </Box>
     );
   }
 }
 
 export default createContainer((props) => {
-  const subscribe = Meteor.subscribe('specifications');
-  const loaded = !!subscribe.ready();
+  const subscribe = Meteor.subscribe('files.specifications.all');
+  const specifications = Collections.Specifications.find({}).each();
+  const loaded = !!specifications && !!subscribe;
   return {
     error: Session.get('error'),
     success: Session.get('success'),
-    loaded
+    loaded,
+    specifications: loaded ? specifications : []
   };
 }, Specifications);

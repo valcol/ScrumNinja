@@ -52,13 +52,8 @@ class addForm extends Component {
           progress: progress
         });
       });
-
       upload.start();
     }
-  }
-
-  isAdmin(){
-    return true;
   }
 
   render() {
@@ -66,8 +61,9 @@ class addForm extends Component {
       <div className="row">
       <div className="col-md-12">
       <label className="btn btn-default btn-file">
-      Browse <input type="file" style={{display: 'none'}} disabled={this.state.inProgress} onChange={this.handleChange}/>
+       Upload a file <input type="file" style={{display: 'none'}} disabled={this.state.inProgress} onChange={this.handleChange}/>
       </label>
+      <p className="help-block">File must be in PDF. Maximum upload size : 10Mo.</p>
       { this.state.inProgress ?
         <div className="progress">
         <div className="progress-bar" role="progressbar" aria-valuenow={this.state.progress} aria-valuemin={0} aria-valuemax={100} style={{width: this.state.progress+'%'}}>

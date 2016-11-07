@@ -4,8 +4,9 @@ CollectionsObj = {};
 
 CollectionsObj.Specifications = new Meteor.Files({
   debug: true,
-  collectionName: 'specifications',
-  allowClientCode: true, // Disallow remove files from Client
+  collectionName: 'Specifications',
+  allowClientCode: true, // Disallow remove files from Clien
+  storagePath : '/data/Meteor/uploads/',
   onBeforeUpload: function (file) {
     // Allow upload files under 10MB, and only in pdf formats
     if (file.size <= 1024*1024*10 && /pdf/i.test(file.extension)) {
