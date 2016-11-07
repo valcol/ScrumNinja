@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import LinkItem  from '../misc/LinkItem';
+import { Session } from 'meteor/session';
 
 class SpecificationsList extends Component {
 
@@ -9,8 +10,16 @@ class SpecificationsList extends Component {
     this.handleDelete = this.handleDelete.bind(this);
   }
 
-  handleDelete(projectName) {
-    Meteor.call('project.delete', projectName);
+  handleDelete(fileId) {
+    Meteor.call('specifications.delete', fileId, function(err, res) {
+      if (err) {
+       Session.set('error', err.message);
+       Session.set('success', null);
+      } else {
+       Session.set('success', 'Done !');
+       Session.set('error', null);
+      }
+   });
   }
 
   isAdmin(){
@@ -25,7 +34,7 @@ renderRows(){
   return this.props.specifications.map((file) => (
     <tr>
       <td>{file.name}</td>
-      <td>file</td>
+      <td>{file.meta.uploadDate.toUTCString()}</td>
       <td>
         <a target="_blank" href={file.link()}>
           <button className="btn btn-flat pull-left">
@@ -34,7 +43,7 @@ renderRows(){
         </a>
       </td>
       <td>
-        <button className="btn btn-flat pull-right" onClick={file.remove}
+        <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(file._id) }}
           disabled={!(this.isPo) || !(this.isAdmin)}>
           Delete
         </button>
@@ -47,9 +56,9 @@ renderRows(){
     return (
       <table className="table table-striped">
         <tbody><tr>
-          <th style={{width: 150}}>Name</th>
-          <th style={{width: 100}}>Uploaded at</th>
-          <th style={{width: 20}}>Download</th>
+          <th>Name</th>
+          <th style={{width: 350}}>Uploaded at</th>
+          <th style={{width: 20}}>View</th>
           <th style={{width: 20}}>Delete</th>
         </tr>
         {this.props.specifications ? this.renderRows() : ''}

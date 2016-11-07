@@ -51,7 +51,7 @@ class Specifications extends Component {
 }
 
 export default createContainer((props) => {
-  const subscribe = Meteor.subscribe('files.specifications.all');
+  const subscribe = Meteor.subscribe('files.specifications.all', props.currentProject.name);
   const specifications = Collections.Specifications.find({}).each();
   const loaded = !!specifications && !!subscribe;
   return {
