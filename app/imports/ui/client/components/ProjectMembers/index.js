@@ -49,7 +49,7 @@ class ProjectMembers extends Component {
   }
 
   export default createContainer((props) => {
-    const subscribe = Meteor.subscribe('users');
+    const subscribe = Meteor.subscribe('users', props.currentProject.name);
     const loaded = !!subscribe.ready();
     return {
       success: Session.get('success'),

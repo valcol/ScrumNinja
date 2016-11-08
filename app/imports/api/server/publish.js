@@ -11,8 +11,11 @@ Meteor.publish('public-projects', function() {
   return Collections.Projects.find({visibility: 'public'});
 });
 
-Meteor.publish('users', function() {
-  return  Meteor.users.find({});
+Meteor.publish('users', function(projectName) {
+  if (PermissionsHelper.isAvailableToView(this.userId, projectName, true)){
+    let project = Collections.Projects.findOne({name: projectName});
+    return Meteor.users.find({ _id: { $in: Object.keys(project.roles) } });
+  }
 });
 
 Meteor.publish('requirements', function() {
@@ -20,7 +23,8 @@ Meteor.publish('requirements', function() {
 });
 
 Collections.Specifications.allowClient();
+
 Meteor.publish('files.specifications.all', function (projectName) {
   if (PermissionsHelper.isAvailableToView(this.userId, projectName, false))
-    return Collections.Specifications.find({'meta.projectName':projectName}).cursor;
+  return Collections.Specifications.find({'meta.projectName':projectName}).cursor;
 });
