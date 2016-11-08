@@ -10,9 +10,9 @@ class RequirementsList extends Component {
   renderRows(roles){
     return this.props.requirements.map((requirement) => (
       <RequirementRow
-       id= {requirement.id}
        desc= {requirement.description}
        prio={requirement.priority}
+       categorie = {requirement.categorie}
        currentProject={this.props.currentProject}
     />
     ));
@@ -23,9 +23,6 @@ class RequirementsList extends Component {
       <table className="table">
         <tbody>
         <tr>
-          <th style={{width: 100}}>
-            Id
-          </th>
           <th>
             Description
           </th>

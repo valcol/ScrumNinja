@@ -15,8 +15,8 @@ Meteor.publish('users', function() {
   return  Meteor.users.find({});
 });
 
-Meteor.publish('requirements', function() {
-  return Collections.Requirements.find().fetch();
+Meteor.publish('requirements', function(projectName) {
+  return Collections.Requirements.find({project:projectName});
 });
 
 Collections.Specifications.allowClient();

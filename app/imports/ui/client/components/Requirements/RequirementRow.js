@@ -10,7 +10,7 @@ class RequirementRow extends Component {
   }
 
   handleDelete(event) {
-    Meteor.call('requirement.delete', this.props.userId, this.props.currentProject.name, function(err, res) {
+    Meteor.call('requirement.delete', this.props.currentProject.name, function(err, res) {
       if (err) {
        Session.set('error', err.message);
        Session.set('success', null);
@@ -21,7 +21,7 @@ class RequirementRow extends Component {
    });
   }
 
-  handleChange(event) {
+  /*handleChange(event) {
     Meteor.call('permission.upsert', this.props.userId, this.props.currentProject.name, event.target.value, function(err, res) {
       if (err) {
        Session.set('error', err.message);
@@ -31,7 +31,7 @@ class RequirementRow extends Component {
        Session.set('error', null);
      }
    });
-  }
+  }*/
 
   renderRow() {
     return (
