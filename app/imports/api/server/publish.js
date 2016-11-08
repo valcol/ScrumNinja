@@ -1,5 +1,6 @@
 import { Collections } from '../common/collections.js';
 import { Meteor } from 'meteor/meteor';
+import PermissionsHelper from '../common/permissionsHelper.js';
 
 // Publish here
 Meteor.publish('projects', function() {
@@ -20,5 +21,6 @@ Meteor.publish('requirements', function() {
 
 Collections.Specifications.allowClient();
 Meteor.publish('files.specifications.all', function (projectName) {
-  return Collections.Specifications.find({'meta.projectName':projectName}).cursor;
+  if (PermissionsHelper.isAvailableToView(this.userId, projectName, false))
+    return Collections.Specifications.find({'meta.projectName':projectName}).cursor;
 });
