@@ -5,33 +5,23 @@ import PermissionsHelper from '../../common/permissionsHelper.js';
 
 let Requirement = function() {};
 
-Requirement.prototype.add = function(projectName) {
-
+Requirement.prototype.add = function(description, priority, categorie, projectName) {
+  let requirement = Collections.Requirements.find({project : projectName});
   PermissionsHelper.checkIfLogged();
   PermissionsHelper.verify(Meteor.userId(), projectName, 'pa');
+ 
 
-  check(requirement, {
-    id: Integer,
-    description: String,
-    priority : Integer
-  });
-
- /* if(Collections.Requirements.findOne({id: requirements.id}))
-    throw new Meteor.Error('id already taken');*/
-
-  Collections.Projects.insert({
-    id: requirement.id,
-    description: requirement.description,
-    priority : requirement.priority
+  Collections.Requirements.insert({
+    description,
+    priority,
+    categorie 
   });
 
    return 'Requirement created';
 };
 
 Requirement.prototype.delete = function(projectName){
-
   PermissionsHelper.checkIfLogged();
-
   PermissionsHelper.verify(Meteor.userId(), projectName, 'pa');
 
   Collections.Requirements.remove({

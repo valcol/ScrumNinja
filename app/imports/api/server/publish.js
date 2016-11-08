@@ -18,8 +18,8 @@ Meteor.publish('users', function(projectName) {
   }
 });
 
-Meteor.publish('requirements', function() {
-  return Collections.Requirements.find().fetch();
+Meteor.publish('requirements', function(projectName) {
+  return Collections.Requirements.find({project:projectName});
 });
 
 Collections.Specifications.allowClient();

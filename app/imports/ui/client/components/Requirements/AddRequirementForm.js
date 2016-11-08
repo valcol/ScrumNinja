@@ -7,7 +7,6 @@ class AddRequirementForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        id:'',
         description:'',
         priority :''
     };
@@ -26,7 +25,7 @@ class AddRequirementForm extends Component {
     }
 
   handleSubmit(cat){
-    Meteor.call('requirement.add', this.state, this.props.currentProject.name, cat, function(err, res) {
+    Meteor.call('requirement.add', this.state.description, this.state.priority, cat, this.props.currentProject.name, function(err, res) {
      if (err) {
        Session.set('error', err.message);
        Session.set('success', null);
@@ -43,12 +42,12 @@ class AddRequirementForm extends Component {
         <div className="col-lg-12">
           <div className="input-group">
             <input type="text" className="form-control" placeholder="Description" value={this.state.description} onChange={this.handleDescriptionChange}/>
-            <input type="number" className="form-control" placeholder="Priority" value={this.state.priority} onChange={this.this.handlePriorityChange}/>
+            <input type="number" className="form-control" placeholder="Priority" value={this.state.priority} onChange={this.handlePriorityChange}/>
             <div className="input-group-btn">
               <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add as..<span className="caret" /></button>
               <ul className="dropdown-menu dropdown-menu-right">
-                <li><a href="#" onClick={ () => { this.handleSubmit('pa'); }}>Functional requirement</a></li>
-                <li><a href="#" onClick={ () => { this.handleSubmit('pa'); }}>Non-functional requirement</a></li>
+                <li><a href="#" onClick={ () => { this.handleSubmit('f'); }}>Functional requirement</a></li>
+                <li><a href="#" onClick={ () => { this.handleSubmit('nf'); }}>Non-functional requirement</a></li>
               </ul>
             </div>
           </div>
