@@ -58,8 +58,8 @@ class RequirementsBox extends Component {
 
   export default createContainer((props) => {
     const subscribe = Meteor.subscribe('requirements', props.currentProject.name);
-    const requirementsF = Collections.Requirements.find({cat: 'f'}).fetch();
-    const requirementsNF = Collections.Requirements.find({cat: 'nf'}).fetch();
+    const requirementsF = Collections.Requirements.find({categorie: 'f'}).fetch();
+    const requirementsNF = Collections.Requirements.find({categorie: 'nf'}).fetch();
     const loaded = !!requirementsF && !!requirementsNF && !!subscribe;
     return {
       error: Session.get('error'),

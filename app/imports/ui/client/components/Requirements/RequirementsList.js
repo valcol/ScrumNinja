@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import  RequirementRow  from './RequirementRow.js';
+
 
 class RequirementsList extends Component {
 
@@ -7,14 +7,15 @@ class RequirementsList extends Component {
     super(props);
   }
 
-  renderRows(roles){
+  renderRows(){
     return this.props.requirements.map((requirement) => (
-      <RequirementRow
-       desc= {requirement.description}
-       prio={requirement.priority}
-       categorie = {requirement.categorie}
-       currentProject={this.props.currentProject}
-    />
+     
+      // currentProject={this.props.currentProject}
+        <tr>
+            <th>{requirement.description}</th>
+            <th>{requirement.priority}</th>
+            <th>{requirement.categorie}</th>
+      </tr>
     ));
   }
 
@@ -33,7 +34,7 @@ class RequirementsList extends Component {
             Delete
           </th>
         </tr>
-        {this.renderRows(this.props.requirements)}
+        {this.renderRows()}
         </tbody>
       </table>
     );
