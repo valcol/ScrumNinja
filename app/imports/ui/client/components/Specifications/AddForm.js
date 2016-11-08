@@ -9,10 +9,13 @@ class addForm extends Component {
     this.state = {
       uploading: [],
       progress: 0,
-      inProgress: false
+      inProgress: false,
+      placeholder: 'Select a file to upload..'
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
+
 
   handleChange(event){
 
@@ -32,7 +35,8 @@ class addForm extends Component {
       upload.on('start', function () {
         self.setState({
           uploading: upload,
-          inProgress: true
+          inProgress: true,
+          placeholder:event.currentTarget.files[0].name
         });
       });
 
@@ -47,7 +51,8 @@ class addForm extends Component {
         self.setState({
           uploading: [],
           progress: 0,
-          inProgress: false
+          inProgress: false,
+          placeholder: 'Select a file to upload..'
         });
       });
 
@@ -63,24 +68,29 @@ class addForm extends Component {
   render() {
     return (
       <div className="row">
-      <div className="col-md-12">
-      <label className="btn btn-default btn-file">
-       Upload a file <input type="file" style={{display: 'none'}} disabled={this.state.inProgress} onChange={this.handleChange}/>
-      </label>
-      <p className="help-block">File must be in PDF. Maximum upload size : 10Mo.</p>
-      { this.state.inProgress ?
-        <div className="progress">
-        <div className="progress-bar" role="progressbar" aria-valuenow={this.state.progress} aria-valuemin={0} aria-valuemax={100} style={{width: this.state.progress+'%'}}>
-        {this.state.progress}%
+        <div className="col-md-12">
+          <div className="input-group">
+            <input type="text" disabled={true} className="form-control" onChange={this.handleChange} value={this.state.placeholder}/>
+            <span className="input-group-btn">
+              <label className="btn btn-default btn-file">
+                Select a file <input type="file" style={{display: 'none'}} disabled={this.state.inProgress} onChange={this.handleChange}/>
+            </label>
+          </span>
         </div>
-        </div>
-        :
-        <div></div>
-      }
+        <p className="help-block">File must be in PDF. Maximum upload size : 10Mo.</p>
+        { this.state.inProgress ?
+          <div className="progress">
+            <div className="progress-bar" role="progressbar" aria-valuenow={this.state.progress} aria-valuemin={0} aria-valuemax={100} style={{width: this.state.progress+'%'}}>
+              {this.state.progress}%
+            </div>
+          </div>
+          :
+          <div></div>
+        }
       </div>
-      </div>
-    );
-  }
+    </div>
+  );
+}
 }
 
 export default addForm;
