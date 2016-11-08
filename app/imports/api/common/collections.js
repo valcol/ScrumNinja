@@ -19,6 +19,6 @@ CollectionsObj.Specifications = new Meteor.Files({
 
 CollectionsObj.Projects = new Mongo.Collection('projects');
 
-CollectionsObj.Requierements = new Mongo.Collection('requierements');
+CollectionsObj.Requirements = new Mongo.Collection('requirements');
 
 export const Collections = CollectionsObj;

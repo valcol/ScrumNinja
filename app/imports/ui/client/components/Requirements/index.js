@@ -3,16 +3,16 @@ import { Session } from 'meteor/session';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Collections } from '../../../../api/common/collections.js';
 
-import RequierementsList  from './RequierementsList.js';
+import RequirementsList  from './RequirementsList.js';
 import FeedbackMessage  from '../misc/FeedbackMessage';
 import Box from '../misc/Box';
 import BoxHeader from '../misc/BoxHeader';
 import BoxBody from '../misc/BoxBody';
 import BoxFooter from '../misc/BoxFooter';
-import AddRequierementForm from './AddRequierementForm.js';
+import AddRequirementForm from './AddRequirementForm.js';
 import Loading from '../misc/Loading';
 
-class RequierementsBox extends Component {
+class RequirementsBox extends Component {
 
   constructor(props) {
     super(props);
@@ -27,17 +27,17 @@ class RequierementsBox extends Component {
     return (
       <Box>
         <BoxHeader>
-          Requierements
+          Requirements
         </BoxHeader>
         {!this.props.loaded ? <BoxBody></BoxBody> :
         <BoxBody>
           <h3>Functional</h3>
-          <RequierementsList currentProject={this.props.currentProject}
-            requierements={this.props.requierementsF}
+          <RequirementsList currentProject={this.props.currentProject}
+            requirements={this.props.requirementsF}
             isVisitorOrPo={(this.isVisitorOrPo())}/>
           <h3>Non-functional</h3>
-          <RequierementsList currentProject={this.props.currentProject}
-            requierements={this.props.requierementsNF}
+          <RequirementsList currentProject={this.props.currentProject}
+            requirements={this.props.requirementsNF}
             isVisitorOrPo={(this.isVisitorOrPo())}/>
           <FeedbackMessage
             error={this.props.error}
@@ -47,7 +47,7 @@ class RequierementsBox extends Component {
         }
         {!this.isVisitorOrPo() ?
           <BoxFooter>
-            <AddRequierementForm currentProject={this.props.currentProject}/>
+            <AddRequirementForm currentProject={this.props.currentProject}/>
           </BoxFooter>
           :<div></div>}
         {!this.props.loaded ? <Loading/> : ''}
@@ -57,15 +57,15 @@ class RequierementsBox extends Component {
   }
 
   export default createContainer((props) => {
-    const subscribe = Meteor.subscribe('requierements');
-    const requierementsF = Collections.Specifications.find({cat: 'f'}).fetch();
-    const requierementsNF = Collections.Specifications.find({cat: 'nf'}).fetch();
-    const loaded = !!requierementsF && !!requierementsNF && !!subscribe;
+    const subscribe = Meteor.subscribe('requirements');
+    const requirementsF = Collections.Specifications.find({cat: 'f'}).fetch();
+    const requirementsNF = Collections.Specifications.find({cat: 'nf'}).fetch();
+    const loaded = !!requirementsF && !!requirementsNF && !!subscribe;
     return {
       error: Session.get('error'),
       success: Session.get('success'),
       loaded,
-      requierementsF: loaded ? requierementsF : [],
-      requierementsNF: loaded ? requierementsNF : []
+      requirementsF: loaded ? requirementsF : [],
+      requirementsNF: loaded ? requirementsNF : []
     };
-  }, RequierementsBox);
+  }, RequirementsBox);

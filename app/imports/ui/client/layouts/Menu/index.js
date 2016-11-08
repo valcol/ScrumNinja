@@ -20,7 +20,7 @@ class Menu extends Component {
               <li className="header text-uppercase">{this.props.projectName}</li>
               <NavItem to={'/p/'+this.props.projectName+'/dashboard'} ><i className="fa ion-android-options" /><span>Dashboard</span></NavItem>
               <NavItem to={'/p/'+this.props.projectName+'/specifications'} ><i className="fa ion-clipboard" /><span>Specifications</span></NavItem>
-              <NavItem to={'/p/'+this.props.projectName+'/requierements'} ><i className="fa fa-link" /><span>Requierements</span></NavItem>
+              <NavItem to={'/p/'+this.props.projectName+'/requirements'} ><i className="fa fa-link" /><span>Requirements</span></NavItem>
               <NavItem to={'/p/'+this.props.projectName+'/userstories'} ><i className="fa ion-film-marker" /><span>User Stories</span></NavItem>
               <li className="treeview">
                 <a href="#"><i className="fa ion-wrench" /> <span>Tasks</span>

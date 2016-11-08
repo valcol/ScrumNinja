@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Session } from 'meteor/session';
 
-class RequierementRow extends Component {
+class RequirementRow extends Component {
 
   constructor(props) {
     super(props);
@@ -10,7 +10,7 @@ class RequierementRow extends Component {
   }
 
   handleDelete(event) {
-    Meteor.call('permission.delete', this.props.userId, this.props.currentProject.name, function(err, res) {
+    Meteor.call('requirement.delete', this.props.userId, this.props.currentProject.name, function(err, res) {
       if (err) {
        Session.set('error', err.message);
        Session.set('success', null);
@@ -37,13 +37,13 @@ class RequierementRow extends Component {
     return (
       <tr>
         <td>
-          test
+            {this.props.id}
         </td>
         <td>
-          test
+            {this.props.desc}
         </td>
         <td>
-        test
+            {this.props.prio}
         </td>
       </tr>
     );
@@ -54,4 +54,4 @@ class RequierementRow extends Component {
   }
 }
 
-export default RequierementRow;
+export default RequirementRow;

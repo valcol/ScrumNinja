@@ -10,7 +10,7 @@ import CreateProject from '../../ui/client/layouts/CreateProject';
 import Profile from '../../ui/client/layouts/Profile';
 import Dashboard from '../../ui/client/layouts/Dashboard';
 import Specifications from '../../ui/client/layouts/Specifications';
-import Requierements from '../../ui/client/layouts/Requierements';
+import Requirements from '../../ui/client/layouts/Requirements';
 import UserStories from '../../ui/client/layouts/UserStories';
 import Tasks from '../../ui/client/layouts/Tasks';
 import Sprints from '../../ui/client/layouts/Sprints';
@@ -48,7 +48,7 @@ Meteor.startup( () => {
         <IndexRedirect name={'Project Home'} to="/u" />
         <Route path=":projectName/dashboard" name={'Dashboard'} component={Dashboard}/>
         <Route path=":projectName/specifications" name={'Specifications'} component={Specifications}/>
-        <Route path=":projectName/requierements" name={'Requierements'} component={Requierements}/>
+        <Route path=":projectName/requirements" name={'Requirements'} component={Requirements}/>
         <Route path=":projectName/userstories" name={'User Stories'} component={UserStories}/>
         <Route path=":projectName/tasks" name={'Tasks'} component={Tasks}/>
         <Route path=":projectName/sprint" name={'Sprints'} component={Sprints}/>

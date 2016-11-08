@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
-import  RequierementRow  from './RequierementRow.js';
+import  RequirementRow  from './RequirementRow.js';
 
-class RequierementsList extends Component {
+class RequirementsList extends Component {
 
   constructor(props) {
     super(props);
   }
 
   renderRows(roles){
-    return Object.keys(roles).map((key) => (
-      <RequierementRow
-        role={roles[key]}
-        userId={key}
-        isVisitorOrPo={this.props.isVisitorOrPo}
-        currentProject={this.props.currentProject}
-        />
+    return this.props.requirements.map((requirement) => (
+      <RequirementRow
+       id= {requirement.id}
+       desc= {requirement.description}
+       prio={requirement.priority}
+       currentProject={this.props.currentProject}
+    />
     ));
   }
 
@@ -36,11 +36,11 @@ class RequierementsList extends Component {
             Delete
           </th>
         </tr>
-        {this.renderRows(this.props.requierements)}
+        {this.renderRows(this.props.requirements)}
         </tbody>
       </table>
     );
   }
 }
 
-export default RequierementsList;
+export default RequirementsList;
