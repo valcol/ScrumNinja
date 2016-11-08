@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "meteor",
-    "tests-acceptance": "chimp --ddp=http://localhost:3000 --path=tests/acceptance"
+    "tests-acceptance": "chimp --ddp=http://localhost:3000 --path=tests/acceptance2"
   },
   "author": "Valentin Colmant <valcol.nc@gmail.com>",
   "license": "MIT",
