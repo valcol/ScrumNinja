@@ -8,6 +8,11 @@ class RequirementsList extends Component {
     this.handleDelete = this.handleDelete.bind(this);
 
   }
+
+ isVisitorOrPo(){
+    let role = this.props.currentProject.roles[Meteor.userId()];
+    return (role === 'po' || !role);
+  }
     
     handleDelete(_id) {
         Meteor.call('requirement.delete', _id, function(err, res) {
@@ -26,11 +31,15 @@ class RequirementsList extends Component {
         <tr>
             <td>{requirement.description}</td>
             <td>{requirement.priority}</td>
-            <td>
-                <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(requirement._id); } }>
+        {
+        !this.isVisitorOrPo() ?   
+        <td> <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(requirement._id); } }>
             Delete
-          </button>
-        </td>      </tr>
+            </button>
+        </td>
+        :<div></div>
+        }
+    </tr>
     ));
   }
 
