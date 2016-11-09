@@ -5,17 +5,32 @@ class RequirementsList extends Component {
 
   constructor(props) {
     super(props);
+    this.handleDelete = this.handleDelete.bind(this);
+
+  }
+    
+    handleDelete(event) {
+        Meteor.call('requirement.delete', this.props.currentProject.name, function(err, res) {
+            if (err) {
+                Session.set('error', err.message);
+                Session.set('success', null);
+            } else {
+            Session.set('success', 'Done !');
+            Session.set('error', null);
+            }
+        });
   }
 
   renderRows(){
     return this.props.requirements.map((requirement) => (
-     
-      // currentProject={this.props.currentProject}
         <tr>
-            <th>{requirement.description}</th>
-            <th>{requirement.priority}</th>
-            <th>{requirement.categorie}</th>
-      </tr>
+            <td>{requirement.description}</td>
+            <td>{requirement.priority}</td>
+            <td>
+                <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(requirement._id); } }>
+            Delete
+          </button>
+        </td>      </tr>
     ));
   }
 

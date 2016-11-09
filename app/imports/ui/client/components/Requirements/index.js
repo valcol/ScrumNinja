@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Session } from 'meteor/session';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Collections } from '../../../../api/common/collections.js';
-
+import { Meteor } from 'meteor/meteor';
 import RequirementsList  from './RequirementsList.js';
 import FeedbackMessage  from '../misc/FeedbackMessage';
 import Box from '../misc/Box';

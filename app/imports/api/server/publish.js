@@ -19,7 +19,7 @@ Meteor.publish('users', function(projectName) {
 });
 
 Meteor.publish('requirements', function(projectName) {
-  return Collections.Requirements.find({project:projectName});
+  return Collections.Requirements.find({projectName:projectName});
 });
 
 Collections.Specifications.allowClient();
