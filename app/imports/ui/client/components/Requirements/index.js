@@ -51,7 +51,7 @@ class RequirementsBox extends Component {
           </BoxFooter>
           :<div></div>}
         {!this.props.loaded ? <Loading/> : ''}
-        </Box>
+      </Box>
       );
     }
   }

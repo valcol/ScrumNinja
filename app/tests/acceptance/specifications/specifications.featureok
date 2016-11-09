@@ -14,3 +14,17 @@ Feature: Specifications
 		Then I see the file "test.pdf" in the list
 		When I click on the view button
 		Then I see the PDF
+
+	#@user1Exist
+	#@user1Logged
+	#@projectExist
+	#@projectHaveASpecification
+	#Scenario: delete a specification
+	#	Given I am connected as "user1"
+	#	And I have a project named "project"
+	#	And I click on the project dashboard button
+	#	And I see the "Dashboard" page
+	#	And I click on the specifications menu button
+	#	And I see the "Specifications" page
+	#	When I click on the specification delete button
+	#	Then I dont see the specification

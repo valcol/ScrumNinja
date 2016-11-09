@@ -1,5 +1,12 @@
 import { Collections } from './collections.js';
 
+/*
+  Roles : 
+    - pa : project administrator;
+    - pm : project member;
+    - po : process owner;
+*/
+
 let PermissionsHelper = function() {};
 
 PermissionsHelper.prototype.verify = function(userId, projectName, role) {

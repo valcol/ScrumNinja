@@ -11,7 +11,7 @@ import Profile from '../../ui/client/layouts/Profile';
 import Dashboard from '../../ui/client/layouts/Dashboard';
 import Specifications from '../../ui/client/layouts/Specifications';
 import Requirements from '../../ui/client/layouts/Requirements';
-import UserStories from '../../ui/client/layouts/UserStories';
+import UserStories from '../../ui/client/layouts/UserStories'; ////
 import Tasks from '../../ui/client/layouts/Tasks';
 import Sprints from '../../ui/client/layouts/Sprints';
 import ScrumBoard from '../../ui/client/layouts/ScrumBoard';

@@ -20,9 +20,9 @@ class AddRequirementForm extends Component {
 
   }
 
-    handlePriorityChange(event){
-        this.setState({priority: event.target.value});
-    }
+  handlePriorityChange(event){
+      this.setState({priority: event.target.value});
+  }
 
   handleSubmit(cat){
     Meteor.call('requirement.add', this.state.description, this.state.priority, cat, this.props.currentProject.name, function(err, res) {

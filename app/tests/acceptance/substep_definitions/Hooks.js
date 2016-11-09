@@ -107,9 +107,17 @@ var myHooks = function () {
     // This hook will be executed before scenarios tagged with @foo
   });
 
+  this.Before({tags: ["@user2AsMember"]}, function (scenario) {
+    console.log("before @user2AsMember");
+    browser.timeoutsAsyncScript(2000).executeAsync(function(done) {
+      Meteor.call('permission.addViaEmail','user2','project','pa');
+    });
+  });
+
   this.After(function (scenario) {
     console.log("after");
   });
 };
+
 
 module.exports = myHooks;

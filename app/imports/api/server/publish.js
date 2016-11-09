@@ -28,3 +28,7 @@ Meteor.publish('files.specifications.all', function (projectName) {
   if (PermissionsHelper.isAvailableToView(this.userId, projectName, false))
   return Collections.Specifications.find({'meta.projectName':projectName}).cursor;
 });
+
+Meteor.publish('userstories', function(projectName) {
+  return Collections.UserStories.find({project:projectName});
+});
