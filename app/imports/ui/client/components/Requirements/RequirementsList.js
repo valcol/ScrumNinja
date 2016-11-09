@@ -9,8 +9,8 @@ class RequirementsList extends Component {
 
   }
     
-    handleDelete(event) {
-        Meteor.call('requirement.delete', this.props.currentProject.name, function(err, res) {
+    handleDelete(_id) {
+        Meteor.call('requirement.delete', _id, function(err, res) {
             if (err) {
                 Session.set('error', err.message);
                 Session.set('success', null);

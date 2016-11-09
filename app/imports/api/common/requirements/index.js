@@ -21,12 +21,12 @@ Requirement.prototype.add = function(description, priority, categorie, projectNa
    return 'Requirement created';
 };
 
-Requirement.prototype.delete = function(projectName){
+Requirement.prototype.delete = function(_id){
   PermissionsHelper.checkIfLogged();
-  PermissionsHelper.verify(Meteor.userId(), projectName, 'pa');
+ // PermissionsHelper.verify(Meteor.userId(), projectName, 'pa');
 
   Collections.Requirements.remove({
-    id: 0
+    _id
   });
 
    return 'Requirement deleted';
