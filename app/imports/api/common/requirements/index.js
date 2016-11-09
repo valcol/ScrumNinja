@@ -14,7 +14,8 @@ Requirement.prototype.add = function(description, priority, categorie, projectNa
   Collections.Requirements.insert({
     description,
     priority,
-    categorie 
+    categorie,
+    projectName
   });
 
    return 'Requirement created';
