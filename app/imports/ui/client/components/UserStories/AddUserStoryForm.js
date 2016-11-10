@@ -2,14 +2,6 @@ import React, { Component } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { Session } from 'meteor/session';
 
-/*
-TODO
-  Comment on gère l'ID ?
-    on le créer nous meme ? (gérer quand ils en suppriment)
-    Ils le nomment ? (on doit empecher les doublons)
-    actuellement seconde version car plus simple sans gestion.
-*/
-
 class addUserStoryForm extends Component {
 
   constructor(props) {
@@ -18,7 +10,8 @@ class addUserStoryForm extends Component {
       id: 0,
       description: '',
       effort: 0,
-      priority: 0
+      priority: 0,
+      projectName: this.props.currentProject.name
     };
     this.handleIdChange = this.handleIdChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
@@ -45,7 +38,10 @@ class addUserStoryForm extends Component {
   }
 
   handleSubmit(){
-    Meteor.call('userstories.add', this.state.id, this.state.description, this.state.effort, this.state.priority, this.props.currentProject.name, function(err, res) {
+    Meteor.call('userstory.add', this.state.id,
+                this.state.description, this.state.effort,
+                this.state.priority, this.state.projectName,
+                function(err, res) {
      if (err) {
        Session.set('error', err.message);
        Session.set('success', null);
@@ -59,12 +55,13 @@ class addUserStoryForm extends Component {
   render(){
     return (
       <div className="row">
+
         <div className="col-lg-12">
           <div className="input-group">
-            <input type="text" className="form-control" placeholder="Id" value={this.state.id} onChange={this.handleIdChange}/>
-            <input type="text" className="form-control" placeholder="Description" value={this.state.description} onChange={this.handleDescriptionChange}/>
-            <input type="number" className="form-control" placeholder="Effort" value={this.state.effort} onChange={this.handleEffortChange}/>
-            <input type="number" className="form-control" placeholder="Priority" value={this.state.priority} onChange={this.handlePriorityChange}/>
+            <input style={{width: '10%'}} placeholder="Identifiant" type="text" className="form-control" value={this.state.id} onChange={this.handleIdChange}/>
+            <input style={{width: '40%'}} placeholder="Description" type="text" className="form-control" value={this.state.description} onChange={this.handleDescriptionChange}/>
+            <input style={{width: '20%'}} placeholder="Effort" type="number" className="form-control" value={this.state.effort} onChange={this.handleEffortChange}/>
+            <input style={{width: '20%'}} placeholder="Priority" type="number" className="form-control" value={this.state.priority} onChange={this.handlePriorityChange}/>
               <div className="input-group-btn">
               <button onClick={this.handleSubmit} className="btn btn-primary btn-block btn-flat">Add</button>
             </div>

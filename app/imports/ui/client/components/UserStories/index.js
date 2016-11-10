@@ -3,6 +3,7 @@ import { Session } from 'meteor/session';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Collections } from '../../../../api/common/collections.js';
 import {Meteor} from 'meteor/meteor';
+
 import UserStoriesList  from './UserStoriesList.js';
 import FeedbackMessage  from '../misc/FeedbackMessage';
 import Box from '../misc/Box';
@@ -34,21 +35,20 @@ class UserStoriesBox extends Component {
             />
         </BoxBody>
         }
-        {!true ?
+        {
           <BoxFooter>
             <AddUserStoryForm currentProject={this.props.currentProject}/>
           </BoxFooter>
-          :<div></div>}
+          }
         {!this.props.loaded ? <Loading/> : ''}
       </Box>
       );
     }
 }
 
-
 export default createContainer((props) => {
-  const subscribe = Meteor.subscribe('userstories', props.currentProject.name); 
-  const userstories = Collections.UserStories.find({});
+  const subscribe = Meteor.subscribe('userstories', props.currentProject.name);
+  const userstories = Collections.UserStories.find({}).fetch();
   const loaded = !!userstories && !!subscribe;
   return {
     error: Session.get('error'),

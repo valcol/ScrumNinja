@@ -21,6 +21,6 @@ CollectionsObj.Projects = new Mongo.Collection('projects');
 
 CollectionsObj.Requirements = new Mongo.Collection('requirements');
 
-CollectionsObj.UserStories = new Mongo.Collection('userstories'); //ADDED
+CollectionsObj.UserStories = new Mongo.Collection('userstories');
 
 export const Collections = CollectionsObj;
