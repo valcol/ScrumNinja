@@ -13,7 +13,6 @@ class addForm extends Component {
       placeholder: 'Select a file to upload..'
     };
     this.handleChange = this.handleChange.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
 
