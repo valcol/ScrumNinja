@@ -20,7 +20,7 @@ class UserStoriesList extends Component {
   }
 
   handleDelete(_id) {
-      Meteor.call('userstory.delete', _id, function(err, res) {
+      Meteor.call('userstory.delete', _id, this.props.currentProject.name, function(err, res) {
           if (err) {
               Session.set('error', err.message);
               Session.set('success', null);

@@ -11,37 +11,29 @@ function USright(projectName){
     throw new Meteor.Error('permission error : You can\'t do that. Please, ask this project administrator about it.');
 }
 
-UserStory.prototype.add = function(id,description, effort,priority, projectName) {
-  //let userstory = Collections.UserStories.find({project : projectName});
-  PermissionsHelper.checkIfLogged(); //throw if not.
+UserStory.prototype.upsert = function(userstory, projectName) {
+
+  PermissionsHelper.checkIfLogged();
   USright(projectName);
 
-  Collections.UserStories.insert({
-    id,
-    description,
-    effort,
-    priority,
-    projectName
+  check(userstory, {
+    id: Number,
+    description: String,
+    effort: Number,
+    priority: Number
   });
-   return 'user story created';
-};
 
-UserStory.prototype.update = function(idm,id,description, effort,priority, projectName) {
-  //let userstory = Collections.UserStories.find({project : projectName});
-  PermissionsHelper.checkIfLogged(); //throw if not.
-  USright(projectName);
+  userstory.project = projectName;
 
-  Collections.UserStories.update({ project : projectName,  _id: idm})(
-    {$set: {
-      id,
-      description,
-      effort,
-      priority
-  }});
+  Collections.UserStories.upsert(
+    {id: userstory.id},
+    {$set: userstory
+    });
+
    return 'user story updated';
 };
 
-UserStory.prototype.delete = function(_id){
+UserStory.prototype.delete = function(_id, projectName){
   PermissionsHelper.checkIfLogged();
   USright(projectName);
 

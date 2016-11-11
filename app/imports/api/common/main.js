@@ -7,7 +7,7 @@ Meteor.methods({
   'specifications.delete': Specifications.delete,
   'requirement.add' : Requirement.add,
   'requirement.delete' : Requirement.delete,
-  'userstory.add' : UserStory.add,
-  'userstory.update' : UserStory.update,
+  'userstory.add' : UserStory.upsert,
+  'userstory.update' : UserStory.upsert,
   'userstory.delete' : UserStory.delete
 });
