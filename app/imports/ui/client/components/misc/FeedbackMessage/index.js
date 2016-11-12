@@ -19,6 +19,12 @@ class FeedbackMessage extends Component {
           {this.props.success}
         </div>
       );
+    else if (this.props.warning)
+      return (
+        <div className="callout callout-warning">
+          {this.props.warning}
+        </div>
+      );
     else return (<div></div>);
   }
 }

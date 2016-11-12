@@ -6,9 +6,9 @@ import PermissionsHelper from '../permissionsHelper.js';
 
 let Specifications = function() {};
 
-Specifications.prototype.delete = function(fileId){
+Specifications.prototype.delete = function(_id){
 
-  let file = Collections.Specifications.findOne({_id: fileId});
+  let file = Collections.Specifications.findOne({_id});
 
   PermissionsHelper.checkIfLogged();
 
@@ -17,7 +17,7 @@ Specifications.prototype.delete = function(fileId){
     throw new Meteor.Error('authentication error');
 
 
-  Collections.Specifications.remove({_id: fileId}, function (error) {
+  Collections.Specifications.remove({_id}, function (error) {
       if (error) {
         throw new Meteor.Error(error.reason);
       } else {

@@ -19,6 +19,10 @@ class UserStoriesBox extends Component {
     super(props);
   }
 
+  isPaOrPm(){
+    return (this.props.currentProject.roles[Meteor.userId()] === 'pa' || this.props.currentProject.roles[Meteor.userId()] === 'pm');
+  }
+
   render() {
     return (
       <Box>
@@ -26,34 +30,43 @@ class UserStoriesBox extends Component {
           User Stories
         </BoxHeader>
         {!this.props.loaded ? <BoxBody></BoxBody> :
-        <BoxBody>
-          <UserStoriesList currentProject={this.props.currentProject}
-            userstories={this.props.userstories}/>
-          <FeedbackMessage
-            error={this.props.error}
-            success={this.props.success}
-            />
-        </BoxBody>
+          <BoxBody>
+            <UserStoriesList currentProject={this.props.currentProject}
+              userstories={this.props.userstories}
+              isPaOrPm={this.isPaOrPm}/>
+          </BoxBody>
         }
-        {
+        {(!this.props.loaded&&this.isPaOrPm())  ? <BoxFooter></BoxFooter> :
           <BoxFooter>
-            <AddUserStoryForm currentProject={this.props.currentProject}/>
+            <FeedbackMessage
+              error={this.props.error}
+              success={this.props.success}
+              />
+            <FeedbackMessage
+              warning={this.props.warning}
+              />
+            <AddUserStoryForm currentProject={this.props.currentProject}
+              userstories={this.props.userstories}
+              userstoryToEdit={this.props.userstoryToEdit}/>
           </BoxFooter>
-          }
+        }
         {!this.props.loaded ? <Loading/> : ''}
       </Box>
-      );
-    }
+    );
+  }
 }
 
 export default createContainer((props) => {
   const subscribe = Meteor.subscribe('userstories', props.currentProject.name);
-  const userstories = Collections.UserStories.find({}).fetch();
+  const userstories = Collections.UserStories.find({}, {sort: {id: 1}}).fetch();
   const loaded = !!userstories && !!subscribe;
+  const userstoryToEdit = Session.get('userstoryToEdit') ? Collections.UserStories.findOne({_id:Session.get('userstoryToEdit')}) : null;
   return {
     error: Session.get('error'),
     success: Session.get('success'),
+    warning: Session.get('warning'),
     loaded,
-    userstories: loaded ? userstories : []
+    userstories: loaded ? userstories : [],
+    userstoryToEdit
   };
 }, UserStoriesBox);

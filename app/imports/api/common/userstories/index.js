@@ -33,9 +33,8 @@ UserStory.prototype.upsert = function(userstory, projectName) {
    return 'user story updated';
 };
 
-UserStory.prototype.delete = function(_id, projectName){
+UserStory.prototype.delete = function(_id){
   PermissionsHelper.checkIfLogged();
-  USright(projectName);
 
   Collections.UserStories.remove({_id});
   return 'user story deleted';
