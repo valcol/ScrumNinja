@@ -30,5 +30,11 @@ Meteor.publish('files.specifications.all', function (projectName) {
 });
 
 Meteor.publish('userstories', function(projectName) {
+  if (PermissionsHelper.isAvailableToView(this.userId, projectName, true))
   return Collections.UserStories.find({project:projectName});
+});
+
+Meteor.publish('tasks', function(projectName) {
+  if (PermissionsHelper.isAvailableToView(this.userId, projectName, true))
+  return Collections.Tasks.find({project:projectName});
 });

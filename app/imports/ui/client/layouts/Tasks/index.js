@@ -1,5 +1,19 @@
-import React from 'react';
+import React, {Component} from 'react';
+import TasksManagementBox from '../../components/TasksManagement';
 
-const Tasks = () => <h3>Tasks</h3>;
+class TasksManagement extends Component {
 
-export default Tasks;
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className="UserStories">
+        <TasksManagementBox {...this.props}/>
+      </div>
+    );
+  }
+}
+
+export default TasksManagement;
