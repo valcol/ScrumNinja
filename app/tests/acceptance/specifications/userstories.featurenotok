@@ -1,0 +1,18 @@
+Feature: Requirements
+
+  @user1Exist
+  @user1Logged
+  @projectExist
+  Scenario: add an user story
+
+  @user1Exist
+  @user1Logged
+  @projectExist
+  @userstoryExist
+  Scenario: change an user story
+
+  @user1Exist
+  @user1Logged
+  @projectExist
+  @userstoryExist
+  Scenario: delete an user story
