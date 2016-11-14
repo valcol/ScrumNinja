@@ -110,14 +110,34 @@ var myHooks = function () {
   this.Before({tags: ["@user2AsMember"]}, function (scenario) {
     console.log("before @user2AsMember");
     browser.timeoutsAsyncScript(2000).executeAsync(function(done) {
-      Meteor.call('permission.addViaEmail','user2','project','pa');
+      Meteor.call('permission.addViaEmail','user2','project','pa'
+                  ,function(err, res) {
+                      if (err) {
+                        console.error('couldnt associate user2 as member');
+                      } else {
+                        done();
+                      }
+     });
     });
   });
 
-  this.After(function (scenario) {
-    console.log("after");
+this.Before({tags: ["@requirementExist"]}, function (scenario) {
+  console.log("before @requirementExist");
+  browser.timeoutsAsyncScript(2000).executeAsync(function(done) {
+    Meteor.call('requirement.add','requirement1', '2', 'f', 'project'
+                ,function(err, res) {
+                  if (err) {
+                    console.error('couldnt create requirement1');
+                  } else {
+                    done();
+                  }
+                });
   });
-};
+});
 
+this.After(function (scenario) {
+  console.log("after");
+});
+};
 
 module.exports = myHooks;
