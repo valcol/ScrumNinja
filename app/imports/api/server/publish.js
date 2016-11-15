@@ -34,6 +34,10 @@ Meteor.publish('userstories', function(projectName) {
   return Collections.UserStories.find({project:projectName});
 });
 
+Meteor.publish('sprints', function(projectName) {
+  return Collections.Sprints.find({project:projectName});
+});
+
 Meteor.publish('tasks', function(projectName) {
   if (PermissionsHelper.isAvailableToView(this.userId, projectName, true))
   return Collections.Tasks.find({project:projectName});
