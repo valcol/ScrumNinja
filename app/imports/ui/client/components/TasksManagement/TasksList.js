@@ -65,7 +65,7 @@ class TasksList extends Component {
               Effort
             </th>
             <th style={{width: '20%'}} >
-              US
+              Associated US
             </th>
             <th>
             </th>

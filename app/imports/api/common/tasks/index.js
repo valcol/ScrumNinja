@@ -27,6 +27,11 @@ Tasks.prototype.upsert = function(task, projectName) {
   if(!Collections.UserStories.findOne({_id: task.userstory[0]}))
     throw new Meteor.Error('Please select an US');
 
+  if (task.id === 0){
+    let tasks = Collections.Tasks.find({project: projectName}, {sort: {id: -1}}).fetch();
+    task.id = tasks ? tasks[0].id+1 : 1;
+  }
+
   task.project = projectName;
 
   Collections.Tasks.upsert(

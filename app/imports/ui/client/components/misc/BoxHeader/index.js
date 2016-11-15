@@ -9,9 +9,9 @@ class BoxHeader extends Component {
   render() {
     return (
     <div className="box-header with-border">
-      <h3 className="box-title">
+      <h4 className="box-title">
         {this.props.children}
-      </h3>
+      </h4>
     </div>
     );
   }

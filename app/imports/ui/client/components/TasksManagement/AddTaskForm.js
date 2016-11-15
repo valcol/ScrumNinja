@@ -8,16 +8,16 @@ class addTaskForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: '',
+      id: 0,
       description: '',
       effort: '',
       priority: '',
-      userstory: ['nc']
+      userstory: null
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleUSChange = this.handleUSChange.bind(this),
-    this.handleIdChange = this.handleIdChange.bind(this);
+    this.handleCancelEdit = this.handleCancelEdit.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
@@ -35,10 +35,11 @@ class addTaskForm extends Component {
     }
     else {
       this.setState({
+        id: 0,
         description: '',
         effort: '',
         priority: '',
-        userstory: ['nc']
+        userstory: null
       });
       Session.set('warning', null);
     }
@@ -59,20 +60,12 @@ class addTaskForm extends Component {
       this.setState({userstory:[e.target.value]});
   }
 
-  handleIdChange(event){
-
-    for (let task of this.props.tasks) {
-      if (parseInt(task.id) === parseInt(event.target.value)){
-        Session.set('taskToEdit', task._id);
-        return;
-      }
-    }
-
-    this.setState({id: parseInt(event.target.value)});
+  handleCancelEdit(event){
     Session.set('taskToEdit', null);
   }
 
-  handleSubmit(){
+  handleSubmit(e){
+    e.preventDefault();
     Meteor.call('tasks.update', this.state, this.props.currentProject.name,
     function(err, res) {
       if (err) {
@@ -87,8 +80,8 @@ class addTaskForm extends Component {
 
   renderSelectList(){
     return (
-      <select value={this.state.userstory[0]} onChange={this.handleUSChange} className="form-control">
-        <option value='nc'>Please select an US</option>
+      <select value={this.state.userstory ? this.state.userstory[0] : ''} onChange={this.handleUSChange} className="form-control" required>
+        <option value=''>Please select an US</option>
         {this.props.userstories.map((userstory) => (
             <option value={userstory._id}>US#{userstory.id} : {userstory.description}</option>
         ))}
@@ -100,16 +93,21 @@ class addTaskForm extends Component {
     return (
       <div className="row">
         <div className="col-lg-12">
+          <form onSubmit={this.handleSubmit}>
           <div className="input-group">
             {this.renderSelectList()}
-            <input style={{width: '10%'}} placeholder="Identifiant" type="number" className="form-control" value={this.state.id} onChange={this.handleIdChange}/>
-            <input style={{width: '40%'}} placeholder="Description" type="text" className="form-control" value={this.state.description} onChange={this.handleChange('description', false)}/>
-            <input style={{width: '20%'}} placeholder="Effort" type="number" className="form-control" value={this.state.effort} onChange={this.handleChange('effort', true)}/>
-            <input style={{width: '20%'}} placeholder="Priority" type="number" className="form-control" value={this.state.priority} onChange={this.handleChange('priority', true)}/>
+            <input style={{width: '40%'}} placeholder="Description" type="text" className="form-control" value={this.state.description} onChange={this.handleChange('description', false)} required/>
+            <input style={{width: '20%'}} placeholder="Effort" type="number" className="form-control" value={this.state.effort} onChange={this.handleChange('effort', true)} required/>
+            <input style={{width: '20%'}} placeholder="Priority" type="number" className="form-control" value={this.state.priority} onChange={this.handleChange('priority', true)} required/>
+            {this.props.taskToEdit ?
+              <div className="input-group-btn">
+              <button onClick={this.handleCancelEdit} className="btn btn-primary btn-block btn-flat">Cancel edit</button>
+              </div> : ''}
             <div className="input-group-btn">
-              <button onClick={this.handleSubmit} className="btn btn-primary btn-block btn-flat">Add</button>
+              <button className="btn btn-primary btn-block btn-flat">{this.props.taskToEdit ? 'Confirm' : 'Add'}</button>
             </div>
           </div>
+          </form>
         </div>
       </div>
     );
