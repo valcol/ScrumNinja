@@ -110,7 +110,10 @@ class addTaskForm extends Component {
               {userstory.id}
             </td>
             <td >
-              {userstory.description}
+              {(this.state.userstory.indexOf(parseInt(userstory.id)) > -1) ?
+              <del>{userstory.description}</del>
+              : <p>{userstory.description}</p>
+              }
             </td>
             <td>
               <input type="checkbox" onChange={ () => { this.handleUSChange(userstory.id)}}
