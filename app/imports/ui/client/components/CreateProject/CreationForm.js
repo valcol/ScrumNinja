@@ -27,7 +27,8 @@ class CreationForm extends Component {
     }.bind(this);
   }
 
-  handleSubmit(){
+  handleSubmit(e){
+    e.preventDefault();
     Meteor.call('project.create', this.state, function(err, res) {
       if (err) {
         Session.set('error', err.message);
@@ -41,6 +42,7 @@ class CreationForm extends Component {
 
   render() {
     return (
+      <form onSubmit={this.handleSubmit}>
       <div className="projectCreationForm">
         <div className="form-group">
           <label>Name:</label>
@@ -98,10 +100,11 @@ class CreationForm extends Component {
           error={this.props.error}
           success={this.props.success}
           />
-        <button className="btn btn-flat center-block" onClick={this.handleSubmit}>
+        <button type="submit" className="btn btn-flat center-block">
           Submit
         </button>
       </div>
+      </form>
     );
   }
 }
