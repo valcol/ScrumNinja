@@ -7,25 +7,27 @@ class AddRequirementForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+        id: 0,
         description:'',
         priority :''
     };
-    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handlePriorityChange = this.handlePriorityChange.bind(this);
   }
 
-  handleDescriptionChange(event){
-    this.setState({description: event.target.value});
-
-  }
-
-  handlePriorityChange(event){
-      this.setState({priority: event.target.value});
+  handleChange(key, isInt) {
+    return function (e) {
+      let state = {};
+      if (isInt)
+      state[key] = parseInt(e.target.value);
+      else
+      state[key] = e.target.value;
+      this.setState(state);
+    }.bind(this);
   }
 
   handleSubmit(cat){
-    Meteor.call('requirement.add', this.state.description, this.state.priority, cat, this.props.currentProject.name, function(err, res) {
+    Meteor.call('requirement.add', this.state, cat, this.props.currentProject.name, function(err, res) {
      if (err) {
        Session.set('error', err.message);
        Session.set('success', null);
@@ -41,8 +43,8 @@ class AddRequirementForm extends Component {
       <div className="row">
         <div className="col-lg-12">
           <div className="input-group">
-            <input type="text" className="form-control" placeholder="Description" value={this.state.description} onChange={this.handleDescriptionChange}/>
-            <input type="number" className="form-control" placeholder="Priority" value={this.state.priority} onChange={this.handlePriorityChange}/>
+            <input type="text" className="form-control" placeholder="Description" value={this.state.description} onChange={this.handleChange('description', false)}/>
+            <input type="number" className="form-control" placeholder="Priority" value={this.state.priority} onChange={this.handleChange('priority', true)}/>
             <div className="input-group-btn">
               <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add as..<span className="caret" /></button>
               <ul className="dropdown-menu dropdown-menu-right">

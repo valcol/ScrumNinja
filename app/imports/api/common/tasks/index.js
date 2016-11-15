@@ -29,7 +29,7 @@ Tasks.prototype.upsert = function(task, projectName) {
 
   if (task.id === 0){
     let tasks = Collections.Tasks.find({project: projectName}, {sort: {id: -1}}).fetch();
-    task.id = tasks ? tasks[0].id+1 : 1;
+    task.id = (tasks.length > 0) ? tasks[0].id+1 : 1;
   }
 
   task.project = projectName;

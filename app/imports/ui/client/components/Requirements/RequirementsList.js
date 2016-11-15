@@ -29,6 +29,7 @@ class RequirementsList extends Component {
   renderRows(){
     return this.props.requirements.map((requirement) => (
       <tr>
+        <td>{requirement.id}</td>
         <td>{requirement.description}</td>
         <td>{requirement.priority}</td>
         {
@@ -48,6 +49,9 @@ render() {
     <table className="table">
       <tbody>
         <tr>
+          <th style={{width: 50}}>
+            #
+          </th>
           <th>
             Description
           </th>
@@ -55,7 +59,6 @@ render() {
             Priority
           </th>
           <th style={{width: 100}}>
-            Delete
           </th>
         </tr>
         {this.renderRows()}

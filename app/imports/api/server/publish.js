@@ -19,14 +19,14 @@ Meteor.publish('users', function(projectName) {
 });
 
 Meteor.publish('requirements', function(projectName) {
-  return Collections.Requirements.find({projectName:projectName});
+  return Collections.Requirements.find({project:projectName});
 });
 
 Collections.Specifications.allowClient();
 
 Meteor.publish('files.specifications.all', function (projectName) {
   if (PermissionsHelper.isAvailableToView(this.userId, projectName, false))
-  return Collections.Specifications.find({'meta.projectName':projectName}).cursor;
+  return Collections.Specifications.find({'meta.project':projectName}).cursor;
 });
 
 Meteor.publish('userstories', function(projectName) {
