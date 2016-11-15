@@ -23,6 +23,11 @@ UserStory.prototype.upsert = function(userstory, projectName) {
     priority: Number
   });
 
+  if (userstory.id === 0){
+    let userstories = Collections.UserStories.find({project: projectName}, {sort: {id: -1}}).fetch();
+    userstory.id = (userstories.length > 0) ? userstories[0].id+1 : 1;
+  }
+
   userstory.project = projectName;
 
   Collections.UserStories.upsert(
