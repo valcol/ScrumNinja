@@ -37,6 +37,7 @@ Tasks.prototype.upsert = function(task, projectName) {
   }
 
   task.project = projectName;
+  task.state = 0;
 
   Collections.Tasks.upsert(
     {id: task.id},

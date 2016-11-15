@@ -32,11 +32,16 @@ class TasksList extends Component {
   }
 
   renderRows(){
+
+    let states =  ['None','To Do', 'On Going', 'In Testing', 'Done'];
+    let statesClass = ['bg-purple','bg-red', 'bg-yellow', 'bg-blue', 'bg-green'];
+
     return this.props.tasks.map((task) => (
       ((this.props.currentUS === 0)||(task.userstory.indexOf(this.props.currentUS) > -1)) ?
       <tr>
         <td>{task.id}</td>
         <td>{task.description}</td>
+        <td><span className={'badge '+statesClass[task.state-1]}>{states[task.state-1]}</span></td>
         <td>{this.renderUs(task.userstory)}</td>
         {this.props.isPaOrPm ?<td>
           <button className="btn btn-flat pull-right" onClick={ () => { this.handleUpdate(task._id); } }>
@@ -65,6 +70,9 @@ class TasksList extends Component {
             </th>
             <th >
               Description
+            </th>
+            <th >
+              State
             </th>
             <th style={{width: 150}} >
               Associated US
