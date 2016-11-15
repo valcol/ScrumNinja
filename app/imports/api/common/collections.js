@@ -25,4 +25,6 @@ CollectionsObj.UserStories = new Mongo.Collection('userstories');
 
 CollectionsObj.Sprints = new Mongo.Collection('sprints');
 
+CollectionsObj.Tasks = new Mongo.Collection('tasks');
+
 export const Collections = CollectionsObj;

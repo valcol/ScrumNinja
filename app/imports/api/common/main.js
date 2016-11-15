@@ -3,6 +3,7 @@ import Specifications from './specifications';
 import Requirement from './requirements';
 import UserStory from './userstories';
 import Sprint from './sprint';
+import Tasks from './tasks';
 
 Meteor.methods({
   'specifications.delete': Specifications.delete,
@@ -12,6 +13,7 @@ Meteor.methods({
   'userstory.update' : UserStory.upsert,
   'userstory.delete' : UserStory.delete,
   'sprint.add' : Sprint.add,
-  'sprint.delete' : Sprint.delete
-
+  'sprint.delete' : Sprint.delete,
+  'tasks.update' : Tasks.upsert,
+  'tasks.delete' : Tasks.delete
 });

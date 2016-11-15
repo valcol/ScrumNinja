@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Collections } from '../../common/collections.js';
 import PermissionsHelper from '../../common/permissionsHelper.js';
 
-let UserStory = function() {};
+let Tasks = function() {};
 
 function USright(projectName){
   let right = PermissionsHelper.verify(Meteor.userId(), projectName, 'pa')
@@ -11,38 +11,42 @@ function USright(projectName){
     throw new Meteor.Error('permission error : You can\'t do that. Please, ask this project administrator about it.');
 }
 
-UserStory.prototype.upsert = function(userstory, projectName) {
+Tasks.prototype.upsert = function(task, projectName) {
 
   PermissionsHelper.checkIfLogged();
   USright(projectName);
 
-  check(userstory, {
+  check(task, {
     id: Number,
     description: String,
     effort: Number,
-    priority: Number
+    priority: Number,
+    userstory: [String]
   });
 
-  if (userstory.id === 0){
-    let userstories = Collections.UserStories.find({project: projectName}, {sort: {id: -1}}).fetch();
-    userstory.id = (userstories.length > 0) ? userstories[0].id+1 : 1;
+  if(!Collections.UserStories.findOne({_id: task.userstory[0]}))
+    throw new Meteor.Error('Please select an US');
+
+  if (task.id === 0){
+    let tasks = Collections.Tasks.find({project: projectName}, {sort: {id: -1}}).fetch();
+    task.id = (tasks.length > 0) ? tasks[0].id+1 : 1;
   }
 
-  userstory.project = projectName;
+  task.project = projectName;
 
-  Collections.UserStories.upsert(
-    {id: userstory.id},
-    {$set: userstory
+  Collections.Tasks.upsert(
+    {id: task.id},
+    {$set: task
     });
 
-   return 'user story updated';
+   return 'task updated';
 };
 
-UserStory.prototype.delete = function(_id){
+Tasks.prototype.delete = function(_id){
   PermissionsHelper.checkIfLogged();
 
-  Collections.UserStories.remove({_id});
-  return 'user story deleted';
+  Collections.Tasks.remove({_id});
+  return 'task deleted';
 };
 
-export default new UserStory();
+export default new Tasks();

@@ -24,7 +24,7 @@ class addForm extends Component {
       let upload = Collections.Specifications.insert({
         file: event.currentTarget.files[0],
         meta: {
-          projectName: this.props.currentProject.name,
+          project: this.props.currentProject.name,
           uploadDate: new Date()
         },
         streams: 'dynamic',

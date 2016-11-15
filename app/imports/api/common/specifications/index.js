@@ -12,8 +12,8 @@ Specifications.prototype.delete = function(_id){
 
   PermissionsHelper.checkIfLogged();
 
-  if(!PermissionsHelper.verify(Meteor.userId(), file.meta.projectName, 'pa') ||
-    !PermissionsHelper.verify(Meteor.userId(), file.meta.projectName, 'po'))
+  if(!PermissionsHelper.verify(Meteor.userId(), file.meta.project, 'pa') ||
+    !PermissionsHelper.verify(Meteor.userId(), file.meta.project, 'po'))
     throw new Meteor.Error('authentication error');
 
 
