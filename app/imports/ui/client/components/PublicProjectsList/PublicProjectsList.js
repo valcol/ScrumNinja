@@ -21,13 +21,13 @@ renderRows(){
       <td>{Object.keys(project.roles).length}</td>
       <td>
         <div className="progress progress-xs">
-          <div className="progress-bar progress-bar-danger" style={{width: '55%'}}></div>
+          <div className="progress-bar progress-bar-success" style={{width: '55%'}}></div>
         </div>
       </td>
       <td>
         <LinkItem to={'/p/'+project.name+'/'} >
-          <button className="btn btn-flat pull-left">
-            Go to Dashboard
+          <button className="btn btn-flat btn-primary pull-left">
+            Dashboard
           </button>
         </LinkItem>
       </td>
@@ -42,7 +42,7 @@ renderRows(){
           <th style={{width: 150}}>Name</th>
           <th style={{width: 100}}><span className="glyphicon glyphicon-user"></span></th>
           <th>Progress</th>
-          <th style={{width: 20}}>Dashboard</th>
+          <th style={{width: 20}}></th>
         </tr>
         {this.renderRows()}
       </tbody>

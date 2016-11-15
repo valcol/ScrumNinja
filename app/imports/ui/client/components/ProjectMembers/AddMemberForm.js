@@ -37,7 +37,7 @@ class AddMemberForm extends Component {
           <div className="input-group">
             <input type="text" className="form-control" placeholder="Email" value={this.state.email} onChange={this.handleEmailChange}/>
             <div className="input-group-btn">
-              <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add as..<span className="caret" /></button>
+              <button type="button" className="btn btn-primary btn-flat dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Add as <span className="caret" /></button>
               <ul className="dropdown-menu dropdown-menu-right">
                 <li><a href="#" onClick={ () => { this.handleSubmit('pa'); }}>Administrator</a></li>
                 <li><a href="#" onClick={ () => { this.handleSubmit('pm'); }}>Project Member</a></li>

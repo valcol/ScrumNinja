@@ -10,9 +10,7 @@ class addTaskForm extends Component {
     this.state = {
       id: 0,
       description: '',
-      effort: '',
-      priority: '',
-      userstory: null
+      userstory: []
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,8 +24,6 @@ class addTaskForm extends Component {
         this.setState({
           id: nextProps.taskToEdit.id,
           description: nextProps.taskToEdit.description,
-          effort: nextProps.taskToEdit.effort,
-          priority: nextProps.taskToEdit.priority,
           userstory: nextProps.taskToEdit.userstory
         });
         Session.set('warning', 'Caution: you are editing an existing US : US#'+nextProps.taskToEdit.id);
@@ -37,15 +33,14 @@ class addTaskForm extends Component {
       this.setState({
         id: 0,
         description: '',
-        effort: '',
-        priority: '',
-        userstory: null
+        userstory: []
       });
       Session.set('warning', null);
     }
   }
 
   handleChange(key, isInt) {
+    console.log('qsdqsdsq');
     return function (e) {
       let state = {};
       if (isInt)
@@ -56,12 +51,24 @@ class addTaskForm extends Component {
     }.bind(this);
   }
 
-  handleUSChange(e) {
-      this.setState({userstory:[e.target.value]});
+  handleUSChange(id) {
+      let userstory;
+      if (this.state.userstory.indexOf(parseInt(id)) > -1)
+        userstory = this.state.userstory.filter(function(item) {
+          return item !== parseInt(id);
+        });
+      else
+        userstory = this.state.userstory.concat(parseInt(id));
+
+      this.setState({
+        userstory
+      });
   }
 
   handleCancelEdit(event){
     Session.set('taskToEdit', null);
+    Session.set('success', null);
+    Session.set('error', null);
   }
 
   handleSubmit(e){
@@ -81,14 +88,39 @@ class addTaskForm extends Component {
       Session.set('taskToEdit', null);
   }
 
+
   renderSelectList(){
     return (
-      <select value={this.state.userstory ? this.state.userstory[0] : ''} onChange={this.handleUSChange} className="form-control" required>
-        <option value=''>Please select an US</option>
+      <div className="pre-scrollable us-select-list">
+
+      <table className="table table-striped">
+        <tbody>
+          <tr>
+            <th style={{width: 20}} >
+              #
+            </th>
+            <th >
+              Description
+            </th>
+            <th style={{width: 20}}></th>
+          </tr>
         {this.props.userstories.map((userstory) => (
-            <option value={userstory._id}>US#{userstory.id} : {userstory.description}</option>
+          <tr>
+            <td style={{width: 20}} >
+              {userstory.id}
+            </td>
+            <td >
+              {userstory.description}
+            </td>
+            <td>
+              <input type="checkbox" onChange={ () => { this.handleUSChange(userstory.id)}}
+                checked={(this.state.userstory.indexOf(parseInt(userstory.id)) > -1)}/>
+            </td>
+          </tr>
         ))}
-      </select>
+      </tbody>
+    </table>
+    </div>
     );
   }
 
@@ -96,21 +128,28 @@ class addTaskForm extends Component {
     return (
       <div className="row">
         <div className="col-lg-12">
-          <form onSubmit={this.handleSubmit}>
-          <div className="input-group">
-            {this.renderSelectList()}
-            <input style={{width: '40%'}} placeholder="Description" type="text" className="form-control" value={this.state.description} onChange={this.handleChange('description', false)} required/>
-            <input style={{width: '20%'}} placeholder="Effort" type="number" className="form-control" value={this.state.effort} onChange={this.handleChange('effort', true)} required/>
-            <input style={{width: '20%'}} placeholder="Priority" type="number" className="form-control" value={this.state.priority} onChange={this.handleChange('priority', true)} required/>
-            {this.props.taskToEdit ?
-              <div className="input-group-btn">
-              <button onClick={this.handleCancelEdit} className="btn btn-primary btn-block btn-flat">Cancel edit</button>
-              </div> : ''}
-            <div className="input-group-btn">
-              <button className="btn btn-primary btn-block btn-flat">{this.props.taskToEdit ? 'Confirm' : 'Add'}</button>
+          <h4>Add/Edit a task</h4>
+
+          <form onSubmit={this.handleSubmit} >
+
+            <div className="col-md-10">
+              <input placeholder="Description" type="text" className="form-control" value={this.state.description} onChange={this.handleChange('description', false)} required/>
             </div>
-          </div>
-          </form>
+            {this.props.taskToEdit ?
+              <div>
+              <div className="col-md-1">
+                <button  type="button" onClick={this.handleCancelEdit} className="btn btn-danger btn-block btn-flat">Cancel</button>
+              </div>
+              <div className="col-md-1">
+                <button className="btn btn-primary btn-block btn-flat">Confirm</button>
+              </div>
+              </div>
+              : <div className="col-md-2">
+              <button className="btn btn-primary btn-block btn-flat">Add</button>
+            </div>}
+            <br/>
+            {this.renderSelectList()}
+        </form>
         </div>
       </div>
     );

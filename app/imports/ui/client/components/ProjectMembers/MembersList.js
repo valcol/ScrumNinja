@@ -20,7 +20,7 @@ class MembersList extends Component {
 
   render() {
     return (
-      <table className="table">
+      <table className="table table-striped">
         <tbody>
         <tr>
           <th>

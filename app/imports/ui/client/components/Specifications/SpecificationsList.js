@@ -43,7 +43,7 @@ renderRows(){
         </a>
       </td>
       <td>
-        <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(file._id) }}
+        <button className="btn btn-flat btn-danger pull-right" onClick={ () => { this.handleDelete(file._id) }}
           disabled={!(this.isPo) || !(this.isAdmin)}>
           Delete
         </button>
@@ -58,8 +58,8 @@ renderRows(){
         <tbody><tr>
           <th>Name</th>
           <th style={{width: 350}}>Uploaded at</th>
-          <th style={{width: 20}}>View</th>
-          <th style={{width: 20}}>Delete</th>
+          <th style={{width: 20}}></th>
+          <th style={{width: 20}}></th>
         </tr>
         {this.props.specifications ? this.renderRows() : ''}
       </tbody>

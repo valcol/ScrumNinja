@@ -71,7 +71,7 @@ class addForm extends Component {
           <div className="input-group">
             <input type="text" disabled={true} className="form-control" onChange={this.handleChange} value={this.state.placeholder}/>
             <span className="input-group-btn">
-              <label className="btn btn-default btn-file">
+              <label className="btn btn-primary btn-flat">
                 Select a file <input type="file" style={{display: 'none'}} disabled={this.state.inProgress} onChange={this.handleChange}/>
             </label>
           </span>

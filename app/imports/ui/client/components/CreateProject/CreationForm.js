@@ -100,7 +100,7 @@ class CreationForm extends Component {
           error={this.props.error}
           success={this.props.success}
           />
-        <button type="submit" className="btn btn-flat center-block">
+        <button type="submit" className="btn btn-primary btn-flat center-block">
           Submit
         </button>
       </div>

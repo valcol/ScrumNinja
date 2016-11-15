@@ -3,3 +3,19 @@
 .projects td {
   padding: 10px;
 }
+
+h4 {
+  margin-bottom: 20px;
+}
+
+.table-sort{
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.us-select-list{
+  margin-top: 20px;
+  margin-left: 15px;
+  margin-right: 15px;
+  border: 1px solid lightgrey;
+}

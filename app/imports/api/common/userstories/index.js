@@ -6,9 +6,9 @@ let UserStory = function() {};
 
 function USright(projectName){
   let right = PermissionsHelper.verify(Meteor.userId(), projectName, 'pa')
-              || PermissionsHelper.verify(Meteor.userId(), projectName, 'pm');
+  || PermissionsHelper.verify(Meteor.userId(), projectName, 'pm');
   if (!right)
-    throw new Meteor.Error('permission error : You can\'t do that. Please, ask this project administrator about it.');
+  throw new Meteor.Error('permission error : You can\'t do that. Please, ask this project administrator about it.');
 }
 
 UserStory.prototype.upsert = function(userstory, projectName) {
@@ -35,14 +35,14 @@ UserStory.prototype.upsert = function(userstory, projectName) {
     {$set: userstory
     });
 
-   return 'user story updated';
-};
+    return 'user story updated';
+  };
 
-UserStory.prototype.delete = function(_id){
-  PermissionsHelper.checkIfLogged();
+  UserStory.prototype.delete = function(_id){
+    PermissionsHelper.checkIfLogged();
 
-  Collections.UserStories.remove({_id});
-  return 'user story deleted';
-};
+    Collections.UserStories.remove({_id});
+    return 'user story deleted';
+  };
 
-export default new UserStory();
+  export default new UserStory();

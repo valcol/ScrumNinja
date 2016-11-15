@@ -18,7 +18,7 @@ class TasksManagementBox extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUS:'all'
+      currentUS:0
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -28,16 +28,16 @@ class TasksManagementBox extends Component {
   }
 
   handleChange(event){
-    this.setState({currentUS: event.target.value});
+    this.setState({currentUS: parseInt(event.target.value)});
   }
 
 
   renderSelectList(){
     return (
       <select value={this.state.currentUs} onChange={this.handleChange} className="form-control">
-        <option value='all'>All</option>
+        <option value='0'>All</option>
         {this.props.userstories.map((userstory) => (
-            <option value={userstory._id}>US#{userstory.id} : {userstory.description}</option>
+            <option value={userstory.id}>US#{userstory.id} : {userstory.description}</option>
         ))}
       </select>
     );
@@ -51,14 +51,18 @@ class TasksManagementBox extends Component {
         </BoxHeader>
         {!this.props.loaded ? <BoxBody></BoxBody> :
           <BoxBody>
+            <div className='table-sort'>
+            <label>Sort by US:</label>
             {this.renderSelectList()}
+            </div>
             <TasksList currentProject={this.props.currentProject}
               tasks={this.props.tasks}
               currentUS={this.state.currentUS}
-              isPaOrPm={this.isPaOrPm}/>
+              isPaOrPm={this.isPaOrPm()}/>
           </BoxBody>
         }
-        {(!this.props.loaded&&this.isPaOrPm())  ? <BoxFooter></BoxFooter> :
+        {(!this.props.loaded)  ? <BoxFooter></BoxFooter> :
+          this.isPaOrPm() ?
           <BoxFooter>
             <FeedbackMessage
               error={this.props.error}
@@ -73,6 +77,7 @@ class TasksManagementBox extends Component {
               taskToEdit={this.props.taskToEdit}
               />
           </BoxFooter>
+          : <div></div>
         }
         {!this.props.loaded ? <Loading/> : ''}
       </Box>

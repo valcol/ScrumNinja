@@ -16,16 +16,20 @@ Tasks.prototype.upsert = function(task, projectName) {
   PermissionsHelper.checkIfLogged();
   USright(projectName);
 
+  NonEmptyArrayOfNumbers = Match.Where(function (x) {
+    check(x, [Number]);
+    return x.length > 0;
+  });
+
   check(task, {
     id: Number,
     description: String,
-    effort: Number,
-    priority: Number,
-    userstory: [String]
+    userstory: NonEmptyArrayOfNumbers
   });
 
-  if(!Collections.UserStories.findOne({_id: task.userstory[0]}))
-    throw new Meteor.Error('Please select an US');
+  for (id of task.userstory)
+    if(!Collections.UserStories.findOne({id}))
+      throw new Meteor.Error('Please select an US');
 
   if (task.id === 0){
     let tasks = Collections.Tasks.find({project: projectName}, {sort: {id: -1}}).fetch();

@@ -11,6 +11,8 @@ class UserStoriesList extends Component {
 
   handleUpdate(_id) {
     Session.set('userstoryToEdit', _id);
+    Session.set('success', null);
+    Session.set('error', null);
   }
 
   handleDelete(_id) {
@@ -39,7 +41,7 @@ class UserStoriesList extends Component {
           </button>
         </td>
         <td>
-          <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(userstory._id); } }
+          <button className="btn btn-flat btn-danger pull-right" onClick={ () => { this.handleDelete(userstory._id); } }
             disabled={!this.props.isPaOrPm}>
             Delete
           </button>
@@ -50,7 +52,7 @@ class UserStoriesList extends Component {
 
   render() {
     return (
-      <table className="table">
+      <table className="table table-striped">
         <tbody>
           <tr>
             <th style={{width: '10%'}} >

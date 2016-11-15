@@ -47,7 +47,7 @@ class MemberRow extends Component {
           </select>
         </td>
         <td>
-          <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(); } }>
+          <button className="btn btn-flat btn-danger pull-right" onClick={ () => { this.handleDelete(); } }>
             Delete
           </button>
         </td>

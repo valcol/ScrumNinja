@@ -54,6 +54,8 @@ class addUserStoryForm extends Component {
 
   handleCancelEdit(event){
     Session.set('userstoryToEdit', null);
+    Session.set('success', null);
+    Session.set('error', null);
   }
 
   handleSubmit(e){
@@ -70,26 +72,37 @@ class addUserStoryForm extends Component {
     });
 
     if (this.props.userstoryToEdit)
-      Session.set('userstoryToEdit', null);
+    Session.set('userstoryToEdit', null);
   }
 
   render(){
     return (
       <div className="row">
         <div className="col-lg-12">
-          <form onSubmit={this.handleSubmit}>
-          <div className="input-group">
-            <input style={{width: '40%'}} placeholder="Description" type="text" className="form-control" value={this.state.description} onChange={this.handleChange('description', false)}/>
-            <input style={{width: '20%'}} placeholder="Effort" type="number" className="form-control" value={this.state.effort} onChange={this.handleChange('effort', true)}/>
-            <input style={{width: '20%'}} placeholder="Priority" type="number" className="form-control" value={this.state.priority} onChange={this.handleChange('priority', true)}/>
-            {this.props.userstoryToEdit ?
-            <div className="input-group-btn">
-            <button onClick={this.handleCancelEdit} className="btn btn-primary btn-block btn-flat">Cancel edit</button>
-            </div> : ''}
-            <div className="input-group-btn">
-              <button className="btn btn-primary btn-block btn-flat">{this.props.userstoryToEdit ? 'Confirm' : 'Add'}</button>
-            </div>
-          </div>
+          <h4>Add/Edit an Userstory</h4>
+            <form onSubmit={this.handleSubmit} >
+
+              <div className="col-md-6">
+                <input placeholder="Description" type="text" className="form-control" value={this.state.description} onChange={this.handleChange('description', false)} required/>
+              </div>
+              <div className="col-md-2">
+                <input placeholder="Effort" type="number" className="form-control" value={this.state.effort} onChange={this.handleChange('effort', true)} required/>
+              </div>
+              <div className="col-md-2">
+                <input  placeholder="Priority" type="number" className="form-control" value={this.state.priority} onChange={this.handleChange('priority', true)} required/>
+              </div>
+              {this.props.userstoryToEdit ?
+                <div>
+                <div className="col-md-1">
+                  <button  type="button" onClick={this.handleCancelEdit} className="btn btn-danger btn-block btn-flat">Cancel</button>
+                </div>
+                <div className="col-md-1">
+                  <button className="btn btn-primary btn-block btn-flat">{this.props.userstoryToEdit ? 'Confirm' : 'Add'}</button>
+                </div>
+                </div>
+                : <div className="col-md-2">
+                <button className="btn btn-primary btn-block btn-flat">{this.props.userstoryToEdit ? 'Confirm' : 'Add'}</button>
+              </div>}
           </form>
         </div>
       </div>

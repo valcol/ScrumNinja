@@ -11,6 +11,8 @@ class TasksList extends Component {
 
   handleUpdate(_id) {
     Session.set('taskToEdit', _id);
+    Session.set('success', null);
+    Session.set('error', null);
   }
 
   handleDelete(_id) {
@@ -25,52 +27,50 @@ class TasksList extends Component {
     });
   }
 
+  renderUs(userstories){
+    return userstories.sort().map((userstory) => ('#'+userstory+' '));
+  }
+
   renderRows(){
     return this.props.tasks.map((task) => (
-      ((this.props.currentUS === 'all')||(task.userstory.indexOf(this.props.currentUS) > -1)) ?
+      ((this.props.currentUS === 0)||(task.userstory.indexOf(this.props.currentUS) > -1)) ?
       <tr>
         <td>{task.id}</td>
         <td>{task.description}</td>
-        <td>{task.effort}</td>
-        <td>{task.userstory[0]}</td>
-        <td>
-          <button className="btn btn-flat pull-right" onClick={ () => { this.handleUpdate(task._id); } }
-            disabled={!this.props.isPaOrPm}>
+        <td>{this.renderUs(task.userstory)}</td>
+        {this.props.isPaOrPm ?<td>
+          <button className="btn btn-flat pull-right" onClick={ () => { this.handleUpdate(task._id); } }>
             Edit
           </button>
         </td>
-        <td>
-          <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(task._id); } }
-            disabled={!this.props.isPaOrPm}>
+        : <div></div>}
+        {this.props.isPaOrPm ?<td>
+          <button className="btn btn-flat btn-danger pull-right" onClick={ () => { this.handleDelete(task._id); } }>
             Delete
           </button>
         </td>
+        : <div></div>}
       </tr>
-      : ''
+      : <span></span>
     ));
   }
 
   render() {
     return (
-      <table className="table">
+      <table className="table table-striped">
         <tbody>
           <tr>
-            <th style={{width: '10%'}} >
-              id
+            <th style={{width: 20}} >
+              #
             </th>
-            <th style={{width: '40%'}} >
+            <th >
               Description
             </th>
-            <th style={{width: '20%'}} >
-              Effort
-            </th>
-            <th style={{width: '20%'}} >
+            <th style={{width: 150}} >
               Associated US
             </th>
-            <th>
-            </th>
-            <th>
-            </th>
+            <th style={{width: 20}}></th>
+            <th style={{width: 20}}></th>
           </tr>
           {this.renderRows()}
         </tbody>

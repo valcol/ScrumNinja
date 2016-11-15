@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Session } from 'meteor/session';
 
 class RequirementsList extends Component {
 
@@ -34,7 +34,7 @@ class RequirementsList extends Component {
         <td>{requirement.priority}</td>
         {
           !this.isVisitorOrPo() ?
-          <td> <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(requirement._id); } }>
+          <td> <button className="btn btn-flat btn-danger pull-right" onClick={ () => { this.handleDelete(requirement._id); } }>
             Delete
           </button>
         </td>
@@ -46,7 +46,7 @@ class RequirementsList extends Component {
 
 render() {
   return (
-    <table className="table">
+    <table className="table table-striped">
       <tbody>
         <tr>
           <th style={{width: 50}}>
@@ -58,13 +58,17 @@ render() {
           <th style={{width: 100}}>
             Priority
           </th>
-          <th style={{width: 100}}>
-          </th>
-        </tr>
-        {this.renderRows()}
-      </tbody>
-    </table>
-  );
+          {
+            !this.isVisitorOrPo() ?
+            <th style={{width: 100}}>
+            </th>
+            :<div></div>
+        }
+      </tr>
+      {this.renderRows()}
+    </tbody>
+  </table>
+);
 }
 }
 
