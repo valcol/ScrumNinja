@@ -76,6 +76,9 @@ class addTaskForm extends Component {
         Session.set('error', null);
       }
     });
+
+    if (this.props.taskToEdit)
+      Session.set('taskToEdit', null);
   }
 
   renderSelectList(){
