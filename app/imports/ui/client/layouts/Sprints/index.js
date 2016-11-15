@@ -1,5 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
+import SprintBox from '../../components/Sprint';
 
-const Sprint = () => <h3>Sprint</h3>;
+class Requirements extends Component {
 
-export default Sprint;
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className="requirements">
+        <SprintBox {...this.props}/>
+      </div>
+    );
+  }
+}
+
+export default Requirements;

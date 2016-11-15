@@ -1,13 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { Collections } from '../../common/collections.js';
-import { check, Match } from 'meteor/check';
 import PermissionsHelper from '../../common/permissionsHelper.js';
 
 let Requirement = function() {};
 
-Requirement.prototype.add = function(requirement, categorie, projectName) {
+Requirement.prototype.add = function(description, priority,
+                                    categorie, projectName) {
   PermissionsHelper.checkIfLogged();
   PermissionsHelper.verify(Meteor.userId(), projectName, 'pa');
+
 
   if (requirement.id === 0){
     let requirements = Collections.Requirements.find({project: projectName}, {sort: {id: -1}}).fetch();

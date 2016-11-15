@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import RequirementsBox from '../../components/Requirements'
+import RequirementsBox from '../../components/Requirements';
 
 class Requirements extends Component {
 

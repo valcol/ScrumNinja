@@ -124,7 +124,12 @@ var myHooks = function () {
 this.Before({tags: ["@requirementExist"]}, function (scenario) {
   console.log("before @requirementExist");
   browser.timeoutsAsyncScript(2000).executeAsync(function(done) {
-    Meteor.call('requirement.add','requirement1', '2', 'f', 'project'
+    let state = {
+        id: 0,
+        description:'requirement1',
+        priority :'2'
+    };
+    Meteor.call('requirement.add',state, 'f', 'project'
                 ,function(err, res) {
                   if (err) {
                     console.error('couldnt create requirement1');
