@@ -32,3 +32,7 @@ Meteor.publish('files.specifications.all', function (projectName) {
 Meteor.publish('userstories', function(projectName) {
   return Collections.UserStories.find({project:projectName});
 });
+
+Meteor.publish('sprints', function(projectName) {
+  return Collections.Sprints.find({project:projectName});
+});

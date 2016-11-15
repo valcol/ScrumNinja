@@ -23,4 +23,6 @@ CollectionsObj.Requirements = new Mongo.Collection('requirements');
 
 CollectionsObj.UserStories = new Mongo.Collection('userstories');
 
+CollectionsObj.Sprints = new Mongo.Collection('sprints');
+
 export const Collections = CollectionsObj;

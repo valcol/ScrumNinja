@@ -30,7 +30,7 @@ class addUserStoryForm extends Component {
         Session.set('warning', 'Caution: you are editing an existing US : US#'+nextProps.userstoryToEdit.id);
       }
     }
-    else {
+    else{
       this.setState({
         description: '',
         effort: '',

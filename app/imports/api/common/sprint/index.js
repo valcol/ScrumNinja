@@ -2,33 +2,33 @@ import { Meteor } from 'meteor/meteor';
 import { Collections } from '../../common/collections.js';
 import PermissionsHelper from '../../common/permissionsHelper.js';
 
-let Requirement = function() {};
+let Sprint = function() {};
 
-Requirement.prototype.add = function(description, priority,
-                                    categorie, projectName) {
+Sprint.prototype.add = function(start,end,description,number,projectName) {
   PermissionsHelper.checkIfLogged();
   PermissionsHelper.verify(Meteor.userId(), projectName, 'pa');
 
 
-  Collections.Requirements.insert({
+  Collections.Sprints.insert({
+    start,
+    end,
     description,
-    priority,
-    categorie,
+    number,
     projectName
   });
 
-   return 'Requirement created';
+   return 'Sprint created';
 };
 
-Requirement.prototype.delete = function(_id){
+Sprint.prototype.delete = function(_id){
   PermissionsHelper.checkIfLogged();
  // PermissionsHelper.verify(Meteor.userId(), projectName, 'pa');
 
-  Collections.Requirements.remove({
+  Collections.Sprints.remove({
     _id
   });
 
-   return 'Requirement deleted';
+   return 'Sprint deleted';
 };
 
-export default new Requirement();
+export default new Sprint();
