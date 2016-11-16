@@ -4,7 +4,7 @@ Feature: Dashboard
 	@user2Exist
 	@user1Logged
 	@projectExist
-	Scenario: Add a member to a project and change his role
+	Scenario: Add a member to a project # and change his role
 		Given I am connected as "user1"
 		And I have a project named "project"
 		And I click on the project dashboard button
