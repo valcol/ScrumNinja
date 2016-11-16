@@ -106,7 +106,7 @@ var myHooks = function () {
     });
     // This hook will be executed before scenarios tagged with @foo
   });
-
+/*
   this.Before({tags: ["@user2AsMember"]}, function (scenario) {
     console.log("before @user2AsMember");
     browser.timeoutsAsyncScript(2000).executeAsync(function(done) {
@@ -120,6 +120,7 @@ var myHooks = function () {
      });
     });
   });
+*/
 
 this.Before({tags: ["@requirementExist"]}, function (scenario) {
   console.log("before @requirementExist");
@@ -133,6 +134,28 @@ this.Before({tags: ["@requirementExist"]}, function (scenario) {
                 ,function(err, res) {
                   if (err) {
                     console.error('couldnt create requirement1');
+                  } else {
+                    done();
+                  }
+                });
+  });
+});
+
+this.Before({tags: ["@userstoryExist"]}, function (scenario) {
+  console.log("before @userstoryExist");
+  browser.timeoutsAsyncScript(2000).executeAsync(function(done) {
+     let state = {
+      id: 0,
+      description: 'us1',
+      effort: 1,
+      priority: 2,
+      color: '#ff851b' //orange
+    };
+
+    Meteor.call('userstory.add',state, 'project'
+                ,function(err, res) {
+                  if (err) {
+                    console.error('couldnt create us1');
                   } else {
                     done();
                   }

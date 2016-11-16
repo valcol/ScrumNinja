@@ -39,6 +39,5 @@ Feature: Requirements
   And I click on the requirements menu button
   And I see the "Requirements" page
   And I see the "functional" requirement named "requirement1"
-  And I click on the requirements menu button
   When I click on the requirement delete button
   Then I dont see the requirement
