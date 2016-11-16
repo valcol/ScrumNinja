@@ -4,7 +4,7 @@ import PermissionsHelper from '../../common/permissionsHelper.js';
 
 let Sprint = function() {};
 
-Sprint.prototype.add = function(start,end,description,number,projectName) {
+Sprint.prototype.add = function(start,end,description,number,userstory,projectName) {
   PermissionsHelper.checkIfLogged();
   PermissionsHelper.verify(Meteor.userId(), projectName, 'pa');
 
@@ -14,6 +14,7 @@ Sprint.prototype.add = function(start,end,description,number,projectName) {
     end,
     description,
     number,
+    userstory,
     projectName
   });
 

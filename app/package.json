@@ -16,7 +16,8 @@
     "react-addons-pure-render-mixin": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-router": "^2.8.1",
-    "react-router-breadcrumbs": "^1.2.0"
+    "react-router-breadcrumbs": "^1.2.0",
+    "toposort": "^1.0.0"
   },
   "devDependencies": {
     "chimp": "^0.41.2",

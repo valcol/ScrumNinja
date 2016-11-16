@@ -31,11 +31,11 @@ class RequirementsBox extends Component {
         </BoxHeader>
         {!this.props.loaded ? <BoxBody></BoxBody> :
         <BoxBody>
-          <h3>Functional</h3>
+          <h4>Functional</h4>
           <RequirementsList currentProject={this.props.currentProject}
             requirements={this.props.requirementsF}
             isVisitorOrPo={(this.isVisitorOrPo())}/>
-          <h3>Non-functional</h3>
+          <h4>Non-functional</h4>
           <RequirementsList currentProject={this.props.currentProject}
             requirements={this.props.requirementsNF}
             isVisitorOrPo={(this.isVisitorOrPo())}/>

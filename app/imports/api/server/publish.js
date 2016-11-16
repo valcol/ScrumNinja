@@ -39,3 +39,13 @@ Meteor.publish('tasks', function(projectName) {
   if (PermissionsHelper.isAvailableToView(this.userId, projectName, true))
   return Collections.Tasks.find({project:projectName});
 });
+
+Meteor.publish('tasks.dependencies', function(projectName) {
+  if (PermissionsHelper.isAvailableToView(this.userId, projectName, true))
+  return Collections.TasksDependencies.find({project:projectName});
+});
+
+Meteor.publish('tasks.orders', function(projectName) {
+  if (PermissionsHelper.isAvailableToView(this.userId, projectName, true))
+  return Collections.TasksOrders.find({project:projectName});
+});

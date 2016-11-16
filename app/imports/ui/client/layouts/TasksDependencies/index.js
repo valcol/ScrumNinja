@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import TasksManagementBox from '../../components/TasksManagement';
+import TasksDependenciesBox from '../../components/TasksDependencies';
 
 class TasksDependencies extends Component {
 
@@ -10,7 +10,7 @@ class TasksDependencies extends Component {
   render() {
     return (
       <div className="TasksDependencies">
-        <TasksManagementBox {...this.props}/>
+        <TasksDependenciesBox {...this.props}/>
       </div>
     );
   }

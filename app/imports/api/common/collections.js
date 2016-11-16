@@ -27,4 +27,8 @@ CollectionsObj.Sprints = new Mongo.Collection('sprints');
 
 CollectionsObj.Tasks = new Mongo.Collection('tasks');
 
+CollectionsObj.TasksDependencies = new Mongo.Collection('tasks.dependencies');
+
+CollectionsObj.TasksOrders = new Mongo.Collection('tasks.orders');
+
 export const Collections = CollectionsObj;
