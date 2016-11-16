@@ -20,7 +20,8 @@ UserStory.prototype.upsert = function(userstory, projectName) {
     id: Number,
     description: String,
     effort: Number,
-    priority: Number
+    priority: Number,
+    color: String
   });
 
   if (userstory.id === 0){

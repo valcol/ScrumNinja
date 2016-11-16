@@ -27,8 +27,14 @@ class TasksList extends Component {
     });
   }
 
+  getColor(id){
+    for (userstory of this.props.userstories)
+      if (id === userstory.id)
+      return userstory.color;
+  }
+
   renderUs(userstories){
-    return userstories.sort().map((userstory) => ('#'+userstory+' '));
+    return userstories.sort().map((userstory) => (<span className='badge' style={{backgroundColor: this.getColor(userstory)}} >#{userstory}</span>));
   }
 
   renderRows(){
@@ -41,7 +47,7 @@ class TasksList extends Component {
       <tr>
         <td>{task.id}</td>
         <td>{task.description}</td>
-        <td><span className={'badge '+statesClass[task.state-1]}>{states[task.state-1]}</span></td>
+        <td><span className={'badge '+statesClass[task.state]}>{states[task.state]}</span></td>
         <td>{this.renderUs(task.userstory)}</td>
         {this.props.isPaOrPm ?<td>
           <button className="btn btn-flat pull-right" onClick={ () => { this.handleUpdate(task._id); } }>

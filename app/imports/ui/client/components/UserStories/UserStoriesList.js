@@ -30,7 +30,7 @@ class UserStoriesList extends Component {
   renderRows(){
     return this.props.userstories.map((userstory) => (
       <tr>
-        <td>{userstory.id}</td>
+        <td><span style={{backgroundColor: userstory.color}} className='badge'>{userstory.id}</span></td>
         <td>{userstory.description}</td>
         <td>{userstory.effort}</td>
         <td>{userstory.priority}</td>

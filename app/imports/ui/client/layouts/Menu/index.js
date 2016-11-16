@@ -30,7 +30,7 @@ class Menu extends Component {
               </a>
               <ul className="treeview-menu">
                 <NavItem to={'/p/'+this.props.projectName+'/tasks'} >Tasks Management</NavItem>
-                <NavItem to={'/p/'+this.props.projectName+'/tasks'} >Tasks Dependencies</NavItem>
+                <NavItem to={'/p/'+this.props.projectName+'/tasksDependencies'} >Tasks Dependencies</NavItem>
               </ul>
             </li>
             <NavItem to={'/p/'+this.props.projectName+'/sprint'} ><i className="fa ion-clock" /><span>Sprint</span></NavItem>

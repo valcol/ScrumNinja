@@ -11,7 +11,8 @@ class addUserStoryForm extends Component {
       id: 0,
       description: '',
       effort: '',
-      priority: ''
+      priority: '',
+      color: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -76,33 +77,45 @@ class addUserStoryForm extends Component {
   }
 
   render(){
+
+    const colors = ['#3c8dbc', '#00c0ef', '#ff851b', '#605ca8', '#D81B60', '#39CCCC', '#d2d6de', '#f56954', '#00a65a'];
+
     return (
       <div className="row">
         <div className="col-lg-12">
           <h4>Add/Edit an Userstory</h4>
-            <form onSubmit={this.handleSubmit} >
+          <form onSubmit={this.handleSubmit} >
 
-              <div className="col-md-6">
-                <input placeholder="Description" type="text" className="form-control" value={this.state.description} onChange={this.handleChange('description', false)} required/>
-              </div>
-              <div className="col-md-2">
-                <input placeholder="Effort" type="number" className="form-control" value={this.state.effort} onChange={this.handleChange('effort', true)} required/>
-              </div>
-              <div className="col-md-2">
-                <input  placeholder="Priority" type="number" className="form-control" value={this.state.priority} onChange={this.handleChange('priority', true)} required/>
-              </div>
-              {this.props.userstoryToEdit ?
-                <div>
+            <div className="col-md-4">
+              <input placeholder="Description" type="text" className="form-control" value={this.state.description} onChange={this.handleChange('description', false)} required/>
+            </div>
+            <div className="col-md-2">
+              <input placeholder="Effort" type="number" className="form-control" value={this.state.effort} onChange={this.handleChange('effort', true)} required/>
+            </div>
+            <div className="col-md-2">
+              <input  placeholder="Priority" type="number" className="form-control" value={this.state.priority} onChange={this.handleChange('priority', true)} required/>
+            </div>
+            <div className="col-md-2">
+              <select value={this.state.color} style={{backgroundColor: this.state.color}}  onChange={this.handleChange('color', false)} className="form-control" required>
+                <option value=''>Color</option>
+                 {colors.map((color) => (
+                <option value={color} style={{backgroundColor: color}}>{color}</option>
+                ))}
+
+              </select>
+            </div>
+            {this.props.userstoryToEdit ?
+              <div>
                 <div className="col-md-1">
                   <button  type="button" onClick={this.handleCancelEdit} className="btn btn-danger btn-block btn-flat">Cancel</button>
                 </div>
                 <div className="col-md-1">
                   <button className="btn btn-primary btn-block btn-flat">{this.props.userstoryToEdit ? 'Confirm' : 'Add'}</button>
                 </div>
-                </div>
-                : <div className="col-md-2">
-                <button className="btn btn-primary btn-block btn-flat">{this.props.userstoryToEdit ? 'Confirm' : 'Add'}</button>
-              </div>}
+              </div>
+              : <div className="col-md-2">
+              <button className="btn btn-primary btn-block btn-flat">{this.props.userstoryToEdit ? 'Confirm' : 'Add'}</button>
+            </div>}
           </form>
         </div>
       </div>

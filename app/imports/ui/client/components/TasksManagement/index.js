@@ -57,6 +57,7 @@ class TasksManagementBox extends Component {
             </div>
             <TasksList currentProject={this.props.currentProject}
               tasks={this.props.tasks}
+              userstories={this.props.userstories}
               currentUS={this.state.currentUS}
               isPaOrPm={this.isPaOrPm()}/>
           </BoxBody>

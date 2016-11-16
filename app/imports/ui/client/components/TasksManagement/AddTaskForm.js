@@ -40,7 +40,6 @@ class addTaskForm extends Component {
   }
 
   handleChange(key, isInt) {
-    console.log('qsdqsdsq');
     return function (e) {
       let state = {};
       if (isInt)
@@ -107,7 +106,7 @@ class addTaskForm extends Component {
         {this.props.userstories.map((userstory) => (
           <tr>
             <td style={{width: 20}} >
-              {userstory.id}
+              <span style={{backgroundColor: userstory.color}} className='badge'>{userstory.id}</span>
             </td>
             <td >
               {(this.state.userstory.indexOf(parseInt(userstory.id)) > -1) ?

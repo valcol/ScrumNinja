@@ -12,7 +12,8 @@ import Dashboard from '../../ui/client/layouts/Dashboard';
 import Specifications from '../../ui/client/layouts/Specifications';
 import Requirements from '../../ui/client/layouts/Requirements';
 import UserStories from '../../ui/client/layouts/UserStories'; ////
-import Tasks from '../../ui/client/layouts/Tasks';
+import TasksManagement from '../../ui/client/layouts/TasksManagement';
+import TasksDependencies from '../../ui/client/layouts/TasksDependencies';
 import Sprints from '../../ui/client/layouts/Sprints';
 import ScrumBoard from '../../ui/client/layouts/ScrumBoard';
 import Traceability from '../../ui/client/layouts/Traceability';
@@ -50,7 +51,8 @@ Meteor.startup( () => {
         <Route path=":projectName/specifications" name={'Specifications'} component={Specifications}/>
         <Route path=":projectName/requirements" name={'Requirements'} component={Requirements}/>
         <Route path=":projectName/userstories" name={'User Stories'} component={UserStories}/>
-        <Route path=":projectName/tasks" name={'Tasks'} component={Tasks}/>
+        <Route path=":projectName/tasks" name={'Tasks Management'} component={TasksManagement}/>
+        <Route path=":projectName/tasksDependencies" name={'Tasks Dependencies'} component={TasksDependencies}/>
         <Route path=":projectName/sprint" name={'Sprints'} component={Sprints}/>
         <Route path=":projectName/scrumboard" name={'ScrumBoard'} component={ScrumBoard}/>
         <Route path=":projectName/traceability" name={'Traceability'} component={Traceability}/>
