@@ -12,10 +12,7 @@ Meteor.publish('public-projects', function() {
 });
 
 Meteor.publish('users', function(projectName) {
-  if (PermissionsHelper.isAvailableToView(this.userId, projectName, true)){
-    let project = Collections.Projects.findOne({name: projectName});
-    return Meteor.users.find({ _id: { $in: Object.keys(project.roles) } });
-  }
+    return Meteor.users.find({});
 });
 
 Meteor.publish('requirements', function(projectName) {
