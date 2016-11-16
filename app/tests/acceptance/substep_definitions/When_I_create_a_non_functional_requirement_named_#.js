@@ -1,10 +1,10 @@
 module.exports = function() {
   this.When(/^I create a non functional requirement named "([^"]*)"$/, function (arg) {
-    browser.waitForExist('input.form-control:nth-child(1)', 2000);
-    browser.setValue('input.form-control:nth-child(1)', arg);
-    //client.pause(1000);
-    browser.waitForExist('input.form-control:nth-child(2)', 2000);
-    browser.setValue('input.form-control:nth-child(2)', '2');
+    browser.waitForExist('#react-root > div > div.content-wrapper > section.content > div > div > div.box-footer > div > div > form > div.col-md-8 > input', 2000);
+    browser.setValue('#react-root > div > div.content-wrapper > section.content > div > div > div.box-footer > div > div > form > div.col-md-8 > input', arg);
+
+    browser.waitForExist('#react-root > div > div.content-wrapper > section.content > div > div > div.box-footer > div > div > form > div:nth-child(2) > input', 2000);
+    browser.setValue('#react-root > div > div.content-wrapper > section.content > div > div > div.box-footer > div > div > form > div:nth-child(2) > input', '2');
 
     browser.waitForExist('button.dropdown-toggle', 2000);
     browser.click('button.dropdown-toggle');

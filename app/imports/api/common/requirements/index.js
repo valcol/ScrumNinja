@@ -4,8 +4,7 @@ import PermissionsHelper from '../../common/permissionsHelper.js';
 
 let Requirement = function() {};
 
-Requirement.prototype.add = function(description, priority,
-                                    categorie, projectName) {
+Requirement.prototype.add = function(requirement,categorie, projectName) {
   PermissionsHelper.checkIfLogged();
   PermissionsHelper.verify(Meteor.userId(), projectName, 'pa');
 
