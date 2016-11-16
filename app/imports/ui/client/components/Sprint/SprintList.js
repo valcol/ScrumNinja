@@ -6,7 +6,7 @@ class SprintList extends Component {
   constructor(props) {
     super(props);
     this.handleDelete = this.handleDelete.bind(this);
-
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   isVisitorOrPo(){
@@ -26,25 +26,43 @@ class SprintList extends Component {
     });
   }
 
-  renderRows(){
-    return this.props.sprints.map((sprint) => (
-      <tr>
-        <td>{sprint.start}</td>
-        <td>{sprint.end}</td>
-        <td>{sprint.description}</td>
-        <td>{sprint.num}</td>
-          {
-            !this.isVisitorOrPo() ?
-            <td> <button className="btn btn-flat pull-right" onClick={ () => { this.handleDelete(sprint._id); } }>
-              Delete
-            </button>
-          </td>
-          :<div></div>
-      }
-      </tr>
-    ));
+  handleUpdate(_id) {
+    //Session.set('taskToEdit', _id);
+    Session.set('success', null);
+    Session.set('error', null);
+  }
+getColor(id){
+  for (userstory of this.props.userstories)
+    if (id === userstory.id)
+    return userstory.color;
+}
+renderUs(userstories){
+  return userstories.sort().map((userstory) => (<span className='badge' style={{backgroundColor: this.getColor(userstory)}} >#{userstory}</span>));
 }
 
+renderRows(){
+  return this.props.sprints.map((sprint) => (
+    <tr>
+      <td>{sprint.start}</td>
+      <td>{sprint.end}</td>
+      <td>{sprint.description}</td>
+      <td>{sprint.num}</td>
+      <td>{this.renderUs(sprint.userstory)}</td>
+        {!this.props.isVisitorOrPo ?<td>
+          <button className="btn btn-flat pull-right" onClick={ () => { this.handleUpdate(sprint._id); } }>
+            Edit
+          </button>
+        </td>
+        : <div></div>}
+        {!this.props.isVisitorOrPo ?<td>
+          <button className="btn btn-flat btn-danger pull-right" onClick={ () => { this.handleDelete(sprint._id); } }>
+            Delete
+          </button>
+        </td>
+        : <div></div>}
+    </tr>
+  ));
+}
 render() {
   return (
     <table className="table">
@@ -61,6 +79,9 @@ render() {
           </th>
           <th style={{width: 100}}>
             N°
+          </th>
+          <th style={{width: 100}}>
+            Associated US
           </th>
         </tr>
         {this.renderRows()}

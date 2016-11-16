@@ -4,7 +4,6 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { Collections } from '../../../../api/common/collections.js';
 import { Meteor } from 'meteor/meteor';
 import SprintsList  from './SprintList.js';
-import USList  from './USList.js';
 import FeedbackMessage  from '../misc/FeedbackMessage';
 import Box from '../misc/Box';
 import BoxHeader from '../misc/BoxHeader';
@@ -24,6 +23,7 @@ class SprintsBox extends Component {
     return (role === 'po' || !role);
   }
 
+
   render() {
     return (
       <Box>
@@ -36,21 +36,22 @@ class SprintsBox extends Component {
           <SprintsList currentProject={this.props.currentProject}
             sprints={this.props.sprints}
             isVisitorOrPo={(this.isVisitorOrPo())}/>
-          <h3>Users-Stories</h3>
-          <USList currentProject={this.props.currentProject}
-            userstories={this.props.userstories}
-            isVisitorOrPo={(this.isVisitorOrPo())}/>
-          <FeedbackMessage
-            error={this.props.error}
-            success={this.props.success}
-            />
+          <h3>Add form</h3>
+
         </BoxBody>
         }
         {!this.isVisitorOrPo() ?
           <BoxFooter>
-            <AddSprintForm currentProject={this.props.currentProject}/>
+            <FeedbackMessage
+              error={this.props.error}
+              success={this.props.success}
+              />
+            <AddSprintForm currentProject={this.props.currentProject}
+              sprints={this.props.sprints}
+              userstories={this.props.userstories}
+              />
           </BoxFooter>
-          :<div></div>}
+          : <div></div>}
         {!this.props.loaded ? <Loading/> : ''}
       </Box>
       );
@@ -58,12 +59,11 @@ class SprintsBox extends Component {
   }
 
   export default createContainer((props) => {
-    const subscribe = Meteor.subscribe('sprints', props.currentProject.name);
-    const sprints = Collections.Sprints.find().fetch();
-
-    const subscribeUS = Meteor.subscribe('userstories', props.currentProject.name);
-    const userstories = Collections.UserStories.find().fetch();
-    const loaded = !!sprints && !!subscribe;
+    const subscribeUs = Meteor.subscribe('userstories', props.currentProject.name);
+    const userstories = Collections.UserStories.find({}, {sort: {id: 1}}).fetch();
+    const subscribeSprint = Meteor.subscribe('sprints', props.currentProject.name);
+    const sprints = Collections.Sprints.find({}, {sort: {id: 1}}).fetch();
+    const loaded = !!sprints && !!subscribeSprint && !!subscribeUs && !!userstories;
     return {
       error: Session.get('error'),
       success: Session.get('success'),
