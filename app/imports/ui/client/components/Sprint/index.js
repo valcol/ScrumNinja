@@ -47,7 +47,7 @@ class SprintsBox extends Component {
               success={this.props.success}
               />
             <AddSprintForm currentProject={this.props.currentProject}
-              sprints={this.props.sprints}
+              //sprints={this.props.sprints}
               userstories={this.props.userstories}
               />
           </BoxFooter>

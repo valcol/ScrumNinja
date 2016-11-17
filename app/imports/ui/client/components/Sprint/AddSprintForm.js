@@ -48,6 +48,7 @@ class AddSprintForm extends Component {
       });
   }
   handleSubmit(event){
+    event.preventDefault();
     Meteor.call('sprint.add', this.state.start, this.state.end, this.state.description, this.state.number, this.state.userstory, this.props.currentProject.name, function(err, res) {
       if (err) {
         Session.set('error', err.message);
