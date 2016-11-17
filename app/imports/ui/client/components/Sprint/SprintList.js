@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Session } from 'meteor/session';
 
 class SprintList extends Component {
 
@@ -27,7 +27,7 @@ class SprintList extends Component {
   }
 
   handleUpdate(_id) {
-    //Session.set('taskToEdit', _id);
+    Session.set('sprintToEdit', _id);
     Session.set('success', null);
     Session.set('error', null);
   }
@@ -46,7 +46,6 @@ renderRows(){
       <td>{sprint.start}</td>
       <td>{sprint.end}</td>
       <td>{sprint.description}</td>
-      <td>{sprint.num}</td>
       <td>{this.renderUs(sprint.userstory)}</td>
         {!this.props.isVisitorOrPo ?<td>
           <button className="btn btn-flat pull-right" onClick={ () => { this.handleUpdate(sprint._id); } }>
@@ -76,9 +75,6 @@ render() {
           </th>
           <th style={{width: 100}}>
             Description
-          </th>
-          <th style={{width: 100}}>
-            N°
           </th>
           <th style={{width: 100}}>
             Associated US

@@ -7,18 +7,49 @@ class AddSprintForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      _id: '',
       start: '',
       end: '',
       description: '',
-      number: '',
       userstory: []
     };
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleBeginChange = this.handleBeginChange.bind(this);
     this.handleEndChange = this.handleEndChange.bind(this);
-    this.handleNumberChange = this.handleNumberChange.bind(this);
     this.handleUSChange = this.handleUSChange.bind(this);
+    this.handleCancelEdit = this.handleCancelEdit.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps){
+    if (nextProps.sprintToEdit) {
+      if (nextProps.sprintToEdit !== this.props.sprintToEdit) {
+        this.setState({
+          _id:nextProps.sprintToEdit._id,
+          start: nextProps.sprintToEdit.start,
+          end: nextProps.sprintToEdit.end,
+          description: nextProps.sprintToEdit.description,
+          userstory: nextProps.sprintToEdit.userstory
+        });
+        Session.set('warning', 'Caution: you are editing an existing Sprint : Sprint#'+nextProps.sprintToEdit.number);
+      }
+    }
+    else {
+      this.setState({
+        _id:'',
+        start: '',
+        end: '',
+        description: '',
+        userstory: []
+      });
+      Session.set('warning', null);
+    }
+  }
+
+  handleCancelEdit(event){
+    Session.set('sprintToEdit', null);
+    Session.set('success', null);
+    Session.set('error', null);
   }
 
   handleDescriptionChange(event){
@@ -30,9 +61,7 @@ class AddSprintForm extends Component {
   handleEndChange(event){
     this.setState({end: event.target.value});
   }
-  handleNumberChange(event){
-    this.setState({number: event.target.value});
-  }
+
 
   handleUSChange(id) {
       let userstory;
@@ -49,7 +78,7 @@ class AddSprintForm extends Component {
   }
   handleSubmit(event){
     event.preventDefault();
-    Meteor.call('sprint.add', this.state.start, this.state.end, this.state.description, this.state.number, this.state.userstory, this.props.currentProject.name, function(err, res) {
+    Meteor.call('sprint.add', this.state, this.props.currentProject.name, function(err, res) {
       if (err) {
         Session.set('error', err.message);
         Session.set('success', null);
@@ -58,6 +87,9 @@ class AddSprintForm extends Component {
         Session.set('error', null);
       }
     });
+
+    if (this.props.sprintToEdit)
+      Session.set('sprintToEdit', null);
   }
 
   renderSelectList(){
@@ -67,9 +99,6 @@ class AddSprintForm extends Component {
       <table className="table table-striped">
         <tbody>
           <tr>
-            <th style={{width: 20}} >
-              #
-            </th>
             <th >
               Description
             </th>
@@ -127,10 +156,20 @@ class AddSprintForm extends Component {
               {/* /.input group */}
             </div>
             <input type="text" className="form-control" placeholder="Description" value={this.state.description} onChange={this.handleDescriptionChange}/>
-            <input type="number" className="form-control" placeholder="Number" value={this.state.number} onChange={this.handleNumberChange}/>
             <h4>Users-Stories</h4>
             {this.renderSelectList()}
-            <button className="btn btn-primary btn-block btn-flat">Add</button>
+            <br/>
+            {this.props.taskToEdit ?
+              <div>
+              <div className="col-md-1">
+                <button  type="button" onClick={this.handleCancelEdit} className="btn btn-danger btn-block btn-flat">Cancel</button>
+              </div>
+              <div className="col-md-1">
+                <button className="btn btn-primary btn-block btn-flat">Confirm</button>
+              </div>
+              </div>
+              :<button className="btn btn-primary btn-block btn-flat">Add</button>
+            }
           </div>
         </form>
         </div>

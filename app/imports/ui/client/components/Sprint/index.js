@@ -11,6 +11,7 @@ import BoxBody from '../misc/BoxBody';
 import BoxFooter from '../misc/BoxFooter';
 import AddSprintForm from './AddSprintForm.js';
 import Loading from '../misc/Loading';
+import moment from 'moment';
 
 class SprintsBox extends Component {
 
@@ -48,7 +49,8 @@ class SprintsBox extends Component {
               success={this.props.success}
               />
             <AddSprintForm currentProject={this.props.currentProject}
-              //sprints={this.props.sprints}
+              sprints={this.props.sprints}
+              sprintToEdit={this.props.sprintToEdit}
               userstories={this.props.userstories}
               />
           </BoxFooter>
@@ -63,13 +65,16 @@ class SprintsBox extends Component {
     const subscribeUs = Meteor.subscribe('userstories', props.currentProject.name);
     const userstories = Collections.UserStories.find({}, {sort: {id: 1}}).fetch();
     const subscribeSprint = Meteor.subscribe('sprints', props.currentProject.name);
-    const sprints = Collections.Sprints.find({}, {sort: {id: 1}}).fetch();
+    const sprints = Collections.Sprints.find({}, {sort: {start: 1}}).fetch();
     const loaded = !!sprints && !!subscribeSprint && !!subscribeUs && !!userstories;
+    const sprintToEdit = Session.get('sprintToEdit') ? Collections.Sprints.findOne({_id:Session.get('sprintToEdit')}) : null;
+
     return {
       error: Session.get('error'),
       success: Session.get('success'),
       loaded,
       sprints: loaded ? sprints : [],
-      userstories: loaded ? userstories : []
+      userstories: loaded ? userstories : [],
+      sprintToEdit
     };
   }, SprintsBox);
