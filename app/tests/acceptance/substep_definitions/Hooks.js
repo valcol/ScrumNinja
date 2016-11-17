@@ -163,6 +163,28 @@ this.Before({tags: ["@userstoryExist"]}, function (scenario) {
   });
 });
 
+this.Before({tags: ["@userstory2Exist"]}, function (scenario) {
+  console.log("before @userstory2Exist");
+  browser.timeoutsAsyncScript(2000).executeAsync(function(done) {
+     let state = {
+      id: 1,
+      description: 'us2',
+      effort: 10,
+      priority: 1,
+      color: '#39cccc' //blue light
+    };
+
+    Meteor.call('userstory.add',state, 'project'
+                ,function(err, res) {
+                  if (err) {
+                    console.error('couldnt create us2');
+                  } else {
+                    done();
+                  }
+                });
+  });
+});
+
 this.After(function (scenario) {
   console.log("after");
 });

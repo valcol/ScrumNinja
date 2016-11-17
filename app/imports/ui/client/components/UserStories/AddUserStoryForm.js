@@ -26,7 +26,8 @@ class addUserStoryForm extends Component {
           id: nextProps.userstoryToEdit.id,
           description: nextProps.userstoryToEdit.description,
           effort: nextProps.userstoryToEdit.effort,
-          priority: nextProps.userstoryToEdit.priority
+          priority: nextProps.userstoryToEdit.priority,
+          color: nextProps.userstoryToEdit.color
         });
         Session.set('warning', 'Caution: you are editing an existing US : US#'+nextProps.userstoryToEdit.id);
       }
