@@ -35,7 +35,8 @@ class SprintsBox extends Component {
           <h3>Sprints</h3>
           <SprintsList currentProject={this.props.currentProject}
             sprints={this.props.sprints}
-            isVisitorOrPo={(this.isVisitorOrPo())}/>
+            isVisitorOrPo={(this.isVisitorOrPo())}
+            userstories={this.props.userstories}/>
           <h3>Add form</h3>
 
         </BoxBody>

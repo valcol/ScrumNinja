@@ -50,7 +50,6 @@ CollectionsObj.Tasks.after.remove(function (userId, doc) {
   let l = [];
   let r = [];
   for (dep of toUpdate){
-    console.log(dep.edge);
     if (dep.edge[0]===task.id)
       r.push(dep.edge[1]);
     else

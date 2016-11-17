@@ -15,7 +15,7 @@ Sprint.prototype.add = function(start,end,description,number,userstory,projectNa
     description,
     number,
     userstory,
-    projectName
+    project:projectName
   });
 
    return 'Sprint created';
