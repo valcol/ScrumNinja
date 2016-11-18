@@ -185,6 +185,64 @@ this.Before({tags: ["@userstory2Exist"]}, function (scenario) {
   });
 });
 
+this.Before({tags: ["@task1Exist"]}, function (scenario) {
+  console.log("before @task1Exist");
+  browser.timeoutsAsyncScript(2000).executeAsync(function(done) {
+    this.state = {
+      id: 1,
+      description: 'task1',
+      userstory: [1]
+    };
+
+    Meteor.call('tasks.update',state, 'project'
+                ,function(err, res) {
+                  if (err) {
+                    console.error('couldnt create task');
+                  } else {
+                    done();
+                  }
+                });
+  });
+});
+
+this.Before({tags: ["@task2Exist"]}, function (scenario) {
+  console.log("before @task2Exist");
+  browser.timeoutsAsyncScript(2000).executeAsync(function(done) {
+    this.state = {
+      id: 2,
+      description: 'task2',
+      userstory: [1]
+    };
+
+    Meteor.call('tasks.update',state, 'project'
+                ,function(err, res) {
+                  if (err) {
+                    console.error('couldnt create task');
+                  } else {
+                    done();
+                  }
+                });
+  });
+});
+
+this.Before({tags: ["@dependency1Exist"]}, function (scenario) {
+  console.log("before @dependency1Exist");
+  browser.timeoutsAsyncScript(2000).executeAsync(function(done) {
+    this.state = {
+      edge: [1, 2]
+    };
+
+    Meteor.call('dependencies.update',state, 'project'
+                ,function(err, res) {
+                  if (err) {
+                    console.error('couldnt create dependency');
+                  } else {
+                    done();
+                  }
+                });
+  });
+});
+
 this.After(function (scenario) {
   console.log("after");
 });
