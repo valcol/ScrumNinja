@@ -1,0 +1,54 @@
+Feature: Sprints
+
+  @user1Exist
+  @user1Logged
+  @projectExist
+  @userstoryExist
+  Scenario: add a sprint
+  Given I am connected as "user1"
+  And I have a project named "project"
+  And I click on the project dashboard button
+  And I see the "Dashboard" page
+  And I click on the sprint menu button
+  And I see the "Sprints" page
+  When I create a sprint       #TD
+  Then I see the sprint        #TD
+
+#  @user1Exist
+#  @user1Logged
+#  @projectExist
+#  @userstoryExist
+#  @sprintExist
+#  Scenario : modify a sprint
+#  Given I am connected as "user1"
+#  And I have a project named "project"
+#  And I click on the project dashboard button
+#  And I see the "Dashboard" page
+#  And I click on the sprint menu button
+#  And I see the "Sprints" page
+#  And I see the sprint  #TD
+#  When I modify the sprint  #TD
+#  Then I see the sprint modified  #TD
+
+#  @user1Exist
+#  @user1Logged
+#  @projectExist
+#  @userstoryExist
+#  @sprintExist
+#  Scenario : delete a sprint
+#  Given I am connected as "user1"
+#  And I have a project named "project"
+#  And I click on the project dashboard button
+#  And I see the "Dashboard" page
+#  And I click on the sprint menu button
+#  And I see the "Sprints" page
+#  And I see the sprint
+#  When I delete the sprint
+#  Then I dont see the sprint
+
+#  @user1Exist
+#  @user1Logged
+#  @projectExist
+#  @userstoryExist
+#  @sprintExist
+#  Scenario : I see the tasks linked to the US linked to the current sprint on the scrumboard.
