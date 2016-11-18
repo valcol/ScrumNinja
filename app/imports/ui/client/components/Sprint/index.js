@@ -11,6 +11,7 @@ import BoxBody from '../misc/BoxBody';
 import BoxFooter from '../misc/BoxFooter';
 import AddSprintForm from './AddSprintForm.js';
 import Loading from '../misc/Loading';
+import moment from 'moment';
 
 class SprintsBox extends Component {
 
@@ -32,13 +33,10 @@ class SprintsBox extends Component {
         </BoxHeader>
         {!this.props.loaded ? <BoxBody></BoxBody> :
         <BoxBody>
-          <h3>Sprints</h3>
           <SprintsList currentProject={this.props.currentProject}
             sprints={this.props.sprints}
             isVisitorOrPo={(this.isVisitorOrPo())}
             userstories={this.props.userstories}/>
-          <h3>Add form</h3>
-
         </BoxBody>
         }
         {!this.isVisitorOrPo() ?
@@ -47,8 +45,12 @@ class SprintsBox extends Component {
               error={this.props.error}
               success={this.props.success}
               />
+              <FeedbackMessage
+                warning={this.props.warning}
+                />
             <AddSprintForm currentProject={this.props.currentProject}
-              //sprints={this.props.sprints}
+              sprints={this.props.sprints}
+              sprintToEdit={this.props.sprintToEdit}
               userstories={this.props.userstories}
               />
           </BoxFooter>
@@ -63,13 +65,17 @@ class SprintsBox extends Component {
     const subscribeUs = Meteor.subscribe('userstories', props.currentProject.name);
     const userstories = Collections.UserStories.find({}, {sort: {id: 1}}).fetch();
     const subscribeSprint = Meteor.subscribe('sprints', props.currentProject.name);
-    const sprints = Collections.Sprints.find({}, {sort: {id: 1}}).fetch();
+    const sprints = Collections.Sprints.find({}, {sort: {start: 1}}).fetch();
     const loaded = !!sprints && !!subscribeSprint && !!subscribeUs && !!userstories;
+    const sprintToEdit = Session.get('sprintToEdit') ? Collections.Sprints.findOne({_id:Session.get('sprintToEdit')}) : null;
+
     return {
       error: Session.get('error'),
       success: Session.get('success'),
+      warning: Session.get('warning'),
       loaded,
       sprints: loaded ? sprints : [],
-      userstories: loaded ? userstories : []
+      userstories: loaded ? userstories : [],
+      sprintToEdit
     };
   }, SprintsBox);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { Session } from 'meteor/session';
 
 class SprintList extends Component {
 
@@ -27,7 +27,7 @@ class SprintList extends Component {
   }
 
   handleUpdate(_id) {
-    //Session.set('taskToEdit', _id);
+    Session.set('sprintToEdit', _id);
     Session.set('success', null);
     Session.set('error', null);
   }
@@ -41,13 +41,14 @@ renderUs(userstories){
 }
 
 renderRows(){
+  let i = 0;
   return this.props.sprints.map((sprint) => (
     <tr>
+      <td>{++i}</td>
+      <td>{sprint.description}</td>
+      <td>{this.renderUs(sprint.userstory)}</td>
       <td>{sprint.start}</td>
       <td>{sprint.end}</td>
-      <td>{sprint.description}</td>
-      <td>{sprint.num}</td>
-      <td>{this.renderUs(sprint.userstory)}</td>
         {!this.props.isVisitorOrPo ?<td>
           <button className="btn btn-flat pull-right" onClick={ () => { this.handleUpdate(sprint._id); } }>
             Edit
@@ -68,20 +69,26 @@ render() {
     <table className="table">
       <tbody>
         <tr>
+          <th style={{width: '10%'}}>
+            #
+          </th>
           <th>
-            Begin
-          </th>
-          <th style={{width: 100}}>
-            End
-          </th>
-          <th style={{width: 100}}>
             Description
           </th>
-          <th style={{width: 100}}>
-            N°
-          </th>
-          <th style={{width: 100}}>
+          <th style={{width: '20%'}}>
             Associated US
+          </th>
+          <th style={{width: '10%'}}>
+            Begin
+          </th>
+          <th style={{width: '10%'}}>
+            End
+          </th>
+          <th style={{width: '10%'}}>
+
+          </th>
+          <th style={{width: '10%'}}>
+
           </th>
         </tr>
         {this.renderRows()}

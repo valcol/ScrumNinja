@@ -95,13 +95,13 @@ class addTaskForm extends Component {
       <table className="table table-striped">
         <tbody>
           <tr>
-            <th style={{width: 20}} >
+            <th style={{width: '10%'}} >
               #
             </th>
             <th >
               Description
             </th>
-            <th style={{width: 20}}></th>
+            <th style={{width: '10%'}} ></th>
           </tr>
         {this.props.userstories.map((userstory) => (
           <tr>

@@ -7,5 +7,7 @@ module.exports = function() {
     expect(browser.getUrl().indexOf(
         'specifications'))
       .toBeGreaterThan(errorValue);
+
+    browser.switchTab();
   });
 };
