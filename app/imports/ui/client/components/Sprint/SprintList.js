@@ -41,12 +41,14 @@ renderUs(userstories){
 }
 
 renderRows(){
+  let i = 0;
   return this.props.sprints.map((sprint) => (
     <tr>
-      <td>{sprint.start}</td>
-      <td>{sprint.end}</td>
+      <td>{++i}</td>
       <td>{sprint.description}</td>
       <td>{this.renderUs(sprint.userstory)}</td>
+      <td>{sprint.start}</td>
+      <td>{sprint.end}</td>
         {!this.props.isVisitorOrPo ?<td>
           <button className="btn btn-flat pull-right" onClick={ () => { this.handleUpdate(sprint._id); } }>
             Edit
@@ -67,17 +69,26 @@ render() {
     <table className="table">
       <tbody>
         <tr>
+          <th style={{width: '10%'}}>
+            #
+          </th>
           <th>
-            Begin
-          </th>
-          <th style={{width: 100}}>
-            End
-          </th>
-          <th style={{width: 100}}>
             Description
           </th>
-          <th style={{width: 100}}>
+          <th style={{width: '20%'}}>
             Associated US
+          </th>
+          <th style={{width: '10%'}}>
+            Begin
+          </th>
+          <th style={{width: '10%'}}>
+            End
+          </th>
+          <th style={{width: '10%'}}>
+
+          </th>
+          <th style={{width: '10%'}}>
+
           </th>
         </tr>
         {this.renderRows()}

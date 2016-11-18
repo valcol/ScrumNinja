@@ -33,13 +33,10 @@ class SprintsBox extends Component {
         </BoxHeader>
         {!this.props.loaded ? <BoxBody></BoxBody> :
         <BoxBody>
-          <h3>Sprints</h3>
           <SprintsList currentProject={this.props.currentProject}
             sprints={this.props.sprints}
             isVisitorOrPo={(this.isVisitorOrPo())}
             userstories={this.props.userstories}/>
-          <h3>Add form</h3>
-
         </BoxBody>
         }
         {!this.isVisitorOrPo() ?
@@ -48,6 +45,9 @@ class SprintsBox extends Component {
               error={this.props.error}
               success={this.props.success}
               />
+              <FeedbackMessage
+                warning={this.props.warning}
+                />
             <AddSprintForm currentProject={this.props.currentProject}
               sprints={this.props.sprints}
               sprintToEdit={this.props.sprintToEdit}
@@ -72,6 +72,7 @@ class SprintsBox extends Component {
     return {
       error: Session.get('error'),
       success: Session.get('success'),
+      warning: Session.get('warning'),
       loaded,
       sprints: loaded ? sprints : [],
       userstories: loaded ? userstories : [],

@@ -31,7 +31,7 @@ class AddSprintForm extends Component {
           description: nextProps.sprintToEdit.description,
           userstory: nextProps.sprintToEdit.userstory
         });
-        Session.set('warning', 'Caution: you are editing an existing Sprint : Sprint#'+nextProps.sprintToEdit.number);
+        Session.set('warning', 'Caution: you are editing an existing Sprint');
       }
     }
     else {
@@ -132,34 +132,28 @@ class AddSprintForm extends Component {
     return (
       <div className="row">
         <div className="col-lg-12">
+          <h4>Add/Edit a sprint</h4>
           <form onSubmit={this.handleSubmit} >
-          <div className="input-group">
-            {/* Date range */}
-            <div className="form-group">
-              <label>Start:</label>
+            <div className="col-md-3">
               <div className="input-group date">
                 <div className="input-group-addon">
-                  <i className="fa fa-calendar" />
+                  Start :
                 </div>
                 <input type="date" onChange={this.handleBeginChange} value={this.state.start} id="start" className="form-control pull-right datepicker" required />
               </div>
-              {/* /.input group */}
             </div>
-            <div className="form-group">
-              <label>End:</label>
+            <div className="col-md-3">
               <div className="input-group date">
                 <div className="input-group-addon">
-                  <i className="fa fa-calendar" />
+                  End :
                 </div>
                 <input type="date" onChange={this.handleEndChange} value={this.state.end} id="end" className="form-control pull-right datepicker" required />
               </div>
-              {/* /.input group */}
-            </div>
+          </div>
+          <div className="col-md-4">
             <input type="text" className="form-control" placeholder="Description" value={this.state.description} onChange={this.handleDescriptionChange}/>
-            <h4>Users-Stories</h4>
-            {this.renderSelectList()}
-            <br/>
-            {this.props.taskToEdit ?
+            </div>
+            {this.props.sprintToEdit ?
               <div>
               <div className="col-md-1">
                 <button  type="button" onClick={this.handleCancelEdit} className="btn btn-danger btn-block btn-flat">Cancel</button>
@@ -168,9 +162,11 @@ class AddSprintForm extends Component {
                 <button className="btn btn-primary btn-block btn-flat">Confirm</button>
               </div>
               </div>
-              :<button className="btn btn-primary btn-block btn-flat">Add</button>
-            }
-          </div>
+              : <div className="col-md-2">
+              <button className="btn btn-primary btn-block btn-flat">Add</button>
+            </div>}
+            <br/>
+            {this.renderSelectList()}
         </form>
         </div>
       </div>
