@@ -13,7 +13,7 @@ import AddSprintForm from './AddSprintForm.js';
 import Loading from '../misc/Loading';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
-import 'css/react-big-calendar.css';
+import './css/react-big-calendar.css';
 
 class SprintsBox extends Component {
 
