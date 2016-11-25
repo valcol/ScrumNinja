@@ -8,7 +8,7 @@ class Box extends Component {
 
   render() {
     return (
-    <div className={this.props.className}>
+    <div className={this.props.className} style={{height:'100%', position: 'relative'}}>
         {this.props.children}
     </div>
     );
