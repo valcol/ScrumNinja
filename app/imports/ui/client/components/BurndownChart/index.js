@@ -20,7 +20,9 @@ class Burndown extends Component {
       {name: 'Sprint #2', planned: 185, actual: 180},
       {name: 'Sprint #3', planned: 130, actual: 160},
       {name: 'Sprint #4', planned: 100, actual: 100},
-      {name: 'Sprint #5', planned: 60, actual: 70}
+      {name: 'Sprint #5', planned: 60, actual: 70},
+      {name: 'Sprint #5', planned: 35},
+      {name: 'Sprint #5', planned: 10}
     ];
 
     return (
