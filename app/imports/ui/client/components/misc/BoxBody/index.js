@@ -8,7 +8,7 @@ class BoxBody extends Component {
 
   render() {
     return (
-    <div className="box-body pad">
+    <div className="box-body">
       {this.props.children}
     </div>
     );
