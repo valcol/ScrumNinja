@@ -4,30 +4,24 @@ import LinkItem from '../misc/LinkItem';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Session } from 'meteor/session';
 import FeedbackMessage  from '../misc/FeedbackMessage';
+import { Accounts } from 'meteor/accounts-base';
 
 class Login extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {email: '', password: ''};
+    this.state = {email: ''};
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeEmail = this.handleChangeEmail.bind(this);
-    this.handleChangePassword = this.handleChangePassword.bind(this);
   }
 
   handleChangeEmail(event) {
     this.setState({email: event.target.value});
   }
 
-  handleChangePassword(event) {
-    this.setState({password: event.target.value});
-  }
-
   handleSubmit(event) {
     event.preventDefault();
-    let email = this.state.email;
-    let password = this.state.password;
-    Meteor.loginWithPassword(email, password, function(err, res) {
+    Accounts.forgotPassword(this.state, function(err, res) {
       if (err) {
         Session.set('error', err.message);
       } else {
@@ -45,7 +39,7 @@ class Login extends Component {
         </div>
         {/* /.login-logo */}
         <div className="login-box-body">
-          <p className="login-box-msg">Sign in to start your session</p>
+          <p className="login-box-msg">Reset your password :</p>
             <FeedbackMessage
               error={this.props.error}
               success={this.props.success}
@@ -55,19 +49,13 @@ class Login extends Component {
               onChange={this.handleChangeEmail}/>
             <span className="glyphicon glyphicon-envelope form-control-feedback" />
           </div>
-          <div className="form-group has-feedback">
-            <input type="password" className="form-control" placeholder="Password" name="password" value={this.state.password}
-              onChange={this.handleChangePassword}/>
-            <span className="glyphicon glyphicon-lock form-control-feedback" />
-          </div>
           <div className="row">
             <div className="col-xs-4">
               <button onClick={this.handleSubmit} className="btn btn-primary btn-block btn-flat">Sign In</button>
             </div>
           </div>
-          <LinkItem to={'/r/register'} className={'signup'}>Register a new membership</LinkItem>
-          <LinkItem to={'/r/forgot'} className={'signup'}>Forgot your password ?</LinkItem>
-          </div>
+          <LinkItem to={'/r/login'} className={'signup'}>Cancel</LinkItem>
+        </div>
       </div>
     );
   }

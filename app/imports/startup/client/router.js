@@ -19,6 +19,7 @@ import ScrumBoard from '../../ui/client/layouts/ScrumBoard';
 import Traceability from '../../ui/client/layouts/Traceability';
 import NotFound from '../../ui/client/pages/404/';
 import Login from '../../ui/client/layouts/Login';
+import ForgotPassword from '../../ui/client/layouts/ForgotPassword';
 import Register from '../../ui/client/layouts/Register';
 
 Meteor.startup( () => {
@@ -62,6 +63,7 @@ Meteor.startup( () => {
         <IndexRedirect to="login" />
         <Route path="login" component={Login}/>
         <Route path="register" component={Register}/>
+        <Route path="forgot" component={ForgotPassword}/>
      </Route>
         <Route path="/404" component={ NotFound } />
       <Redirect to="/404" from="*"/>
