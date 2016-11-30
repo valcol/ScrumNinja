@@ -8,7 +8,8 @@ class BoxFooter extends Component {
 
   render() {
     return (
-    <div className="box-footer">
+    <div className="box-footer" style={{marginBottom:'0px',  position: 'absolute',
+    bottom: 0}}>
       {this.props.children}
     </div>
     );

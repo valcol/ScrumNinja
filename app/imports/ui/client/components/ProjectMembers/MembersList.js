@@ -29,6 +29,8 @@ class MembersList extends Component {
           <th>
             Role
           </th>
+          <th>
+          </th>
         </tr>
         {this.renderRows(this.props.currentProject.roles)}
         </tbody>

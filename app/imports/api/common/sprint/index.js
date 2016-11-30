@@ -43,7 +43,7 @@ Sprint.prototype.add = function(sprint, projectName) {
   sprint.state = 0;
   if(sprint._id === '')
   {
-    sprint._id=new Mongo.ObjectID();
+    delete sprint._id;
     Collections.Sprints.insert(sprint);
   }
   else

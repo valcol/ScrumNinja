@@ -1,5 +1,19 @@
-import React from 'react';
+import React, {Component} from 'react';
+import ScrumBoardBox from '../../components/ScrumBoard';
 
-const ScrumBoard = () => <h3>Scrum Board</h3>;
+class ScrumBoard extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className="ScrumBoard">
+        <ScrumBoardBox {...this.props}/>
+      </div>
+    );
+  }
+}
 
 export default ScrumBoard;
