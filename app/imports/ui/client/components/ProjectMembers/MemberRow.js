@@ -37,7 +37,46 @@ class MemberRow extends Component {
     return (
       <tr>
         <td>
+          <div>
+        <a data-toggle="modal" data-target="#myModal">
           {Meteor.users.findOne({_id:this.props.userId}).username}
+        </a>
+        <div className="modal fade" id="myModal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 className="modal-title" id="myModalLabel">{Meteor.users.findOne({_id:this.props.userId}).username} s Informations :</h4>
+              </div>
+              <div className="modal-body">
+                <table className="table">
+                  <tbody>
+                  <tr>
+                    <td>
+                      <strong>Username</strong>
+                    </td>
+                    <td>
+                      {Meteor.users.findOne({_id:this.props.userId}).username}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Email</strong>
+                    </td>
+                    <td>
+                      {Meteor.users.findOne({_id:this.props.userId}).emails[0].address}
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-primary btn-flat center-block" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
         </td>
         <td>
           <select value={this.props.role} onChange={this.handleChange} className="form-control">
