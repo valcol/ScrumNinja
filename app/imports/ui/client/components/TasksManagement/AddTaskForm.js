@@ -26,7 +26,7 @@ class addTaskForm extends Component {
           description: nextProps.taskToEdit.description,
           userstory: nextProps.taskToEdit.userstory
         });
-        Session.set('warning', 'Caution: you are editing an existing US : US#'+nextProps.taskToEdit.id);
+        Session.set('warning', 'Caution: you are editing an existing Task : Task #'+nextProps.taskToEdit.id);
       }
     }
     else {

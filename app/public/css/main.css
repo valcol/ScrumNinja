@@ -20,3 +20,11 @@ h4 {
   margin-right: 15px;
   border: 1px solid lightgrey;
 }
+
+.login-box a {
+  padding-top: 10px;
+}
+
+.register-box a {
+  padding-top: 10px;
+}

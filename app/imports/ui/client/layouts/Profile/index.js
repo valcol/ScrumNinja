@@ -1,5 +1,22 @@
-import React from 'react';
+import React, { Component } from 'react';
+import MyProfileBox from '../../components/MyProfile';
 
-const Profile = () => <h3>Profile</h3>;
+class MyProfile extends Component {
 
-export default Profile;
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className="row">
+        {/* left column */}
+        <div className="col-md-12">
+          <MyProfileBox/>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default MyProfile;
