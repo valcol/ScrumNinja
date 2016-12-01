@@ -32,6 +32,8 @@ CollectionsObj.TasksDependencies = new Mongo.Collection('tasks.dependencies');
 
 CollectionsObj.TasksOrders = new Mongo.Collection('tasks.orders');
 
+CollectionsObj.Commits = new Mongo.Collection('commits');
+
 //Hooks
 CollectionsObj.UserStories.after.remove(function (userId, doc) {
   let userstory = doc;

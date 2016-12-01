@@ -49,3 +49,7 @@ Meteor.publish('tasks.orders', function(projectName) {
   if (PermissionsHelper.isAvailableToView(this.userId, projectName, true))
   return Collections.TasksOrders.find({project:projectName});
 });
+
+Meteor.publish('commits', function(projectName) {
+  return Collections.Commits.find({project:projectName});
+});
