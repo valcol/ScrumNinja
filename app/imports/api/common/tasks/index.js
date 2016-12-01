@@ -25,7 +25,8 @@ Tasks.prototype.upsert = function(task, projectName) {
   check(task, {
     id: Number,
     description: String,
-    userstory: NonEmptyArrayOfNumbers
+    userstory: NonEmptyArrayOfNumbers,
+    state: Match.Maybe(Number)
   });
 
   for (id of task.userstory)
@@ -38,10 +39,11 @@ Tasks.prototype.upsert = function(task, projectName) {
   }
 
   task.project = projectName;
-  task.state = 0;
+  if (!task.state)
+    task.state = 1;
 
   Collections.Tasks.upsert(
-    {id: task.id},
+    {id: task.id, project: projectName},
     {$set: task
     });
 

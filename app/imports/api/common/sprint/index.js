@@ -29,9 +29,11 @@ Sprint.prototype.add = function(sprint, projectName) {
     userstory: NonEmptyArrayOfNumbers
   });
 
-  for (id of sprint.userstory)
-  if(!Collections.UserStories.findOne({id}))
-  throw new Meteor.Error('Please select an US');
+  for (id of sprint.userstory){
+    let us = Collections.UserStories.findOne({project: projectName, id});
+    if(!us)
+    throw new Meteor.Error('Please select an US');
+  }
 
   if(!moment(sprint.start).isValid() || !moment(sprint.end).isValid())
   throw new Meteor.Error('date format unsupported');

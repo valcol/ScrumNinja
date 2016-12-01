@@ -1,69 +1,94 @@
 import React, { Component } from 'react';
-import FeedbackMessage  from '../misc/FeedbackMessage';
-import Box from '../misc/Box';
 import { Session } from 'meteor/session';
 import { createContainer } from 'meteor/react-meteor-data';
 import { Collections } from '../../../../api/common/collections.js';
-import { Meteor } from 'meteor/meteor';
-import DragDrop from './DragAndDrop';
+import {Meteor} from 'meteor/meteor';
+import moment from 'moment';
+
+import Board  from './Board.js';
+import FeedbackMessage  from '../misc/FeedbackMessage';
+import Box from '../misc/Box';
+import BoxHeader from '../misc/BoxHeader';
+import BoxBody from '../misc/BoxBody';
+import BoxFooter from '../misc/BoxFooter';
+import Loading from '../misc/Loading';
 
 class ScrumBoard extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      currentSprint:''
-    };
-    this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event){
-    this.setState({currentSprint: event.target.value});
+  isPaOrPm(){
+    return (this.props.currentProject.roles[Meteor.userId()] === 'pa' || this.props.currentProject.roles[Meteor.userId()] === 'pm');
   }
-  renderSelectList(){
 
-    return (
-      <select value={this.state.currentSprint} onChange={this.handleChange} className="form-control">
-        <option value ='0'>Choose one sprint</option>
-        {this.props.sprints.map((sprint) => (
-            <option value={sprint._id}>Sprint#{sprint.start} : {sprint.description}</option>
-        ))}
-      </select>
+  currentSprintTasks(){
+    let currentSprint = null;
+    let currentSprintTasks = [];
+    for (sprint of this.props.sprints){
+      if (moment(sprint.start).isBefore(moment())){
+        if (currentSprint)
+        for (usId of currentSprint.userstory){
+          for (task of this.props.tasks){
+            if ((task.state < 4) && (task.userstory.indexOf(usId) > -1) &&
+          (currentSprintTasks.indexOf(task) === -1)){
+              task.isLate = true;
+              currentSprintTasks.push(task);
+            }
+          }
+        }
+        currentSprint = sprint;
+      }
+    }
+    if (currentSprint)
+    for (usId of currentSprint.userstory){
+      for (task of this.props.tasks){
+        if ((task.userstory.indexOf(usId) > -1) &&
+      (currentSprintTasks.indexOf(task) === -1)){
+          task.isLate = false;
+          currentSprintTasks.push(task);
+        }
+      }
+    }
 
-    );
+    return currentSprintTasks;
   }
 
   render() {
-    const {currentSprint} = this.state;
     return (
       <Box>
-        <div className='table-sort'>
-          <label>Choose a sprint:</label>
-          {this.renderSelectList()}
-        </div>
-        <DragDrop currentProject={this.props.currentProject}
-          tasks={this.props.tasks}
-          userstories={this.props.userstories}
-          currentSprint={this.state.currentSprint}/>
+        <BoxHeader>
+          ScrumBoard
+        </BoxHeader>
+        {!this.props.loaded ? <BoxBody></BoxBody> :
+          <BoxBody>
+            <Board currentProject={this.props.currentProject}
+              currentSprintTasks = {this.currentSprintTasks()}
+              isPaOrPm={this.isPaOrPm}/>
+          </BoxBody>
+        }
+        {!this.props.loaded ? <Loading/> : ''}
       </Box>
     );
   }
 }
-export default createContainer((props) => {
-  const us = Meteor.subscribe('userstories', props.currentProject.name);
-  const task = Meteor.subscribe('tasks', props.currentProject.name);
-  const sprint = Meteor.subscribe('sprints', props.currentProject.name);
-  const userstories = Collections.UserStories.find({}, {sort: {id: 1}}).fetch();
-  const tasks = Collections.Tasks.find({}, {sort: {id: 1}}).fetch();
-  const sprints = Collections.Sprints.find({}, {sort: {id: 1}}).fetch();
 
-  const loaded = !!us && !!task && !!sprint && !!userstories && !!tasks && !!sprints;
+export default createContainer((props) => {
+  const subscribeSprints = Meteor.subscribe('sprints', props.currentProject.name);
+  const subscribeUS = Meteor.subscribe('userstories', props.currentProject.name);
+  const subscribeTasks = Meteor.subscribe('tasks', props.currentProject.name);
+  const sprints = Collections.Sprints.find({}).fetch();
+  const userstories = Collections.UserStories.find({}).fetch();
+  const tasks = Collections.Tasks.find({}).fetch();
+  const loaded = !!subscribeUS && !!subscribeSprints && !!subscribeTasks && !!sprints && !!tasks && !!userstories;
   return {
     error: Session.get('error'),
     success: Session.get('success'),
+    warning: Session.get('warning'),
     loaded,
-    tasks: loaded ? tasks : [],
     userstories: loaded ? userstories : [],
-    sprints : loaded ? sprints : []
+    sprints: loaded ? sprints : [],
+    tasks: loaded ? tasks : []
   };
 }, ScrumBoard);
