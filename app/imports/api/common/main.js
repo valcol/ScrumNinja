@@ -21,7 +21,7 @@ Meteor.methods({
   'tasks.delete' : Tasks.delete,
   'dependencies.update' : Dependencies.upsert,
   'dependencies.delete' : Dependencies.remove,
-  'burndownChart.update' : BurndownChart.upsert
+  'burndownChart.update' : BurndownChart.upsert,
   'tasks.addUser' : Tasks.addUser,
   'commit.add' : Commit.add
 });

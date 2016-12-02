@@ -188,6 +188,7 @@ CollectionsObj.Tasks.after.remove(function (userId, doc) {
     let sprint = doc;
     let us = CollectionsObj.UserStories.find({project: sprint.project}).fetch();
     let bc = CollectionsObj.BurndownChart.findOne({project: sprint.project});
+
     let nbSp = bc.nbSprint +1;
     let actual= bc.actual;
     let plannedBySprint=bc.plannedBySprint;
@@ -196,7 +197,9 @@ CollectionsObj.Tasks.after.remove(function (userId, doc) {
     for (usId of sprint.userstory){
       for(u of us){
         if ((u.id === usId)){
+          console.log(actual);
           actual = update(actual ,{$merge:{0: actual[0] + u.effort}});
+          console.log(actual);
           planned =update(planned,{$merge:{0 : planned[0] + u.effort}});
           EffortSprint +=u.effort;
         }
@@ -218,9 +221,7 @@ CollectionsObj.Tasks.after.remove(function (userId, doc) {
       let sprint = doc;
       let us = CollectionsObj.UserStories.find({project: sprint.project}).fetch();
       let bc = CollectionsObj.BurndownChart.findOne({project: sprint.project});
-      console.log(bc);
       let nbSp = bc.nbSprint;
-      console.log(bc.nbSprint);
       if(nbSp > 0){
       nbSp--;
       let actual= bc.actual;
