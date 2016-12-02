@@ -35,6 +35,8 @@ CollectionsObj.TasksOrders = new Mongo.Collection('tasks.orders');
 
 CollectionsObj.BurndownChart = new Mongo.Collection('burndownChart');
 
+CollectionsObj.Commits = new Mongo.Collection('commits');
+
 //Hooks
 CollectionsObj.UserStories.after.remove(function (userId, doc) {
   let userstory = doc;

@@ -57,19 +57,14 @@ class ScrumBoard extends Component {
 
   render() {
     return (
-      <Box>
-        <BoxHeader>
-          ScrumBoard
-        </BoxHeader>
-        {!this.props.loaded ? <BoxBody></BoxBody> :
-          <BoxBody>
-            <Board currentProject={this.props.currentProject}
-              currentSprintTasks = {this.currentSprintTasks()}
-              isPaOrPm={this.isPaOrPm}/>
-          </BoxBody>
-        }
-        {!this.props.loaded ? <Loading/> : ''}
-      </Box>
+      <div>
+      {!this.props.loaded ? <div></div> :
+          <Board currentProject={this.props.currentProject}
+            currentSprintTasks = {this.currentSprintTasks()}
+            userstories = {this.props.userstories}
+            isPaOrPm={this.isPaOrPm}/>
+      }
+      </div>
     );
   }
 }
@@ -78,10 +73,11 @@ export default createContainer((props) => {
   const subscribeSprints = Meteor.subscribe('sprints', props.currentProject.name);
   const subscribeUS = Meteor.subscribe('userstories', props.currentProject.name);
   const subscribeTasks = Meteor.subscribe('tasks', props.currentProject.name);
+  const subscribeUsers = Meteor.subscribe('users', props.currentProject.name);
   const sprints = Collections.Sprints.find({}).fetch();
   const userstories = Collections.UserStories.find({}).fetch();
   const tasks = Collections.Tasks.find({}).fetch();
-  const loaded = !!subscribeUS && !!subscribeSprints && !!subscribeTasks && !!sprints && !!tasks && !!userstories;
+  const loaded = !!subscribeUS && !!subscribeUsers && !!subscribeSprints && !!subscribeTasks && !!sprints && !!tasks && !!userstories;
   return {
     error: Session.get('error'),
     success: Session.get('success'),

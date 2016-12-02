@@ -52,4 +52,8 @@ Meteor.publish('tasks.orders', function(projectName) {
 
 Meteor.publish('burndownChart', function(projectName) {
 return Collections.BurndownChart.find({project:projectName});
+
+Meteor.publish('commits', function(projectName) {
+  return Collections.Commits.find({project:projectName});
+
 });

@@ -1,0 +1,104 @@
+Feature: Tasks
+
+  @user1Exist
+  @user1Logged
+  @projectExist
+  @userstoryExist
+  @userstory2Exist
+  Scenario: add tasks
+  Given I am connected as "user1"
+  And I have a project named "project"
+  And I click on the project dashboard button
+  And I see the "Dashboard" page
+  And I click on the task management menu button
+  And I see the "Tasks Management" page
+  When I create a task linked to "all" us named "t1"
+  Then I see the task named "t1"
+  When I create a task linked to "one" us named "t2"
+  Then I see the task named "t2"
+  When I create a task linked to "two" us named "t3"
+  Then I see the task named "t3"
+
+#  @user1Exist
+#  @user1Logged
+#  @projectExist
+#  @userstoryExist
+#  @taskExist
+#  @task2Exist
+#  Scenario : modify tasks
+#  Given I am connected as "user1"
+#  And I have a project named "project"
+#  And I click on the project dashboard button
+#  And I see the "Dashboard" page
+#  And I click on the task management menu button
+#  And I see the "Tasks Management" page
+#  And I see the tasks named "t1" and "t2" #TD
+#  When I modify the task named "t1"  #TD
+#  Then I see the task named "t1" modified
+#  When I modify the task named "t2"
+#  Then I see the task named "t2" modified
+
+#  @user1Exist
+#  @user1Logged
+#  @projectExist
+#  @userstoryExist
+#  @task2Exist
+#  Scenario : delete a task
+#  Given I am connected as "user1"
+#  And I have a project named "project"
+#  And I click on the project dashboard button
+#  And I see the "Dashboard" page
+#  And I click on the task management menu button
+#  And I see the "Tasks Management" page
+#  And I see the task named "t1"
+#  When I click on the task delete button #TD
+#  Then I dont see the task #TD
+
+#  @user1Exist
+#  @user1Logged
+#  @projectExist
+#  @taskExist
+#  @task2Exist
+#  Scenario: create a dependence between tasks
+#  Given I am connected as "user1"
+#  And I have a project named "project"
+#  And I click on the project dashboard button
+#  And I see the "Dashboard" page
+#  And I click on the task dependencies menu button
+#  And I see the "Tasks Dependencies" page
+#  When I create a tasks dependence between "t1" and "t2"  #TD
+#  Then I see the dependence between "t1" and "t2"  #TD
+
+#  @user1Exist
+#  @user1Logged
+#  @projectExist
+#  @taskExist
+#  @task2Exist
+#  @task3Exist
+#  Scenario: dependencies between tasks are ordered
+#  Given I am connected as "user1"
+#  And I have a project named "project"
+#  And I click on the project dashboard button
+#  And I see the "Dashboard" page
+#  And I click on the task dependencies menu button
+#  And I see the "Tasks Dependencies" page
+#  When I create a tasks dependence between "t2" and "t1"
+#  And I create a tasks dependence between "t3" and "t1"
+#  Then I see the dependences ordered "t2 t3 t1"  #TD
+
+#  @user1Exist
+#  @user1Logged
+#  @projectExist
+#  @taskExist
+#  @task2Exist
+#  @taskdependenceExist
+#  Scenario: delete a dependence between tasks
+#  Given I am connected as "user1"
+#  And I have a project named "project"
+#  And I click on the project dashboard button
+#  And I see the "Dashboard" page
+#  And I click on the task dependencies menu button
+#  And I see the "Tasks Dependencies" page
+#  And I see the dependence
+#  When I click on the dependence delete button  #TD
+#  Then I dont see the dependence  #TD

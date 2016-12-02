@@ -1,5 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
+import TraceabilityBox from '../../components/Traceability';
 
-const Traceability = () => <h3>Traceability</h3>;
+class Traceability extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <div className="traceability">
+        <TraceabilityBox {...this.props}/>
+      </div>
+    );
+  }
+}
 
 export default Traceability;
