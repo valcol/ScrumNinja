@@ -21,7 +21,7 @@ class TraceabilityBox extends Component {
           </BoxHeader>
           <BoxBody>
             <TraceabilityList currentProject={this.props.currentProject}
-                              commits={this.props.commits} />
+              commits={this.props.commits} />
           </BoxBody>
         </Box>
         );

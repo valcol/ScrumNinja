@@ -57,4 +57,23 @@ Tasks.prototype.delete = function(_id){
   return 'task deleted';
 };
 
+Tasks.prototype.addUser = function(_id){
+  PermissionsHelper.checkIfLogged();
+  let task = Collections.Tasks.findOne({_id});
+  if (!task.users)
+    task.users = [Meteor.userId()];
+  else
+    if (task.users.indexOf(Meteor.userId()) > -1)
+      task.users.splice(task.users.indexOf(Meteor.userId()));
+    else
+      task.users.push(Meteor.userId());
+
+
+  Collections.Tasks.upsert(
+    {_id},
+    {$set: {users: task.users}
+  });
+  return 'user added';
+};
+
 export default new Tasks();

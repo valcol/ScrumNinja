@@ -27,10 +27,9 @@ render() {
   const { canDrop, isOver, connectDropTarget } = this.props;
     const isActive = canDrop && isOver;
   return connectDropTarget(
-      <div className="col-sm-3">
-        {this.props.name}
+      <td className='sbcol'>
         { this.props.children }
-      </div>
+      </td>
   );
 }
 }

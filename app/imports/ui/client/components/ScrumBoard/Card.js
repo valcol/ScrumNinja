@@ -10,6 +10,7 @@ import { DragSource } from 'react-dnd';
 
 const cardSource = {
   beginDrag(props) {
+    console.log('begin');
     return {
       description: props.task.description
     };
@@ -18,14 +19,17 @@ const cardSource = {
   endDrag(props, monitor) {
     const item = monitor.getItem();
     const dropResult = monitor.getDropResult();
+    console.log('end');
 
     if (dropResult) {
+
       let task = {
         id : props.task.id,
         description : props.task.description,
         userstory : props.task.userstory,
         state : parseInt(dropResult.state)
       };
+
       Meteor.call('tasks.update', task, props.currentProject.name, function(err, res) {
         if (err) {
           Session.set('error', err.message);
@@ -52,6 +56,33 @@ class Card extends Component {
     super(props);
   }
 
+  getColor(id){
+    for (userstory of this.props.userstories)
+      if (id === userstory.id)
+      return userstory.color;
+  }
+
+  renderUs(userstories){
+    return userstories.sort().map((userstory) => (<span className='badge' style={{backgroundColor: this.getColor(userstory)}} >#{userstory}</span>));
+  }
+
+  renderUsers(users){
+    if (users)
+    return users.sort().map((user) => (<span className='badge' style={{backgroundColor: 'lightgrey'}} >{Meteor.users.findOne({_id:user}).username}</span>));
+  }
+
+
+  handleAdd(_id){
+    Meteor.call('tasks.addUser', _id, function(err, res) {
+      if (err) {
+        Session.set('error', err.message);
+        Session.set('success', null);
+      } else {
+        Session.set('success', 'Done !');
+        Session.set('error', null);
+      }
+    });
+  }
 
 render() {
 
@@ -59,14 +90,47 @@ render() {
 
   return connectDragSource(
     <div>
-    <Box>
-      <BoxHeader>
-        {this.props.task.description}
-      </BoxHeader>
+    {
+    (this.props.task.isLate) ?
+    <Box className= 'box box-danger'>
+      <div className="box-header with-border">
+        <h4 className="box-title">
+          {this.renderUs(this.props.task.userstory)}
+        </h4>
+        <div className="pull-right">
+          {((this.props.task.users) && (this.props.task.users.indexOf(Meteor.userId())>-1)) ?
+          <button type="button" onClick={() => {this.handleAdd(this.props.task._id); }} className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i>
+          </button>
+          :
+          <button type="button" onClick={() => {this.handleAdd(this.props.task._id); }} className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-plus"></i>
+          </button>}
+        </div>
+      </div>
       <BoxBody>
-
+        {this.props.task.description}
       </BoxBody>
+      <BoxFooter>{this.renderUsers(this.props.task.users)}</BoxFooter>
     </Box>
+    :
+    <Box className='box box-primary'>
+      <div className="box-header with-border">
+        <h4 className="box-title">
+          {this.renderUs(this.props.task.userstory)}
+        </h4>
+        <div className="pull-right">
+          {((this.props.task.users) && (this.props.task.users.indexOf(Meteor.userId())>-1)) ?
+          <button type="button" onClick={() => {this.handleAdd(this.props.task._id); }} className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-minus"></i>
+          </button>
+          :
+          <button type="button" onClick={() => {this.handleAdd(this.props.task._id); }} className="btn btn-box-tool" data-widget="collapse"><i className="fa fa-plus"></i>
+          </button>}
+        </div>
+      </div>
+      <BoxBody>
+        {this.props.task.description}
+      </BoxBody>
+      <BoxFooter>{this.renderUsers(this.props.task.users)}</BoxFooter>
+    </Box>}
     </div>
   );
 }

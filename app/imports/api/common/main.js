@@ -19,6 +19,7 @@ Meteor.methods({
   'tasks.update' : Tasks.upsert,
   'tasks.delete' : Tasks.delete,
   'dependencies.update' : Dependencies.upsert,
-  'dependencies.delete' : Dependencies.remove
+  'dependencies.delete' : Dependencies.remove,
+  'tasks.addUser' : Tasks.addUser
   //'commit.add' : Commit.add
 });
