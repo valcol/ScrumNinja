@@ -1,5 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import toposort from 'toposort';
+import update from 'react-addons-update'; // ES6
 
 CollectionsObj = {};
 
@@ -32,15 +33,17 @@ CollectionsObj.TasksDependencies = new Mongo.Collection('tasks.dependencies');
 
 CollectionsObj.TasksOrders = new Mongo.Collection('tasks.orders');
 
+CollectionsObj.BurndownChart = new Mongo.Collection('burndownChart');
+
 //Hooks
 CollectionsObj.UserStories.after.remove(function (userId, doc) {
   let userstory = doc;
   let toUpdate = CollectionsObj.Tasks.find({userstory:userstory.id, project: userstory.project}).fetch();
   for (task of toUpdate) {
     if (task.userstory.length > 1)
-      CollectionsObj.Tasks.update({_id:task._id}, {$pull : {userstory : userstory.id}});
+    CollectionsObj.Tasks.update({_id:task._id}, {$pull : {userstory : userstory.id}});
     else
-      CollectionsObj.Tasks.remove({_id:task._id});
+    CollectionsObj.Tasks.remove({_id:task._id});
   }
 });
 
@@ -51,9 +54,9 @@ CollectionsObj.Tasks.after.remove(function (userId, doc) {
   let r = [];
   for (dep of toUpdate){
     if (dep.edge[0]===task.id)
-      r.push(dep.edge[1]);
+    r.push(dep.edge[1]);
     else
-      l.push(dep.edge[0]);
+    l.push(dep.edge[0]);
     CollectionsObj.TasksDependencies.remove({_id:dep._id});
   }
 
@@ -61,38 +64,190 @@ CollectionsObj.Tasks.after.remove(function (userId, doc) {
     for (rx of r){
       CollectionsObj.TasksDependencies.upsert(
         {edge: [lx, rx],
-        project: task.project},
-        {$set: {
-          edge: [lx, rx],
-          project: task.project
+          project: task.project},
+          {$set: {
+            edge: [lx, rx],
+            project: task.project
+          }
+        });
+      }
+    }
+
+    let dependencies = CollectionsObj.TasksDependencies.find({project: task.project}).fetch();
+    let edges = [];
+    for (dep of dependencies) {
+      edges.push(dep.edge);
+    }
+
+    let list = [];
+    try {
+      list = toposort(edges);
+    } catch (e) {
+      throw new Meteor.Error(e.message);
+    }
+
+    let order = {
+      list,
+      project: task.project
+    };
+
+    CollectionsObj.TasksOrders.upsert(
+      {project: task.project},
+      {$set: order
+      });
+
+    });
+
+  CollectionsObj.Projects.after.insert(function(userId, doc){
+      let project = doc;
+      CollectionsObj.BurndownChart.insert({
+        nbSprint : 0,
+        planned : [0],
+        actual : [0],
+        plannedBySprint : [0],
+        project : project.name
+      });
+
+    }
+  );
+  CollectionsObj.UserStories.before.remove(function(userId, doc){
+    let us = doc;
+    let sprints = CollectionsObj.Sprints.find({project: us.project}).fetch();
+    let bc = CollectionsObj.BurndownChart.findOne({project: us.project});
+
+    let currentSprint = null;
+    let nbSp =0;
+    let EffortSprint = 0;
+    let actual= bc.actual;
+    let plannedBySprint=bc.plannedBySprint;
+    let planned = bc.planned;
+    if(sprints)
+    for (sprint of sprints){
+      nbSp++;
+      EffortSprint = bc.plannedBySprint[nbSp];
+      currentSprint = sprint;
+      if (currentSprint)
+      for (usId of currentSprint.userstory){
+        if ((us.id === usId)){
+          actual =update(actual,{$merge:{0: actual[0] - us.effort}});
+          planned =update(planned,{$merge:{0 : planned[0] - us.effort}});
+          EffortSprint -=us.effort;
+        }
+      }
+      plannedBySprint = update(plannedBySprint,{$merge:{nbSp : EffortSprint}});
+    }
+    CollectionsObj.BurndownChart.update(bc._id,{
+      $set: {
+        planned : planned,
+        actual : actual,
+        plannedBySprint : plannedBySprint
+      }
+    });
+
+  });
+
+  CollectionsObj.UserStories.after.update(function(userId, doc){
+    let us = doc;
+    let sprints = CollectionsObj.Sprints.find({project: us.project}).fetch();
+    let bc = CollectionsObj.BurndownChart.findOne({project: us.project});
+
+    let currentSprint = null;
+    let nbSp =0;
+    let EffortSprint = 0;
+    let actual= bc.actual;
+    let plannedBySprint=bc.plannedBySprint;
+    let planned = bc.planned;
+    if(sprints)
+    for (sprint of sprints){
+      nbSp++;
+      EffortSprint = bc.plannedBySprint[nbSp];
+      currentSprint = sprint;
+      if (currentSprint)
+      for (usId of currentSprint.userstory){
+        if ((us.id === usId)){
+          actual = update(actual ,{$merge:{0: actual[0] + us.effort}});
+          planned=update(planned,{$merge:{0 : planned[0] + us.effort}});
+          EffortSprint +=us.effort;
+        }
+      }
+      plannedBySprint = update(plannedBySprint,{$merge:{nbSp : EffortSprint}});
+    }
+    CollectionsObj.BurndownChart.update(bc._id,{
+      $set: {
+        planned : planned,
+        actual : actual,
+        plannedBySprint : plannedBySprint
+      }
+    });
+
+  });
+
+  CollectionsObj.Sprints.after.insert(function(userId, doc){
+    let sprint = doc;
+    let us = CollectionsObj.UserStories.find({project: sprint.project}).fetch();
+    let bc = CollectionsObj.BurndownChart.findOne({project: sprint.project});
+    let nbSp = bc.nbSprint +1;
+    let actual= bc.actual;
+    let plannedBySprint=bc.plannedBySprint;
+    let planned = bc.planned;
+    let  EffortSprint = 0;
+    for (usId of sprint.userstory){
+      for(u of us){
+        if ((u.id === usId)){
+          actual = update(actual ,{$merge:{0: actual[0] + u.effort}});
+          planned =update(planned,{$merge:{0 : planned[0] + u.effort}});
+          EffortSprint +=u.effort;
+        }
+      }
+    }
+    plannedBySprint.push(EffortSprint);
+    actual.push(actual[0]);
+    planned.push(planned[0] - EffortSprint);
+    CollectionsObj.BurndownChart.update(bc._id, {
+      $set :{
+        nbSprint : nbSp,
+        planned : planned ,
+        actual : actual,
+        plannedBySprint : plannedBySprint
+      }
+    });
+  });
+  CollectionsObj.Sprints.before.remove(function(userId, doc){
+      let sprint = doc;
+      let us = CollectionsObj.UserStories.find({project: sprint.project}).fetch();
+      let bc = CollectionsObj.BurndownChart.findOne({project: sprint.project});
+      console.log(bc);
+      let nbSp = bc.nbSprint;
+      console.log(bc.nbSprint);
+      if(nbSp > 0){
+      nbSp--;
+      let actual= bc.actual;
+      let plannedBySprint=bc.plannedBySprint;
+      let planned = bc.planned;
+      let  EffortSprint = 0;
+      for (usId of sprint.userstory){
+        for(u of us){
+          if ((u.id === usId)){
+            actual =update(actual, {$merge:{0: actual[0] - u.effort}});
+            planned = update(planned, {$merge:{0 : planned[0] - u.effort}});
+            EffortSprint -=u.effort;
+          }
+        }
+      }
+      actual =update(actual, {$merge:{0: actual[0] - u.effort}});
+      planned = update(planned, {$merge:{0 : planned[0] - u.effort}});
+      plannedBySprint = update(plannedBySprint,{$merge:{nbSp , EffortSprint}});
+      CollectionsObj.BurndownChart.update(bc._id, {
+        $set :{
+          nbSprint : nbSp,
+          planned : planned ,
+          actual : actual,
+          plannedBySprint : plannedBySprint
         }
       });
     }
-  }
+    });
 
-  let dependencies = CollectionsObj.TasksDependencies.find({project: task.project}).fetch();
-  let edges = [];
-  for (dep of dependencies) {
-    edges.push(dep.edge);
-  }
 
-  let list = [];
-  try {
-    list = toposort(edges);
-  } catch (e) {
-    throw new Meteor.Error(e.message);
-  }
 
-  let order = {
-    list,
-    project: task.project
-  };
-
-  CollectionsObj.TasksOrders.upsert(
-    {project: task.project},
-    {$set: order
-  });
-
-});
-
-export const Collections = CollectionsObj;
+  export const Collections = CollectionsObj;

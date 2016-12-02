@@ -5,6 +5,7 @@ import UserStory from './userstories';
 import Sprint from './sprint';
 import Tasks from './tasks';
 import Dependencies from './dependencies';
+import BurndownChart from './burndownChart';
 
 Meteor.methods({
   'specifications.delete': Specifications.delete,
@@ -18,5 +19,6 @@ Meteor.methods({
   'tasks.update' : Tasks.upsert,
   'tasks.delete' : Tasks.delete,
   'dependencies.update' : Dependencies.upsert,
-  'dependencies.delete' : Dependencies.remove
+  'dependencies.delete' : Dependencies.remove,
+  'burndownChart.update' : BurndownChart.upsert
 });

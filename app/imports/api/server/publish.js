@@ -49,3 +49,7 @@ Meteor.publish('tasks.orders', function(projectName) {
   if (PermissionsHelper.isAvailableToView(this.userId, projectName, true))
   return Collections.TasksOrders.find({project:projectName});
 });
+
+Meteor.publish('burndownChart', function(projectName) {
+return Collections.BurndownChart.find({project:projectName});
+});

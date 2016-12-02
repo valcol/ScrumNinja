@@ -38,6 +38,8 @@ class CreationForm extends Component {
         Session.set('error', null);
       }
     });
+
+    
   }
 
   render() {
