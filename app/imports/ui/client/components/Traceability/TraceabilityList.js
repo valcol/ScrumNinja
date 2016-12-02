@@ -22,13 +22,13 @@ class TraceabilityList extends Component {
       <table className="table table-striped">
         <tbody>
           <tr>
-            <th style={{width: '10%'}} >
+            <th style={{width: '55%'}} >
               Task
             </th>
-            <th style={{width: '60%'}} >
+            <th style={{width: '30%'}} >
               commit
             </th>
-            <th style={{width: '30%'}} >
+            <th style={{width: '15%'}} >
               Date
             </th>
           </tr>

@@ -30,7 +30,27 @@ class TraceabilityBox extends Component {
 
 
 export default createContainer((props) => {
-  const subscribeCommits = Meteor.subscribe('commits', props.currentProject.name);
+  const subscribeCommits = Meteor.subscribe('commits', props.currentProject.name, 0);
+
+  //TMP : ajout d'un commit juste pour présenter l'affichage
+  let tmp = {
+    value: 'nbvbvbt2tb2v',
+    date: '23/10/2016'
+  };
+
+  Meteor.call('commit.add', tmp, props.currentProject.name,0,
+  function(err, res) {
+    if (err) {
+      Session.set('error', err.message);
+      Session.set('success', null);
+    } else {
+      Session.set('success', 'Done !');
+      Session.set('error', null);
+    }
+  });
+
+  //Fin TMP
+
   const commits = Collections.Commits.find({}).fetch();
   const loaded = !!subscribeCommits && !!commits;
   return {

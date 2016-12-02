@@ -49,7 +49,7 @@ class AddRequirementForm extends Component {
             </div>
 
             <div className="col-md-2">
-              <input placeholder="Priority" type="number" className="form-control" value={this.state.priority} onChange={this.handleChange('priority', true)} required/>
+              <input placeholder="Priority" type="number" min="0" className="form-control" value={this.state.priority} onChange={this.handleChange('priority', true)} required/>
             </div>
 
             <div className="col-md-2">
