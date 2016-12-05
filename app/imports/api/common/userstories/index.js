@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Collections } from '../../common/collections.js';
 import PermissionsHelper from '../../common/permissionsHelper.js';
+import moment from 'moment';
 
 let UserStory = function() {};
 
@@ -37,6 +38,47 @@ UserStory.prototype.upsert = function(userstory, projectName) {
     });
 
     return 'user story updated';
+  };
+
+  UserStory.prototype.delete = function(_id){
+    PermissionsHelper.checkIfLogged();
+
+    Collections.UserStories.remove({_id});
+    return 'user story deleted';
+  };
+
+  UserStory.prototype.upsertTrace = function(trace, projectName) {
+
+    PermissionsHelper.checkIfLogged();
+    USright(projectName);
+
+    check(trace, {
+      id: Number,
+      trace: String
+    });
+
+    Collections.UserStories.upsert(
+      {id: trace.id},
+      {$set: {trace : {
+        url: trace.trace,
+        date : moment().format('DD-MMM-YYYY')
+      }}
+    });
+
+    return 'trace updated';
+  };
+
+  UserStory.prototype.deleteTrace = function(_id) {
+
+    PermissionsHelper.checkIfLogged();
+    USright(projectName);
+
+    Collections.UserStories.upsert(
+      {_id: _id},
+      {$unset: {trace : 1}}
+    );
+
+    return 'trace deleted';
   };
 
   UserStory.prototype.delete = function(_id){
