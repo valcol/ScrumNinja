@@ -20,11 +20,6 @@ BurndownChart.prototype.upsert = function(burndownChart, projectName) {
   });
   burndownChart.project = projectName;
 
-  let effort =   burndownChart.planned[0] - burndownChart.plannedBySprint[0];
-  for(i=1;i<burndownChart.nbSprint;i++){
-    burndownChart.planned[i].push(effort);
-    effort = burndownChart.plannedBySprint[i];
-  }
 
   return 'BurndownChart updated';
 };

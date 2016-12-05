@@ -194,20 +194,30 @@ CollectionsObj.Tasks.after.remove(function (userId, doc) {
     let plannedBySprint=bc.plannedBySprint;
     let planned = bc.planned;
     let  EffortSprint = 0;
+    let i =0;
     for (usId of sprint.userstory){
       for(u of us){
         if ((u.id === usId)){
           console.log(actual);
-          actual = update(actual ,{$merge:{0: actual[0] + u.effort}});
-          console.log(actual);
-          planned =update(planned,{$merge:{0 : planned[0] + u.effort}});
           EffortSprint +=u.effort;
+          for(i=0; i <=bc.nbSprint ; i++){
+            console.log(i);
+            let selector = {
+              $merge:{}
+            };
+            selector['$merge'][i] = actual[i] + u.effort;
+            actual = update(actual ,selector);
+            selector['$merge'][i] = planned[i] + u.effort;
+            planned = update(planned, selector);
+            console.log(actual);
+          }
         }
       }
     }
     plannedBySprint.push(EffortSprint);
     actual.push(actual[0]);
-    planned.push(planned[0] - EffortSprint);
+    planned.push(planned[nbSp-1] - EffortSprint);
+
     CollectionsObj.BurndownChart.update(bc._id, {
       $set :{
         nbSprint : nbSp,
