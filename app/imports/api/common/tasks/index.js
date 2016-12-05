@@ -64,7 +64,7 @@ Tasks.prototype.addUser = function(_id){
     task.users = [Meteor.userId()];
   else
     if (task.users.indexOf(Meteor.userId()) > -1)
-      task.users.splice(task.users.indexOf(Meteor.userId()));
+      task.users.splice(task.users.indexOf(Meteor.userId()), 1);
     else
       task.users.push(Meteor.userId());
 

@@ -19,7 +19,8 @@ getCards(state){
   return this.props.currentSprintTasks.filter((task) => (task.state === state)).map((task) => (
     <Card task={task} currentProject={this.props.currentProject}
       userstories = {this.props.userstories}
-      users = {this.props.users} />
+      users = {this.props.users}
+      tasks = {this.props.tasks} />
   ));
 }
 

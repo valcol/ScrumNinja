@@ -21,16 +21,36 @@ const cardSource = {
     const dropResult = monitor.getDropResult();
     console.log('end');
 
+
     if (dropResult) {
 
-      let task = {
+      if (parseInt(dropResult.state) === 4){
+        let usFinished = [];
+        let callForTrace = true;
+        for (usId of props.task.userstory) {
+          for (task of props.tasks){
+            if (task._id !== props.task._id && task.userstory.indexOf(usId) > -1 && task.state < 4){
+              callForTrace = false;
+            }
+          }
+          if (callForTrace)
+            usFinished.push(usId);
+        }
+
+       if (usFinished.length > 0){
+        Session.set('usTrace', usFinished);
+        $("#myModal").modal("show");
+       }
+      }
+
+      let taskUpdate = {
         id : props.task.id,
         description : props.task.description,
         userstory : props.task.userstory,
         state : parseInt(dropResult.state)
       };
 
-      Meteor.call('tasks.update', task, props.currentProject.name, function(err, res) {
+      Meteor.call('tasks.update', taskUpdate, props.currentProject.name, function(err, res) {
         if (err) {
           Session.set('error', err.message);
           Session.set('success', null);
@@ -40,6 +60,7 @@ const cardSource = {
         }
       });
     }
+
   }
 };
 

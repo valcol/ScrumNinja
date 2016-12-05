@@ -38,10 +38,10 @@ class MemberRow extends Component {
       <tr>
         <td>
           <div>
-        <a data-toggle="modal" data-target="#myModal">
+        <a data-toggle="modal" data-target={'#mymodal'+this.props.userId}>
           {Meteor.users.findOne({_id:this.props.userId}).username}
         </a>
-        <div className="modal fade" id="myModal" tabIndex={-1} role="dialog" aria-labelledby="myModalLabel">
+        <div className="modal fade" id={'mymodal'+this.props.userId} tabIndex={-1} role="dialog" aria-labelledby="myModalLabel">
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
