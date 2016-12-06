@@ -91,16 +91,13 @@ export default createContainer((props) => {
   const userstories = Collections.UserStories.find({}, {sort: {id: 1}}).fetch();
   const subscribeT = Meteor.subscribe('tasks', props.currentProject.name);
   const tasks = Collections.Tasks.find({}, {sort: {id: 1}}).fetch();
-  const subscribeBC = Meteor.subscribe('burndownChart', props.currentProject.name);
-  const bc = Collections.BurndownChart.find().fetch();
-  const loaded = !!tasks && !!subscribeUs && !!subscribeT && !!userstories && !! subscribeBC && !!bc;
+  const loaded = !!tasks && !!subscribeUs && !!subscribeT && !!userstories;
   const taskToEdit = Session.get('taskToEdit') ? Collections.Tasks.findOne({_id:Session.get('taskToEdit')}) : null;
   return {
     error: Session.get('error'),
     success: Session.get('success'),
     warning: Session.get('warning'),
     loaded,
-    bc : loaded ? bc : [],
     tasks: loaded ? tasks : [],
     userstories: loaded ? userstories : [],
     taskToEdit

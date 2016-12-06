@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import toposort from 'toposort';
 import update from 'react-addons-update'; // ES6
+import Stats from './stats';
 
 CollectionsObj = {};
 
@@ -33,9 +34,7 @@ CollectionsObj.TasksDependencies = new Mongo.Collection('tasks.dependencies');
 
 CollectionsObj.TasksOrders = new Mongo.Collection('tasks.orders');
 
-CollectionsObj.BurndownChart = new Mongo.Collection('burndownChart');
-
-CollectionsObj.Commits = new Mongo.Collection('commits');
+CollectionsObj.Stats = new Mongo.Collection('stats');
 
 //Hooks
 CollectionsObj.UserStories.after.remove(function (userId, doc) {
@@ -47,6 +46,8 @@ CollectionsObj.UserStories.after.remove(function (userId, doc) {
     else
     CollectionsObj.Tasks.remove({_id:task._id});
   }
+
+  Stats.process(doc.project);
 });
 
 CollectionsObj.Tasks.after.remove(function (userId, doc) {
@@ -96,171 +97,40 @@ CollectionsObj.Tasks.after.remove(function (userId, doc) {
     CollectionsObj.TasksOrders.upsert(
       {project: task.project},
       {$set: order
-      });
-
     });
 
-  CollectionsObj.Projects.after.insert(function(userId, doc){
-      let project = doc;
-      CollectionsObj.BurndownChart.insert({
-        nbSprint : 0,
-        planned : [0],
-        actual : [0],
-        plannedBySprint : [0],
-        project : project.name
-      });
+    Stats.process(doc.project);
+});
 
-    }
-  );
-  CollectionsObj.UserStories.before.remove(function(userId, doc){
-    let us = doc;
-    let sprints = CollectionsObj.Sprints.find({project: us.project}).fetch();
-    let bc = CollectionsObj.BurndownChart.findOne({project: us.project});
+CollectionsObj.Tasks.after.insert(function (userId, doc) {
+  Stats.process(doc.project);
+});
 
-    let currentSprint = null;
-    let nbSp =0;
-    let EffortSprint = 0;
-    let actual= bc.actual;
-    let plannedBySprint=bc.plannedBySprint;
-    let planned = bc.planned;
-    if(sprints)
-    for (sprint of sprints){
-      nbSp++;
-      EffortSprint = bc.plannedBySprint[nbSp];
-      currentSprint = sprint;
-      if (currentSprint)
-      for (usId of currentSprint.userstory){
-        if ((us.id === usId)){
-          actual =update(actual,{$merge:{0: actual[0] - us.effort}});
-          planned =update(planned,{$merge:{0 : planned[0] - us.effort}});
-          EffortSprint -=us.effort;
-        }
-      }
-      plannedBySprint = update(plannedBySprint,{$merge:{nbSp : EffortSprint}});
-    }
-    CollectionsObj.BurndownChart.update(bc._id,{
-      $set: {
-        planned : planned,
-        actual : actual,
-        plannedBySprint : plannedBySprint
-      }
-    });
+CollectionsObj.Tasks.after.update(function (userId, doc) {
+  Stats.process(doc.project);
+});
 
-  });
+CollectionsObj.UserStories.after.insert(function (userId, doc) {
+  Stats.process(doc.project);
+});
 
-  CollectionsObj.UserStories.after.update(function(userId, doc){
-    let us = doc;
-    let sprints = CollectionsObj.Sprints.find({project: us.project}).fetch();
-    let bc = CollectionsObj.BurndownChart.findOne({project: us.project});
+CollectionsObj.UserStories.after.update(function (userId, doc) {
+  Stats.process(doc.project);
+});
 
-    let currentSprint = null;
-    let nbSp =0;
-    let EffortSprint = 0;
-    let actual= bc.actual;
-    let plannedBySprint=bc.plannedBySprint;
-    let planned = bc.planned;
-    if(sprints)
-    for (sprint of sprints){
-      nbSp++;
-      EffortSprint = bc.plannedBySprint[nbSp];
-      currentSprint = sprint;
-      if (currentSprint)
-      for (usId of currentSprint.userstory){
-        if ((us.id === usId)){
-          actual = update(actual ,{$merge:{0: actual[0] + us.effort}});
-          planned=update(planned,{$merge:{0 : planned[0] + us.effort}});
-          EffortSprint +=us.effort;
-        }
-      }
-      plannedBySprint = update(plannedBySprint,{$merge:{nbSp : EffortSprint}});
-    }
-    CollectionsObj.BurndownChart.update(bc._id,{
-      $set: {
-        planned : planned,
-        actual : actual,
-        plannedBySprint : plannedBySprint
-      }
-    });
+CollectionsObj.Sprints.after.insert(function (userId, doc) {
+  Stats.process(doc.project);
+});
 
-  });
+CollectionsObj.Sprints.after.remove(function (userId, doc) {
+  Stats.process(doc.project);
+});
 
-  CollectionsObj.Sprints.after.insert(function(userId, doc){
-    let sprint = doc;
-    let us = CollectionsObj.UserStories.find({project: sprint.project}).fetch();
-    let bc = CollectionsObj.BurndownChart.findOne({project: sprint.project});
-
-    let nbSp = bc.nbSprint +1;
-    let actual= bc.actual;
-    let plannedBySprint=bc.plannedBySprint;
-    let planned = bc.planned;
-    let  EffortSprint = 0;
-    let i =0;
-    for (usId of sprint.userstory){
-      for(u of us){
-        if ((u.id === usId)){
-          console.log(actual);
-          EffortSprint +=u.effort;
-          for(i=0; i <=bc.nbSprint ; i++){
-            console.log(i);
-            let selector = {
-              $merge:{}
-            };
-            selector['$merge'][i] = actual[i] + u.effort;
-            actual = update(actual ,selector);
-            selector['$merge'][i] = planned[i] + u.effort;
-            planned = update(planned, selector);
-            console.log(actual);
-          }
-        }
-      }
-    }
-    plannedBySprint.push(EffortSprint);
-    actual.push(actual[0]);
-    planned.push(planned[nbSp-1] - EffortSprint);
-
-    CollectionsObj.BurndownChart.update(bc._id, {
-      $set :{
-        nbSprint : nbSp,
-        planned : planned ,
-        actual : actual,
-        plannedBySprint : plannedBySprint
-      }
-    });
-  });
-  CollectionsObj.Sprints.before.remove(function(userId, doc){
-      let sprint = doc;
-      let us = CollectionsObj.UserStories.find({project: sprint.project}).fetch();
-      let bc = CollectionsObj.BurndownChart.findOne({project: sprint.project});
-      let nbSp = bc.nbSprint;
-      if(nbSp > 0){
-      nbSp--;
-      let actual= bc.actual;
-      let plannedBySprint=bc.plannedBySprint;
-      let planned = bc.planned;
-      let  EffortSprint = 0;
-      for (usId of sprint.userstory){
-        for(u of us){
-          if ((u.id === usId)){
-            actual =update(actual, {$merge:{0: actual[0] - u.effort}});
-            planned = update(planned, {$merge:{0 : planned[0] - u.effort}});
-            EffortSprint -=u.effort;
-          }
-        }
-      }
-      actual =update(actual, {$merge:{0: actual[0] - u.effort}});
-      planned = update(planned, {$merge:{0 : planned[0] - u.effort}});
-      plannedBySprint = update(plannedBySprint,{$merge:{nbSp , EffortSprint}});
-      CollectionsObj.BurndownChart.update(bc._id, {
-        $set :{
-          nbSprint : nbSp,
-          planned : planned ,
-          actual : actual,
-          plannedBySprint : plannedBySprint
-        }
-      });
-    }
-    });
+CollectionsObj.Sprints.after.update(function (userId, doc) {
+  Stats.process(doc.project);
+});
 
 
 
-  export const Collections = CollectionsObj;
+
+export const Collections = CollectionsObj;

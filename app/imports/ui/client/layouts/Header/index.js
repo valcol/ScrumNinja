@@ -80,24 +80,10 @@ class Header extends Component {
                 </a>
                 <ul className="dropdown-menu">
                   {/* Menu Body */}
-                  <li className="user-body">
-                    <div className="row">
-                      <div className="col-xs-4 text-center">
-                        <a href="#">Followers</a>
-                      </div>
-                      <div className="col-xs-4 text-center">
-                        <a href="#">Sales</a>
-                      </div>
-                      <div className="col-xs-4 text-center">
-                        <a href="#">Friends</a>
-                      </div>
-                    </div>
-                    {/* /.row */}
-                  </li>
                   {/* Menu Footer*/}
                   <li className="user-footer">
                     <div className="pull-left">
-                      <a href="#" className="btn btn-default btn-flat">Profile</a>
+                      <a href="profile" className="btn btn-default btn-flat">Profile</a>
                     </div>
                     <div className="pull-right">
                       <button onClick={this.handleSubmitLogout} className="btn btn-default btn-flat">Sign out</button>

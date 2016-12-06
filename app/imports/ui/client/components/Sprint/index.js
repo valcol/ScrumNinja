@@ -81,9 +81,7 @@ class SprintsBox extends Component {
       const userstories = Collections.UserStories.find({}, {sort: {id: 1}}).fetch();
       const subscribeSprint = Meteor.subscribe('sprints', props.currentProject.name);
       const sprints = Collections.Sprints.find({}, {sort: {start: 1}}).fetch();
-      const subscribeBC = Meteor.subscribe('burndownChart', props.currentProject.name);
-      const bc = Collections.BurndownChart.find().fetch();
-      const loaded = !!sprints && !!subscribeSprint && !!subscribeUs && !!userstories&& !! subscribeBC && !!bc;
+      const loaded = !!sprints && !!subscribeSprint && !!subscribeUs && !!userstories;
       const sprintToEdit = Session.get('sprintToEdit') ? Collections.Sprints.findOne({_id:Session.get('sprintToEdit')}) : null;
 
       return {
@@ -91,7 +89,6 @@ class SprintsBox extends Component {
         success: Session.get('success'),
         warning: Session.get('warning'),
         loaded,
-        bc : loaded ? bc : [],
         sprints: loaded ? sprints : [],
         userstories: loaded ? userstories : [],
         sprintToEdit
